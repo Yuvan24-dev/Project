@@ -14,7 +14,7 @@
 
 .location_botton {
   margin-left: 20px;
-  width: 190px;
+  width: 205px;
   border-radius: 25px !important;
   height: 40px;
   padding: 0px;
@@ -42,7 +42,7 @@
 }
 .location_bottonRR {
   margin-left: 20px;
-  width: 150px;
+  width: 190px;
   border-radius: 25px !important;
   height: 40px;
   border: 2px;
@@ -63,7 +63,12 @@
   text-decoration: none;
   font-weight: bolder;
   font-size: 15px;
-  
+}
+.location_anchourR{
+  color: rgb(249, 248, 248); 
+  text-decoration: none;
+  font-weight: bolder;
+  font-size: 14px;
 }
 
 .location_botton:hover{

@@ -20,10 +20,10 @@ function CustomNavbar() {
                 src={log} 
                 alt="Logo"
               />
-            <Button variant="link" className=" location_botton allign-item-center px-3 ">
-            <GrLocation  size={24} style={{  float: "left", color:"white",strokeWidth: "5"  }} />
-              <p className='location_anchour mx-3'>Event in coimbatore</p>
-            </Button>
+           <Button variant="link" className="location_botton allign-item-center px-3 " >
+  <GrLocation size={24} style={{ float: "left", color: "white", strokeWidth: "5"}} />
+  <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
+  </Button>
           </Navbar.Brand>
         </div>
 
@@ -31,21 +31,22 @@ function CustomNavbar() {
           <Nav className="ms-auto d-flex align-items-center">
             <Nav.Link className="d-none d-md-block">
               <Button style={{ width: "129px", borderColor: "white" }} className='pointer-events-none location_bottonRR' variant="outline-primary">
-                <p className='location_anchour'>List your event</p>
+                <p className='location_anchourR'>List your event</p>
               </Button>
               <Button style={{width:"125px"}} className='pointer-events-none location_bottonRR mx-2' variant="outline-primary">
-                <p className='location_anchour'>Work with us</p>
+                <p className='location_anchourR'>Work with us</p>
               </Button>
             </Nav.Link>
 
 
             <Button
-            variant="outline-primary"
-            className="pointer-events-none rounded-circle border-white d-flex justify-content-center align-items-center"
-            style={{ width: '40px', height: '40px' }}
-            >
-            <GoSearch size={70} style={{ color: "white" }} />
-           </Button>
+  variant="outline-primary"
+  className="pointer-events-none rounded-circle border-white d-flex justify-content-center align-items-center"
+  style={{ width: '40px', height: '40px' }}
+>
+  <GoSearch size={32} style={{ color: "white" }} />
+</Button>
+
           </Nav>
         </Navbar.Collapse>
 
