@@ -87,8 +87,11 @@
   display: none !important;
 }
 .dummy_UM{
-  display: none;
+  display: none !important;
 }
+
+
+
 }
 
 
@@ -96,5 +99,15 @@
   .location_bottonRR{
     display: none !important;
   }
-  
   }
+  /* Default: Hidden */
+.visible-only-on-large {
+  display: none;
+}
+
+/* Visible only at 1000px or larger */
+@media (min-width: 1000px) {
+  .visible-only-on-large {
+    display: block !important;
+  }
+}
