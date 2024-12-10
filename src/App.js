@@ -5,6 +5,15 @@ import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
 import React from 'react';
 import { Navbar, Nav, Container, Button,Carousel,Row,Col } from 'react-bootstrap';
+import chennaiEV from "../src/Images/ImgB.jpg"
+import VjAunt from "../src/Images/ImgC.jpg"
+import Devevent from "../src/Images/ImgA.jpg"
+import NeedTalk from "../src/Images/ImgD.png"
+import Paddy from "../src/Images/ImgE.png"
+
+
+
+
 
 function CustomNavbar() {
   return (
@@ -82,30 +91,27 @@ const CustomCarousel = () => {
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={VjAunt}
               alt="First slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
               className="img-fluid"
-              src={log}
+              src={chennaiEV}
               alt="First slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={Devevent}
               alt="First slide - Image 3"
             />
           </Col>
         </Row>
-        <Carousel.Caption>
-          <h3>Vijay Antony 3.0 Live Concert</h3>
-          <button className="btn btn-warning">BOOK NOW</button>
-        </Carousel.Caption>
+
       </Carousel.Item>
 
       {/* Slide 2 */}
@@ -113,30 +119,26 @@ const CustomCarousel = () => {
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={chennaiEV}
               alt="Second slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
               className="img-fluid"
-              src={log}
+              src={Devevent}
               alt="Second slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={NeedTalk}
               alt="Second slide - Image 3"
             />
           </Col>
         </Row>
-        <Carousel.Caption>
-          <h3>22nd Chennai International Film Festival</h3>
-          <button className="btn btn-warning">BOOK NOW</button>
-        </Carousel.Caption>
       </Carousel.Item>
 
       {/* Slide 3 */}
@@ -144,30 +146,78 @@ const CustomCarousel = () => {
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={Devevent}
               alt="Third slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
               className="img-fluid"
-              src={log}
+              src={NeedTalk}
               alt="Third slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
-              src={log}
+              className="img-fluid imgDimming"
+              src={Paddy}
               alt="Third slide - Image 3"
             />
           </Col>
         </Row>
-        <Carousel.Caption>
-          <h3>Movies, Dining, Events</h3>
-          <button className="btn btn-warning">Discover Now</button>
-        </Carousel.Caption>
+      </Carousel.Item>
+            {/* Slide 4 */}
+      <Carousel.Item className='py-5'>
+        <Row className="justify-content-center">
+          <Col md={4}>
+            <img
+              className="img-fluid imgDimming"
+              src={NeedTalk}
+              alt="Third slide - Image 1"
+            />
+          </Col>
+          <Col md={4}>
+            <img
+              className="img-fluid"
+              src={Paddy}
+              alt="Third slide - Image 2"
+            />
+          </Col>
+          <Col md={4}>
+            <img
+              className="img-fluid imgDimming"
+              src={VjAunt}
+              alt="Third slide - Image 3"
+            />
+          </Col>
+        </Row>
+      </Carousel.Item>
+                 {/* Slide 5 */}
+      <Carousel.Item className='py-5'>
+        <Row className="justify-content-center">
+          <Col md={4}>
+            <img
+              className="img-fluid imgDimming"
+              src={Paddy}
+              alt="Third slide - Image 1"
+            />
+          </Col>
+          <Col md={4}>
+            <img
+              className="img-fluid"
+              src={VjAunt}
+              alt="Third slide - Image 2"
+            />
+          </Col>
+          <Col md={4}>
+            <img
+              className="img-fluid imgDimming"
+              src={chennaiEV}
+              alt="Third slide - Image 3"
+            />
+          </Col>
+        </Row>
       </Carousel.Item>
     </Carousel>
   );

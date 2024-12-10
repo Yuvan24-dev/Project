@@ -77,6 +77,12 @@
 .dummy_UM{
   color: white;
 }
+.imgDimming {
+  opacity: 0.3; 
+}
+
+
+
 @media (max-width: 427px){
   .navbar-brand img {
     width: 100px; /* Logo size */
