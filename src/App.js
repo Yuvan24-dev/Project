@@ -27,7 +27,7 @@ function CustomNavbar() {
                 src={log} 
                 alt="Logo"
               />
-           <Button variant="link" className="location_botton allign-item-center px-3 " >
+           <Button style={{width:"205px"}} variant="link" className="location_botton   allign-item-center px-3 " >
   <GrLocation size={24} style={{ float: "left", color: "white", strokeWidth: "5"}} />
   <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
   </Button>
@@ -37,18 +37,26 @@ function CustomNavbar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center">
             <Nav.Link className="d-none d-md-block">
-              <Button style={{ width: "129px", borderColor: "white" }} className='pointer-events-none location_bottonRR' variant="outline-primary">
-                <p className='location_anchourR'>List your event</p>
+              <Button
+               style={{ 
+                width: "129px", 
+              }}
+              className='pointer-events-none location_bottonRR location_botton' 
+              variant="outline-primary"
+              >
+              <p className='location_anchour' style={{fontSize:"14px"}} >List your event</p>
               </Button>
-              <Button style={{width:"125px"}} className='pointer-events-none location_bottonRR mx-2' variant="outline-primary">
-                <p className='location_anchourR'>Work with us</p>
+              <Button style={{width:"125px"}} 
+              className='pointer-events-none location_bottonRR  location_botton mx-2' 
+              variant="outline-primary">
+              <p style={{fontSize:"14px"}} className='location_anchour'>Work with us</p>
               </Button>
             </Nav.Link>
 
 
             <Button
   variant="outline-primary"
-  className="pointer-events-none rounded-circle border-white d-flex justify-content-center align-items-center"
+  className="rounded-circle border-white d-flex justify-content-center align-items-center no-hover"
   style={{ width: '40px', height: '40px' }}
 >
   <GoSearch size={32} style={{ color: "white" }} />
@@ -59,15 +67,22 @@ function CustomNavbar() {
 
         <Nav className="ms-auto">
           <Nav.Link className="d-none d-md-block loca ">
-            <Button variant="outline-primary" className='pointer-events-none location_bottonR'>
+            <Button variant="outline-primary" 
+             className='pointer-events-none location_botton location_bottonR'
+             style={{ 
+              width: "150px", 
+              borderColor: "#31c0f0", 
+              borderStyle: "solid", 
+              borderWidth: "1px",
+            }}>
             <GrLocation  size={21} style={{  float: "left", color:"white",strokeWidth: "2"  }} />
-            <p className='location_anchour'style={{fontSize:"15px"}}>Coimbatore</p>
+            <p className='location_anchour Dummy-location'style={{fontSize:"15px"}}>Coimbatore</p>
             </Button>
           </Nav.Link>
-          <Nav.Link className="visible-only-on-large">
+          <Nav.Link className="visible-only-on-large dummy_UM">
   <Button
     variant="outline-primary"
-    className="rounded-circle border-white d-flex justify-content-center align-items-center"
+    className="rounded-circle  d-flex justify-content-center align-items-center no-hover"
     style={{ width: '40px', height: '40px' }}>
     <p className='location_anchour mt-3' style={{ fontSize: "15px" }}>UM</p>
   </Button>
@@ -85,27 +100,27 @@ function CustomNavbar() {
 
 const CustomCarousel = () => {
   return (
-    <Carousel>
+    <Carousel className='m-0'>
       {/* Slide 1 */}
       <Carousel.Item className='py-5'>
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming ImgSizing"
               src={VjAunt}
               alt="First slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
+              className="img-fluid ImgSizing"
               src={chennaiEV}
               alt="First slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming ImgSizing"
               src={Devevent}
               alt="First slide - Image 3"
             />
