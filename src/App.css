@@ -47,6 +47,36 @@
   border-radius: 2%;
 }
 
+/*------------ For Nxttocourousal------------- */
+
+.nextTocourousal{
+  background: rgb(238, 238, 238);
+  display: flex;
+  width: 60px;
+  height: 60px;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 9px;
+}
+
+.forImgrow {
+  padding: 0px 100px 0px 100px;
+}
+
+.forImgcol{
+  background-color: #d6dadb;
+}
+.padForico{
+  padding-left: 90px !important;
+}
+
+
+
 
 
 
@@ -88,31 +118,34 @@
 }
 
 @media (max-width: 790px){
-.location_botton{
+/* .location_botton{
   display: none !important;
-}
+} */
 /* .location_bottonRR{
   display: none !important;
 } */
-.dummy_UM{
+/* .dummy_UM{
   display: none !important;
 }
 .Dummy-location{
   display: none !important;
-}
+} */
+ .formar{
+  margin-left: 320px;
+ }
 }
 @media (max-width: 1025px){
-  .location_bottonRR{
+  /* .location_bottonRR{
     display: none !important;
   }
   }
 .visible-only-on-large {
-  display: none;
+  display: none; */
 }
 
 
 @media (min-width: 1000px) {
-  .visible-only-on-large {
+  /* .visible-only-on-large {
     display: block !important;
-  }
+  } */
 }

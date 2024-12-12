@@ -10,6 +10,8 @@ import VjAunt from "../src/Images/ImgC.jpg"
 import Devevent from "../src/Images/ImgA.jpg"
 import NeedTalk from "../src/Images/ImgD.png"
 import Paddy from "../src/Images/ImgE.png"
+import { FiChevronRight } from "react-icons/fi";
+
 
 
 
@@ -19,76 +21,81 @@ function CustomNavbar() {
   return (
     <Navbar collapseOnSelect expand="lg" variant="light" sticky="top" className="w-100 there_you_go pt-0 pb-3">
       <Container fluid className="p-0">
-        <div className="d-flex align-items-center p-0 ">
+        <div className="d-flex align-items-center p-0">
           <Navbar.Toggle aria-controls="responsive-navbar-nav flex-row" className="d-lg-none float-start p-0" />
           <Navbar.Brand className='px-1 mb-1 position-relative' href="#home">
-              <img
+            <img
               className='forlogo position-absoulte top-0 p-0'
-                src={log} 
-                alt="Logo"
-              />
-           <Button style={{width:"205px"}} variant="link" className="location_botton   allign-item-center px-3 " >
-  <GrLocation size={24} style={{ float: "left", color: "white", strokeWidth: "5"}} />
-  <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
-  </Button>
+              src={log} 
+              alt="Logo"
+            />
+            <Button style={{ width: "205px" }} variant="link" className="location_botton align-item-center px-3 d-none d-lg-inline">
+              <GrLocation size={24} style={{ float: "left", color: "white", strokeWidth: "5" }} />
+              <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
+            </Button>
           </Navbar.Brand>
         </div>
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center">
-            <Nav.Link className="d-none d-md-block">
+            <Nav.Link className="d-none d-xxl-block">
               <Button
-               style={{ 
-                width: "129px", 
-              }}
-              className='pointer-events-none location_bottonRR location_botton' 
-              variant="outline-primary"
+                style={{ width: "129px" }}
+                className='pointer-events-none location_bottonRR location_botton'
+                variant="outline-primary"
               >
-              <p className='location_anchour' style={{fontSize:"14px"}} >List your event</p>
+                <p className='location_anchour' style={{ fontSize: "14px" }}>List your event</p>
               </Button>
-              <Button style={{width:"125px"}} 
-              className='pointer-events-none location_bottonRR  location_botton mx-2' 
-              variant="outline-primary">
-              <p style={{fontSize:"14px"}} className='location_anchour'>Work with us</p>
+              <Button
+                style={{ width: "125px" }}
+                className='pointer-events-none location_bottonRR location_botton mx-2'
+                variant="outline-primary"
+              >
+                <p style={{ fontSize: "14px" }} className='location_anchour'>Work with us</p>
               </Button>
             </Nav.Link>
 
-
-            <Button
-  variant="outline-primary"
-  className="rounded-circle border-white d-flex justify-content-center align-items-center no-hover"
-  style={{ width: '40px', height: '40px' }}
->
-  <GoSearch size={32} style={{ color: "white" }} />
-</Button>
-
           </Nav>
+        
         </Navbar.Collapse>
+        <Nav  className="formar" >
+          <Button
+              variant="outline-primary"
+              className="float-md-end rounded-circle border-white d-flex justify-content-center align-items-center no-hover d-none d-sm-block"
+              style={{ width: '40px', height: '40px' }}
+            >
+              <GoSearch size={32} style={{ color: "white" }} />
+            </Button>
+          </Nav>
+        
 
-        <Nav className="ms-auto">
-          <Nav.Link className="d-none d-md-block loca ">
-            <Button variant="outline-primary" 
-             className='pointer-events-none location_botton location_bottonR'
-             style={{ 
-              width: "150px", 
-              borderColor: "#31c0f0", 
-              borderStyle: "solid", 
-              borderWidth: "1px",
-            }}>
-            <GrLocation  size={21} style={{  float: "left", color:"white",strokeWidth: "2"  }} />
-            <p className='location_anchour Dummy-location'style={{fontSize:"15px"}}>Coimbatore</p>
+        <Nav className="ms-auto m-0">
+          <Nav.Link className="ms-auto m-0">
+            <Button
+              variant="outline-primary"
+              className='d-inline location_botton location_bottonR'
+              style={{
+                width: "150px",
+                borderColor: "#31c0f0",
+                borderStyle: "solid",
+                borderWidth: "1px",
+              }}
+            >
+              <GrLocation size={21} style={{ float: "left", color: "white", strokeWidth: "2" }} />
+              <p className='location_anchour Dummy-location' style={{ fontSize: "15px" }}>Coimbatore</p>
             </Button>
           </Nav.Link>
-          <Nav.Link className="visible-only-on-large dummy_UM">
-  <Button
-    variant="outline-primary"
-    className="rounded-circle  d-flex justify-content-center align-items-center no-hover"
-    style={{ width: '40px', height: '40px' }}>
-    <p className='location_anchour mt-3' style={{ fontSize: "15px" }}>UM</p>
-  </Button>
-</Nav.Link>
 
-
+          {/* Show "UM" button only on large screens and above */}
+          <Nav.Link className="d-none d-lg-block">
+            <Button
+              variant="outline-primary"
+              className="rounded-circle d-flex justify-content-center align-items-center no-hover"
+              style={{ width: '40px', height: '40px' }}
+            >
+              <p className='location_anchour mt-3' style={{ fontSize: "15px" }}>UM</p>
+            </Button>
+          </Nav.Link>
 
         </Nav>
       </Container>
@@ -238,7 +245,46 @@ const CustomCarousel = () => {
   );
 };
 
-
+const Nxttocourousal = () =>{
+  return(
+    <div className='pt-3'>
+    <Row className='d-flex m-0 m-auto forImgrow pt-5 justify-content-between gap-1'>
+    <Col md={3} className='d-flex allign-item-ceter text-allign-center'>
+      <img className='nextTocourousal'
+      src={Devevent}
+      />
+      <div>
+        <p className='d-block mt-2 px-3'><b>Vibe With Deva</b><br/>Thenisal thendral LIVE</p>
+      </div>
+      <div className=' pl-4'>
+      <FiChevronRight size={20} />       
+      </div>
+      </Col>
+      <Col md={3} className='d-flex allign-item-ceter text-allign-center'>
+      <img className='nextTocourousal'
+      src={Devevent}
+      />
+      <div>
+        <p className='d-block mt-2 px-3'><b>Vibe With Deva</b><br/>Thenisal thendral LIVE</p>
+      </div>
+      <div className='pl-4'>
+      <FiChevronRight size={20} />       
+      </div>
+      </Col>
+      <Col md={3} className='d-flex allign-item-ceter text-allign-center flex-grow'>
+      <img className='nextTocourousal'
+      src={Devevent}
+      />
+      <div>
+        <p className='d-block mt-2 px-3'><b>Vibe With Deva</b><br/>Thenisal thendral LIVE</p>
+      </div>
+      <div className='pl-4'>
+      <FiChevronRight size={20} />       
+      </div>      </Col>
+    </Row>
+    </div>
+  )
+}
 
 
 
@@ -256,10 +302,13 @@ const CustomCarousel = () => {
 
 function App() { 
   return ( 
+    <>
     <Container fluid className="there_you_go px-2 py-1 px-1"> 
       <CustomNavbar /> 
       <CustomCarousel />
-    </Container> 
+      </Container> 
+      <Nxttocourousal />
+       </>
   ); 
 } 
 
