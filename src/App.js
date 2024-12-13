@@ -19,18 +19,19 @@ import { FiChevronRight } from "react-icons/fi";
 
 function CustomNavbar() {
   return (
-    <Navbar collapseOnSelect expand="lg" variant="light" sticky="top" className="w-100 there_you_go pt-0 pb-3">
+    <>
+    <Navbar collapseOnSelect expand="lg" variant="light" sticky="top" className="w-100 there_you_go pt-0 pb-1">
       <Container fluid className="p-0">
         <div className="d-flex align-items-center p-0">
           <Navbar.Toggle aria-controls="responsive-navbar-nav flex-row" className="d-lg-none float-start p-0" />
           <Navbar.Brand className='px-1 mb-1 position-relative' href="#home">
             <img
               className='forlogo position-absoulte top-0 p-0'
-              src={log} 
+              src={log}
               alt="Logo"
             />
             <Button style={{ width: "205px" }} variant="link" className="location_botton align-item-center px-3 d-none d-lg-inline">
-              <GrLocation size={24} style={{ float: "left", color: "white", strokeWidth: "5" }} />
+              <GrLocation className='dumlo' size={24} style={{ float: "left", color: "white", strokeWidth: "5" }} />
               <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
             </Button>
           </Navbar.Brand>
@@ -56,78 +57,74 @@ function CustomNavbar() {
             </Nav.Link>
 
           </Nav>
-        
         </Navbar.Collapse>
-        <Nav  className="formar" >
-          <Button
-              variant="outline-primary"
-              className="float-md-end rounded-circle border-white d-flex justify-content-center align-items-center no-hover d-none d-sm-block"
-              style={{ width: '40px', height: '40px' }}
-            >
-              <GoSearch size={32} style={{ color: "white" }} />
-            </Button>
-          </Nav>
-        
 
-        <Nav className="ms-auto m-0">
-          <Nav.Link className="ms-auto m-0">
+        <Nav className="ms-auto d-flex align-items-center d-lg-none"> 
+          <Nav.Link className="m-0 ms-auto">
             <Button
               variant="outline-primary"
-              className='d-inline location_botton location_bottonR'
-              style={{
-                width: "150px",
-                borderColor: "#31c0f0",
-                borderStyle: "solid",
-                borderWidth: "1px",
-              }}
+              className='d-inline location_botton location_bottonR forChatref'
             >
               <GrLocation size={21} style={{ float: "left", color: "white", strokeWidth: "2" }} />
-              <p className='location_anchour Dummy-location' style={{ fontSize: "15px" }}>Coimbatore</p>
+              <p className='location_anchour Dummy-location d-none d-sm-block' style={{ fontSize: "15px" }}>Coimbatore</p>
             </Button>
           </Nav.Link>
-
-          {/* Show "UM" button only on large screens and above */}
-          <Nav.Link className="d-none d-lg-block">
-            <Button
-              variant="outline-primary"
-              className="rounded-circle d-flex justify-content-center align-items-center no-hover"
-              style={{ width: '40px', height: '40px' }}
-            >
-              <p className='location_anchour mt-3' style={{ fontSize: "15px" }}>UM</p>
-            </Button>
-          </Nav.Link>
-
         </Nav>
+
+        {/* Show "UM" button only on large screens and above */}
+        <Nav.Link className="d-none d-lg-block">
+          <Button
+            variant="outline-primary"
+            className="rounded-circle d-flex justify-content-center align-items-center no-hover"
+            style={{ width: '40px', height: '40px' }}
+          >
+            <p className='location_anchour mt-3' style={{ fontSize: "15px" }}>UM</p>
+          </Button>
+        </Nav.Link>
       </Container>
     </Navbar>
+    
+   
+     </>
   );
 }
+
+const Adbanner =()=>{
+  return(
+  <Container fluid  className='forADbanner'>
+  insider.in has a new home.
+ </Container>
+  );
+};
+
 
 
 
 const CustomCarousel = () => {
   return (
-    <Carousel className='m-0'>
+    <>
+    <div className='py-4'>
+    <Carousel className='m-0 pb-2'>
       {/* Slide 1 */}
-      <Carousel.Item className='py-5'>
+      <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid imgDimming ImgSizing"
+              className="img-fluid imgDimming ImgSizing imgMainstyle"
               src={VjAunt}
               alt="First slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid ImgSizing"
+              className="img-fluid ImgSizing imgMainstyle"
               src={chennaiEV}
               alt="First slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid imgDimming ImgSizing"
+              className="img-fluid imgDimming ImgSizing imgMainstyle"
               src={Devevent}
               alt="First slide - Image 3"
             />
@@ -137,25 +134,25 @@ const CustomCarousel = () => {
       </Carousel.Item>
 
       {/* Slide 2 */}
-      <Carousel.Item className='py-5'>
+      <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={chennaiEV}
               alt="Second slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
+              className="img-fluid imgMainstyle"
               src={Devevent}
               alt="Second slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={NeedTalk}
               alt="Second slide - Image 3"
             />
@@ -164,25 +161,25 @@ const CustomCarousel = () => {
       </Carousel.Item>
 
       {/* Slide 3 */}
-      <Carousel.Item className='py-5'>
+      <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={Devevent}
               alt="Third slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
+              className="img-fluid imgMainstyle"
               src={NeedTalk}
               alt="Third slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={Paddy}
               alt="Third slide - Image 3"
             />
@@ -190,25 +187,25 @@ const CustomCarousel = () => {
         </Row>
       </Carousel.Item>
             {/* Slide 4 */}
-      <Carousel.Item className='py-5'>
+      <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={NeedTalk}
               alt="Third slide - Image 1"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid"
+              className="img-fluid imgMainstyle "
               src={Paddy}
               alt="Third slide - Image 2"
             />
           </Col>
           <Col md={4}>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={VjAunt}
               alt="Third slide - Image 3"
             />
@@ -216,25 +213,25 @@ const CustomCarousel = () => {
         </Row>
       </Carousel.Item>
                  {/* Slide 5 */}
-      <Carousel.Item className='py-5'>
+      <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle'>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={Paddy}
               alt="Third slide - Image 1"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle'>
             <img
-              className="img-fluid"
+              className="img-fluid imgMainstyle"
               src={VjAunt}
               alt="Third slide - Image 2"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle'>
             <img
-              className="img-fluid imgDimming"
+              className="img-fluid imgDimming imgMainstyle"
               src={chennaiEV}
               alt="Third slide - Image 3"
             />
@@ -242,6 +239,8 @@ const CustomCarousel = () => {
         </Row>
       </Carousel.Item>
     </Carousel>
+    </div>
+    </>
   );
 };
 
@@ -305,7 +304,10 @@ function App() {
     <>
     <Container fluid className="there_you_go px-2 py-1 px-1"> 
       <CustomNavbar /> 
-      <CustomCarousel />
+      </Container> 
+      <Container fluid className="there_you_go  py-1 px-0"> 
+      <Adbanner/>
+      <CustomCarousel   />
       </Container> 
       <Nxttocourousal />
        </>

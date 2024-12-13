@@ -36,8 +36,39 @@
 .dummy_UM{
   color: white;
 }
+.imgMainstyle{
+
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    white-space: normal;
+    min-height: 60px;
+    color: rgb(255, 255, 255);
+    padding: 0px;
+
+}
 
 /*------------ For Courousal------------- */
+
+.forADbanner{
+  display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      padding: 9px 15px;
+      background: linear-gradient(90deg, rgb(196, 70, 255) -14.33%, rgb(120, 1, 251) 38.59%, rgb(62, 0, 130) 98.88%);
+      font-style: normal;
+      line-height: 133%;
+      font-weight: 500;
+      color: rgb(231, 232, 234);
+      text-align: left;
+      position: relative;
+      z-index: 119;
+      font-size: 16px;
+      border-bottom: 2px solid rgb(12, 23, 47);
+      height: 48px;
+  }
 
 .imgDimming {
   opacity: 0.3; 
@@ -73,6 +104,12 @@
 }
 .padForico{
   padding-left: 90px !important;
+}
+.forChatref {
+  width: 150px;
+  border-color: #31c0f0; 
+  border-style: solid;
+  border-width: 1px;
 }
 
 
@@ -115,6 +152,17 @@
     width: 100px; 
     height: 40px;
   } 
+  .Dummy-location{
+    display: none;
+  }
+  .forChatref {
+    width: 45px;
+    height: 45px;
+    border-color: #31c0f0; 
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 50%;
+  }
 }
 
 @media (max-width: 790px){
@@ -148,4 +196,13 @@
   /* .visible-only-on-large {
     display: block !important;
   } */
+}
+
+@media (max-width: 320px) {
+  .forChatref {
+    position: absolute; /* Make it absolute to allow for precise placement */
+    right: 0; /* Align it to the right */
+    top: 0; /* Keep it aligned to the top */
+    margin-top: 10px; /* Add some margin to keep it from touching the edge */
+  }
 }
