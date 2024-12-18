@@ -11,6 +11,10 @@ import Devevent from "../src/Images/ImgA.jpg"
 import NeedTalk from "../src/Images/ImgD.png"
 import Paddy from "../src/Images/ImgE.png"
 import { FiChevronRight } from "react-icons/fi";
+import { GrHistory } from "react-icons/gr";
+import { CiMusicNote1 } from "react-icons/ci";
+import { MdOutlineLocalFireDepartment } from "react-icons/md";
+
 
 
 
@@ -54,12 +58,14 @@ function CustomNavbar() {
               >
                 <p style={{ fontSize: "14px" }} className='location_anchour'>Work with us</p>
               </Button>
+              <Button className='forSearch  d-none d-md-inline '>
+                <GoSearch className='pr-1' size={30}/>
+              </Button>
             </Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
 
-        <Nav className="ms-auto d-flex align-items-center d-lg-none"> 
+        <Nav className="ms-auto d-flex align-items-center"> 
           <Nav.Link className="m-0 ms-auto">
             <Button
               variant="outline-primary"
@@ -107,26 +113,26 @@ const CustomCarousel = () => {
     <Carousel className='m-0 pb-2'>
       {/* Slide 1 */}
       <Carousel.Item className='py-2'>
-        <Row className="justify-content-center">
-          <Col md={4}>
+      <Row className="justify-content-center">
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
-              className="img-fluid imgDimming ImgSizing imgMainstyle"
-              src={VjAunt}
-              alt="First slide - Image 1"
-            />
-          </Col>
-          <Col md={4}>
-            <img
-              className="img-fluid ImgSizing imgMainstyle"
+              className="img-fluid imgDimming imgMainstyle"
               src={chennaiEV}
-              alt="First slide - Image 2"
+              alt="Second slide - Image 1"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle' >
             <img
-              className="img-fluid imgDimming ImgSizing imgMainstyle"
+              className="img-fluid imgMainstyle"
               src={Devevent}
-              alt="First slide - Image 3"
+              alt="Second slide - Image 2"
+            />
+          </Col>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
+            <img
+              className="img-fluid imgDimming imgMainstyle"
+              src={NeedTalk}
+              alt="Second slide - Image 3"
             />
           </Col>
         </Row>
@@ -136,21 +142,21 @@ const CustomCarousel = () => {
       {/* Slide 2 */}
       <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={chennaiEV}
               alt="Second slide - Image 1"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle' >
             <img
               className="img-fluid imgMainstyle"
               src={Devevent}
               alt="Second slide - Image 2"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={NeedTalk}
@@ -163,21 +169,21 @@ const CustomCarousel = () => {
       {/* Slide 3 */}
       <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={Devevent}
               alt="Third slide - Image 1"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle'>
             <img
               className="img-fluid imgMainstyle"
               src={NeedTalk}
               alt="Third slide - Image 2"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={Paddy}
@@ -189,21 +195,21 @@ const CustomCarousel = () => {
             {/* Slide 4 */}
       <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={NeedTalk}
               alt="Third slide - Image 1"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle'>
             <img
               className="img-fluid imgMainstyle "
               src={Paddy}
               alt="Third slide - Image 2"
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={VjAunt}
@@ -215,7 +221,7 @@ const CustomCarousel = () => {
                  {/* Slide 5 */}
       <Carousel.Item className='py-2'>
         <Row className="justify-content-center">
-          <Col md={4} className='imgMainstyle'>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={Paddy}
@@ -229,7 +235,7 @@ const CustomCarousel = () => {
               alt="Third slide - Image 2"
             />
           </Col>
-          <Col md={4} className='imgMainstyle'>
+          <Col md={4} className='imgMainstyle d-none d-md-inline'>
             <img
               className="img-fluid imgDimming imgMainstyle"
               src={chennaiEV}
@@ -246,8 +252,9 @@ const CustomCarousel = () => {
 
 const Nxttocourousal = () =>{
   return(
-    <div className='pt-3'>
-    <Row className='d-flex m-0 m-auto forImgrow pt-5 justify-content-between gap-1'>
+    <Container>
+    <div className='pt-3 px-3'>
+    <Row className='d-flex m-0 m-auto pt-5 justify-content-between gap-1 '>
     <Col md={3} className='d-flex allign-item-ceter text-allign-center'>
       <img className='nextTocourousal'
       src={Devevent}
@@ -279,12 +286,106 @@ const Nxttocourousal = () =>{
       </div>
       <div className='pl-4'>
       <FiChevronRight size={20} />       
-      </div>      </Col>
+      </div> </Col>
     </Row>
     </div>
+    </Container>
   )
 }
 
+const Recentlyviewd=()=>{
+  return(
+    <Container>
+<section className='px-3'>
+  <div className='pt-5'>
+  <Row className='m-0'>
+    <Col className='d-flex  flex-col p-0'>
+    <div className='d-flex'>
+      <Button className=' d-inline m-0 forhistorylog  '>
+      <GrHistory size={27} style={{color:"black"}} />
+      </Button>
+      <span className='d-inline'>
+    <h1 className='forRecenth p-0 m-0 '>RECENTLY VIEWD</h1>
+    <p className='forRcentP pl-5'> pick up wherw you left of</p>
+    </span>
+    </div>
+    </Col>
+  </Row>
+
+<div>
+    <ul className='py-3 d-flex p-0 '>
+      <li className='d-inline mr-4'>
+      <img 
+    src={VjAunt}
+    className='forViewitem'
+    />
+      </li>
+      <li className='d-inline'>
+      <img 
+    src={VjAunt}
+    className='forViewitem'
+    />
+      </li>
+    </ul>
+  </div>
+  </div>
+</section>
+</Container>
+  )
+}
+
+const BigPoster=()=>{
+  return(
+  <Container fluid="sm" className='px-4'>
+  <Col className='p-5 forBG d-flex'>
+  <div className='forOGcontent'>
+  <div className='formusicB'>
+  <CiMusicNote1 size={30} />
+  </div>
+  <span className='Forwordings'>
+  <h1 className='m-0' style={{ fontFamily: '"Bebas Neue", serif', fontSize: '28px' }}>vijay antony live</h1>
+  <p className='m-0'>Relive the nostalgia with him on stage!</p>
+  <p className='m-0'>Vijay Antony, the OG of Tamil rap since 2005, continues to shape the<br/> 
+    industry with timeless hits like “Saathikadi,” “Aathichudi,” and <br/> 
+    “Machakanni."</p>
+  </span>
+  <a style={{ textDecoration: 'none' }}>
+   <button className='Bybutton'>
+    <p className='m-0'>Buy Now</p>
+    </button> 
+  </a>
+  </div>
+  </Col>
+  </Container>)
+}
+
+
+const Trendingeve=()=>{
+  return(
+    <>
+    <Container className='d-flex justify-content-between'> 
+      <ul className='d-flex'>
+        <li className='d-inline'><button className='forhistorylog'>
+          <MdOutlineLocalFireDepartment />
+          </button></li>
+          <li className='d-inline'><p className='m-0'><b>TRENDING EVENTS</b></p></li>
+      </ul>
+      <span className='RightBTN'>
+        <a >
+        <p className='m-0'>View all</p>
+        </a>
+      </span>
+    </Container>
+  <Container>
+    <Row className="d-flex flex-row gap-3">
+      <Col></Col>
+      <Col></Col>
+      <Col></Col>
+    </Row>
+  </Container>
+  </>
+  )
+}
 
 
 
@@ -310,6 +411,9 @@ function App() {
       <CustomCarousel   />
       </Container> 
       <Nxttocourousal />
+      <Recentlyviewd/>
+      <BigPoster />
+      <Trendingeve />
        </>
   ); 
 } 
