@@ -1,6 +1,19 @@
+
+.body{
+  overflow-x: hidden !important;
+
+}
 .there_you_go{
   background-color: #0c172f;
+  overflow-x: hidden !important;
 }
+.sticky-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020; }
+  .forShowcase{
+    z-index: 1030;
+  }
 /*------------ For Nav------------- */
 .navbar {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -44,7 +57,8 @@
     white-space: normal;
     height: 240px;
     color: rgb(255, 255, 255);
-    padding: 0px;
+    padding: 0px ;
+    border-radius: 8px;
 
 }
 
@@ -63,17 +77,166 @@
 }
 
 .forSearch{
-  width: 42px;
-  height: 42px;
+  
   border-style: solid;
   border-width: 1px;
   border-radius: 50% !important;
   background-color: transparent !important;
   border: 1px solid #565656!important;
+  width:42px;
+   height: 40px;
+   padding: 10px;
+  /* position: relative; Needed to make absolute positioning work */
+  /* left: -1; */
 
 }
+.forboo{
+  margin-right: 10px;
+}
+.navbar-toggler-icon{
+  background-image: url(../src/Images/img.svg) !important;
+}
+.toogler_Toy:focus{
+  border-color: none !important; /* New border color when focused (blue, for example) */
+  box-shadow: none !important; /* Optional: add a box shadow to make the focus effect more prominent */
+  outline: none;
+}
+
+
+/* ----------------------------------------------- */
+@media (max-width: 991px) {  /* Target tablet and mobile view */
+  .custom-toggle .navbar-toggler-icon {
+    width: 30px; /* Adjust size */
+    height: 30px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .custom-toggle .navbar-toggler-icon::before {
+    content: '';
+    width: 100%;
+    height: 4px; /* Top line of hamburger */
+    background-color: #000;
+    border-radius: 10px;
+  }
+
+  .custom-toggle .navbar-toggler-icon::after {
+    content: '';
+    width: 100%;
+    height: 4px; /* Bottom line of hamburger */
+    background-color: #000;
+    border-radius: 10px;
+  }
+
+  .custom-toggle .navbar-toggler-icon span {
+    width: 70%; /* Short middle line */
+    height: 4px;
+    background-color: #000;
+    border-radius: 10px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*------------ For Courousal------------- */
 
+.carousel-indicators button {
+  background-color: #ccc; 
+  border-radius: 100% !important;
+  width: 10px !important; 
+  height: 10px !important; 
+  margin: 0 5px; 
+}
+.carousel-indicators{
+  margin: 0px !important;
+
+}
+
+.carousel-control-prev {
+  display: flex !important;
+          flex-direction: row !important;
+          -webkit-box-pack: center !important;
+          justify-content: center !important;
+          -webkit-box-align: center !important;
+          align-items: center !important;
+          padding: 0px !important;
+          width: 38px !important;
+          height: 38px !important; 
+          background: white !important;
+          box-shadow: rgb(12, 23, 47) 0px 0px 30px !important;
+          z-index: 10 !important;
+          border-radius: 0px 100px 100px 0px !important;
+          margin-top: 120px !important;
+          opacity: 1 !important; 
+}      
+.carousel-control-next{
+  display: flex !important;
+  flex-direction: row !important;
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  padding: 0px !important;
+  width: 38px !important;
+  height: 38px !important; 
+  background: white !important;
+  box-shadow: rgb(12, 23, 47) 0px 0px 30px !important;
+  z-index: 10 !important;
+  border-radius: 100px 0px 0px 100px !important;
+  margin-top: 120px !important;
+  opacity: 1 !important; 
+}
+.carousel-control-prev-icon {
+  background-image: url(../src/Images/left.png)!important;
+  display: inline-block !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% !important;
+  background-size: 100% !important;
+  fill: #080201 !important;  /* Set the fill color to orange */
+  stroke: #090000 !important;
+z-index: 2 !important;
+}
+.carousel-control-next-icon {
+  background-image: url(../src/Images/Right.png)!important;
+  display: inline-block !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% !important;
+  background-size: 100% !important;
+  fill: #080201 !important;  /* Set the fill color to orange */
+  stroke: #090000 !important;
+z-index: 2 !important;
+}
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------ */
 .forADbanner{
   display: flex;
       -webkit-box-align: center;
@@ -101,12 +264,52 @@
   height: 275px !important;
   border-radius: 2%;
 }
-
+.Fortablets {
+  border-color: #f3eaea !important;
+  border: 2px solid;
+  border-radius: 15px; 
+  margin-right: 25px;
+  width: 373px !important;
+   }
+   .Fortablets:hover{
+    box-shadow: 40px  rgba(71, 70, 70, 0.5);
+   }
 /*------------ For Nxttocourousal------------- */
+/* For tablet view */
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling for mobile */
+  }
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none; 
+  }
+
+
+  .Fortablets {
+    min-width: 300px; /* You can adjust this width */
+    flex-shrink: 0; /* Prevent shrinking */
+  }
+
+  .contentfor {
+    text-align: center; /* Center text content */
+  }
+  
+
+  /* .nextTocourousal {
+    width: 100%; 
+    object-fit: cover; 
+
+
+  } */
+}
+
+
+
+
 
 .nextTocourousal{
   background: rgb(238, 238, 238);
-  display: flex;
   width: 60px;
   height: 60px;
   flex-direction: column;
@@ -117,9 +320,14 @@
   gap: 10px;
   flex-shrink: 0;
   border-radius: 9px;
+  margin: 5px 0px 5px 7px;
 }
-
-
+.forSmallicon{
+  float: right !important;
+}
+.contentfor{
+  width: -webkit-fill-available
+}
 .forImgcol{
   background-color: #d6dadb;
 }
@@ -132,6 +340,52 @@
   border-style: solid;
   border-width: 1px;
 }
+
+
+/*------------ For Searchicons------------- */
+.Forsearching{
+  border-color: transparent;
+  width: 100%;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 250px; /* Adjust the width as needed */
+}
+
+.Forsearching {
+  width: 100%;
+  padding: 10px 10px 10px 30px; /* Add padding on the left to make space for the icon */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; 
+  border-radius: 10px;/* Ensures padding is included in the input's width */
+}
+
+.search-icon {
+  position: absolute;
+  top: 70%;
+  left: 13px; /* Position the icon inside the input */
+  transform: translateY(-50%); /* Vertically center the icon */
+  font-size: 23px; /* Icon size */
+  color: #504f4f; /* Icon color */
+}
+.Forsearching:focus {
+  border-color: none !important; /* New border color when focused (blue, for example) */
+  box-shadow: none !important; /* Optional: add a box shadow to make the focus effect more prominent */
+  outline: none;
+}
+
+
+
+
+
+
+
+
+
+
 /*------------ For Recentlyviewd------------- */
 .forRecenth{
     overflow: hidden;
@@ -175,6 +429,9 @@
   border-radius: 9px;
   background-color: rgb(238, 238, 238);
 }
+.forimgtab{
+  margin-right: 20px;
+}
 
 /* -------------For Big Poster ------------ */
 .forBG{
@@ -192,6 +449,7 @@
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
+    height: 560px;
 }
 .forOGcontent{
   display: flex;
@@ -220,7 +478,7 @@
       gap: 9px;
       align-self: stretch;
       font-Size: '28px';
-      font-weight:'500'
+      font-weight:'500';
 }
 .Bybutton{
   display: flex;
@@ -248,7 +506,7 @@
 .RightBTN {
   background-color: rgb(255, 255, 255);
   color: black;
-  padding: 5px 10px;
+  padding: 5px 10px ;
   text-decoration: none;
   border: 1px solid rgb(153, 153, 153);
   border-radius: 5px;
@@ -269,11 +527,19 @@
   background-color: transparent !important; 
 }
 .no-hover{
-  border-color: rgb(247, 246, 246) !important;
+  border: 1px solid #565656!important;
   background-color: transparent !important; 
 }
 .location_bottonR:hover{
   border: 1px solid #31c0f0!important;
+}
+.forSearch:hover{
+  border-color: rgb(247, 246, 246) !important;
+
+}
+.no-hover:hover{
+  border-color: rgb(247, 246, 246) !important;
+
 }
 
 
@@ -288,8 +554,8 @@
 /*----------- For Responsive ------------- */
 @media (max-width: 427px){
   .navbar-brand img {
-    width: 100px; 
-    height: 40px;
+    width: 110px; 
+    height: 30px;
   } 
   .Dummy-location{
     display: none;
@@ -302,6 +568,21 @@
     border-width: 1px;
     border-radius: 50%;
   }
+  
+  .imgMainstyle{
+    border-radius: 0px; 
+    height:210px !important;
+  }
+  .carousel-control-prev,.carousel-control-next{
+    display: none !important;
+  }
+  .forBG{
+    background-image: url(../src/Images/Vjsmalledited.png);  
+    height:700px;
+    border-radius: 0px;
+
+
+  }
 }
 
 @media (max-width: 790px){
@@ -313,10 +594,10 @@
 } */
 /* .dummy_UM{
   display: none !important;
-}
+}*/
 .Dummy-location{
   display: none !important;
-} */
+} 
 .forOGcontent{
   display: flex;
   flex-direction: column;
@@ -328,23 +609,40 @@
  .formar{
   margin-left: 320px;
  }
+
+ .navbar-brand img {
+  width: 110px; 
+  height: 33px;} 
+  imgMainstyle
+
+  .imgMainstyle{
+    border-radius: 0px; 
+    height:148px !important ;
+    border-radius: 0px; 
+  }
+  .carousel-control-prev,.carousel-control-next{
+    margin-top: 100px !important;
+  }
+  .forBG{
+    height: 380px;
+  }
  
 }
 @media (max-width: 1025px){
-  /* .location_bottonRR{
-    display: none !important;
+  .imgMainstyle{
+    height:180px !important;
   }
-  }
-.visible-only-on-large {
-  display: none; */
+  .Fortablets {
+    border-color: #f3eaea !important;
+    border: 2px solid;
+    border-radius: 15px; 
+    margin-right: 25px;
+    width: auto !important;
+     }
 }
 
 
-@media (min-width: 1000px) {
-  /* .visible-only-on-large {
-    display: block !important;
-  } */
-}
+
 
 @media (max-width: 320px) {
   .forChatref {
@@ -353,12 +651,10 @@
     top: 0; /* Keep it aligned to the top */
     margin-top: 10px; /* Add some margin to keep it from touching the edge */
   }
+ 
 }
+.forOGcontent{ 
+  gap: 0px;
+  padding: 0px 0px 0px 0px;
 
-@media (max-width: 320px) {
-
-.forBG{
-  background-size:cover;
-  height:100vh;
-  background-position: center;
-}}
+}
