@@ -15,6 +15,14 @@ import { GrHistory } from "react-icons/gr";
 import { CiMusicNote1 } from "react-icons/ci";
 import { MdOutlineLocalFireDepartment } from "react-icons/md";
 import { useState } from 'react';
+import { TbCalendarTime } from "react-icons/tb";
+import exportA from "../src/Images/Expo-1.webp"
+import exportB from "../src/Images/expo-2.jpg"
+import exportC from "../src/Images/Expo-3.jpg"
+import exportD from "../src/Images/Expo-4.png"
+import exportE from "../src/Images/expo-5.png"
+import exportF from "../src/Images/expo-6.jpg"
+
 
 
 
@@ -79,12 +87,12 @@ function CustomNavbar() {
                 </Button>
                 <Button className="forSearch d-none d-md-inline mx-3  ">
                   <span>
-                    <GoSearch size={25} />
+                    <GoSearch size={22} className='searchingTr' />
                   </span>
                 </Button>
                 <Button
                 variant="outline-primary"
-                className="d-inline location_botton location_bottonR forChatref m-0 position-relative "
+                className="d-inline location_botton location_bottonR forChatref mt-0 m-0 position-relative "
               >
                 <GrLocation size={21} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
                 <p className="location_anchour Dummy-location d-none d-sm-block " style={{ fontSize: '15px' }}>
@@ -98,7 +106,7 @@ function CustomNavbar() {
           <Nav.Link className="d-none d-lg-block ">
             <Button
               variant="outline-primary"
-              className="rounded-circle d-flex justify-content-center align-items-center no-hover "
+              className="forSearch   d-flex justify-content-center align-items-center no-hover "
               style={{ width: '40px', height: '40px' }}
             >
               <p className="location_anchour mt-3" style={{ fontSize: '15px' }}>
@@ -344,7 +352,7 @@ const Nxttocourousal = () =>{
 const Recentlyviewd=()=>{
   return(
     <Container>
-<section className='px-3 overflow-x-auto'>
+<section className='px-3 '>
   <div className='pt-5'>
   <Row className='m-0'>
     <Col className='d-flex  flex-col p-0'>
@@ -360,7 +368,7 @@ const Recentlyviewd=()=>{
     </Col>
   </Row>
 
-<div>
+<div className='overflow-x-auto'>
     <ul className='py-3 d-flex p-0 '>
       <li className='d-inline mr-4  forimgtab'>
       <img 
@@ -414,27 +422,122 @@ const Trendingeve=()=>{
     <Container className='d-flex justify-content-between'> 
       <ul className='d-flex'>
         <li className='d-inline'><button className='forhistorylog'>
-          <MdOutlineLocalFireDepartment />
+          <MdOutlineLocalFireDepartment size={20} />
           </button></li>
-          <li className='d-inline'><p className='m-0'><b>TRENDING EVENTS</b></p></li>
+          <li className='d-inline'><p className='m-0 eventung'><b>TRENDING EVENTS</b></p></li>
       </ul>
-      <span className='RightBTN'>
-        <a lassName='m-0 p-0'>
-        <p className='m-0 p-0'>View all</p>
-        </a>
-      </span>
+        <span lassName=  ' RightBTN m-0 p-0'>
+        View all
+        </span>
     </Container>
-  <Container>
-    <Row className="d-flex flex-row gap-3">
-      <Col></Col>
-      <Col></Col>
-      <Col></Col>
-    </Row>
-  </Container>
+     <Container>
+      <Row className="d-flex flex-col gap-0 overflow-x-auto">
+    {/* <Carousel className="lastcorus" controls={true} indicators={true} interval={null}> */}
+      {/* Carousel Item 1 */}
+      {/* <Carousel.Item> */}
+          <Col xs={4}>
+            <img className="eventcardimg" src={Devevent} alt="Event 1" />
+            <div className="eventBottomcard">
+              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
+              <div className="eventcontent smalltext m-o">
+                <TbCalendarTime size={20} />
+                <span className="smalltext">December 28 | 6PM</span>
+              </div>
+              <div className="eventcontent m-o">
+                <GrLocation />
+                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+              </div>
+              <div className="cardfooter">
+                <span>₹1999 Onwards</span>
+                <span className="rightcard">buy now</span>
+              </div>
+            </div>
+          </Col>
+      {/* </Carousel.Item> */}
+
+      {/* Carousel Item 2 */}
+      {/* <Carousel.Item> */}
+          <Col xs={4}>
+            <img className="eventcardimg" src={chennaiEV} alt="Event 2" />
+            <div className="eventBottomcard">
+              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
+              <div className="eventcontent smalltext m-o">
+                <TbCalendarTime size={20} />
+                <span className="smalltext">December 28 | 6PM</span>
+              </div>
+              <div className="eventcontent m-o">
+                <GrLocation />
+                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+              </div>
+              <div className="cardfooter">
+                <span>₹1999 Onwards</span>
+                <span className="rightcard">buy now</span>
+              </div>
+            </div>
+          </Col>
+      {/* </Carousel.Item> */}
+
+      {/* Carousel Item 3 */}
+      {/* <Carousel.Item> */}
+          <Col xs={4}>
+            <img className="eventcardimg" src={VjAunt} alt="Event 3" />
+            <div className="eventBottomcard">
+              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
+              <div className="eventcontent smalltext m-o">
+                <TbCalendarTime size={20} />
+                <span className="smalltext">December 28 | 6PM</span>
+              </div>
+              <div className="eventcontent m-o">
+                <GrLocation />
+                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+              </div>
+              <div className="cardfooter">
+                <span>₹1999 Onwards</span>
+                <span className="rightcard">buy now</span>
+              </div>
+            </div>
+          </Col>
+      {/* </Carousel.Item> */}
+    {/* </Carousel> */}
+      </Row>
+    </Container>
   </>
   )
 }
-
+const Artist=()=>{
+  return(
+    <>
+    <Container className='d-flex justify-content-between pt-5'> 
+      <ul className='d-flex'>
+        <li className='d-inline'><button className='forhistorylog'>
+          <GrLocation size={20} />
+          </button></li>
+          <li className='d-inline'><p className='m-0 eventung'><b>FIND NEW EXPERIENCES</b></p>
+          <p className='css-1r92uuv'>Explore. Discover. Make a Plan</p></li>
+      </ul>
+    </Container>
+    <Container>
+    <ul className='css-11iqm8'>
+        <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportA}/>
+        </li>
+        <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportB}/>
+        </li> <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportC}/>
+        </li> <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportD}/>
+        </li>
+        <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportE}/>
+        </li> <li className='css-5j26x3'>
+          <img className='css-1ikh80e' src={exportF}/>
+        </li>
+      </ul>
+      </Container>
+  </>
+  )
+}
 
 
 
@@ -462,7 +565,8 @@ function App() {
       <Nxttocourousal />
       <Recentlyviewd/>
       <BigPoster />
-      {/* <Trendingeve /> */}
+      <Trendingeve />
+      <Artist />
        </>
   ); 
 } 

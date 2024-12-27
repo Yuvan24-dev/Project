@@ -77,18 +77,25 @@
 }
 
 .forSearch{
-  
+  position: relative;
   border-style: solid;
   border-width: 1px;
   border-radius: 50% !important;
   background-color: transparent !important;
   border: 1px solid #565656!important;
-  width:42px;
    height: 40px;
+   width: 43px;
    padding: 10px;
+   line-height: 150%;
+   display: flex;
+   align-items: center;
   /* position: relative; Needed to make absolute positioning work */
   /* left: -1; */
-
+}
+.searchingTr{
+  position: absolute;
+  top: 25% !important;
+  left: 25%;
 }
 .forboo{
   margin-right: 10px;
@@ -339,6 +346,7 @@ z-index: 2 !important;
   border-color: #31c0f0; 
   border-style: solid;
   border-width: 1px;
+  height: 40px;
 }
 
 
@@ -364,13 +372,14 @@ z-index: 2 !important;
 }
 
 .search-icon {
-  position: absolute;
-  top: 70%;
+  position: absolute ;
+  top: 78%;
   left: 13px; /* Position the icon inside the input */
   transform: translateY(-50%); /* Vertically center the icon */
   font-size: 23px; /* Icon size */
   color: #504f4f; /* Icon color */
 }
+
 .Forsearching:focus {
   border-color: none !important; /* New border color when focused (blue, for example) */
   box-shadow: none !important; /* Optional: add a box shadow to make the focus effect more prominent */
@@ -506,15 +515,142 @@ z-index: 2 !important;
 .RightBTN {
   background-color: rgb(255, 255, 255);
   color: black;
-  padding: 5px 10px ;
   text-decoration: none;
-  border: 1px solid rgb(153, 153, 153);
+  border: 1px solid rgb(11, 11, 11);
   border-radius: 5px;
-  min-width: 66px;
+  width: 66px;
+  height:66px;
 }
 
+.eventung{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 32px;
+    white-space: nowrap;
+    color: rgb(32, 34, 38);
+    font-family: "Bebas Neue";
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 100%;
+    text-transform: uppercase;
+}
+.eventcard{
+  width: 25%;
+  position: relative;
+  overflow: visible;
+  white-space: normal;
+  border-radius: 6px;
+  border: 1px solid rgb(240, 241, 242);
+  background: white;
+}
+.eventcardimg{
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgb(238, 238, 238);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  /* min-height: 42vw; */
+}
+.eventBottomcard{
+  display: flex;
+  padding: 9px;
+  flex-direction: column;
+  gap: 12px;
+}
+.eventcardtitle{
+  color: rgb(32, 34, 38);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 150%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.eventcontent{
+    display: flex;
+    gap: 9px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.eventBottomcard p {
+  padding: opx;
+  margin: opx;
+}
+.rightcard{
+  border-left: 1px solid rgb(49, 192, 240);
+  padding-left: 9px;
+  min-width: 64px;
+}
+.smalltext{
+    color: rgb(69, 71, 77);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 150%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cardfooter{
+  display: flex;
+      padding: 9px;
+      -webkit-box-align: center;
+      align-items: center;
+      gap: 3px;
+      border-radius: 9px;
+      background: rgb(245, 252, 254);
+      width: 100%;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      color: rgb(12, 23, 47);
+      font-family: "Bebas Neue";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 100%;
+      text-transform: uppercase;
+      height: 38px;
+}
 
+.lastcorus .carousel-inner {
+  display: flex;
+  width: 100%;
+}
 
+.lastcorus .carousel-item {
+  
+}
+/* ---------------------forAritist------------------------ */
+.css-11iqm8 {
+  display: flex;
+  padding: 0px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin: 0px auto;
+  flex-wrap: wrap;
+}
+.css-5j26x3 {
+  display: block;
+  width: 15%;
+  height: auto;
+  margin: 5px 0px;
+}
+.css-1ikh80e {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.css-1r92uuv {
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 0px;
+  color: rgb(122, 124, 130);
+  font-weight: 500;
+  line-height: 150%;
+  text-wrap: balance;
+}
 
 /*----------- For Hover ------------- */
 
@@ -578,7 +714,7 @@ z-index: 2 !important;
   }
   .forBG{
     background-image: url(../src/Images/Vjsmalledited.png);  
-    height:700px;
+    height:1000px !important;
     border-radius: 0px;
 
 
@@ -625,6 +761,12 @@ z-index: 2 !important;
   }
   .forBG{
     height: 380px;
+  }
+  .css-5j26x3 {
+    display: block;
+    width: 30%;
+    height: auto;
+    margin: 5px 0px;
   }
  
 }
