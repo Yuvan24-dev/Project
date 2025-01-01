@@ -24,7 +24,7 @@
 }
 .location_botton {
   margin-left: 20px;
-  width: 205px;
+  /* width: 205px; */
   border-radius: 25px !important;
   height: 40px;
   padding: 0px;
@@ -146,7 +146,40 @@
   }
 }
 
+.location-dropdown {
+  position: fixed !important;
+  top: 20%; 
+  right: 0 !important;
+  transform: translateY(-50%);
+  width: 15vw; /* 15% of the screen width */
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 9999;
+}
 
+
+.location-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.location-dropdown li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.location-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.FornavB {
+  min-height: 100%;
+  overflow-y: scroll;
+}
 
 
 
@@ -342,7 +375,7 @@ z-index: 2 !important;
   padding-left: 90px !important;
 }
 .forChatref {
-  width: 150px;
+  /* width: 150px; */
   border-color: #31c0f0; 
   border-style: solid;
   border-width: 1px;
@@ -618,9 +651,70 @@ z-index: 2 !important;
   width: 100%;
 }
 
-.lastcorus .carousel-item {
-  
+
+.lastcorus .carousel-control-prev{
+  position: absolute !important;
+  left: -3%!important;
+  top: 50%;
+  margin: 0px !important;
+  box-shadow: none !important;
 }
+.lastcorus .carousel-control-next{
+  position: absolute !important;
+  right: -3%!important;
+  top: 50%;
+  margin: 0px !important;
+  box-shadow: none !important;
+}
+.nexting{
+  position: absolute !important;
+  left: -3%!important;
+  top: 50% !important;
+  margin: 0px !important;
+  box-shadow: none !important;
+  border: #ccc!important;
+  background:none !important ;
+}
+.nextingl{
+  position: absolute !important;
+  right: -3%!important;
+  top: 50% !important;
+  margin: 0px !important;
+  box-shadow: none !important;
+  border: white!important;
+  background:none !important ;
+}
+
+.lastcorus .carousel-control-next-icon{
+  background-image: url(../src/Images/Right.svg) !important;
+
+}
+.lastcorus .carousel-control-prev-icon{
+  background-image: url(../src/Images/Left.svg) !important;
+
+}
+.forimgtabA{
+  width: 60%;
+  padding: 0px 125px 0px 125px;
+}
+.scrollref::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Enable smooth scrolling for mobile/tablets */
+.scrollref {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Disable touch scrolling on larger screens (laptop and up) */
+@media (min-width: 1024px) {
+  .scrollref {
+    -webkit-overflow-scrolling: none !important;
+  }
+}
+
+
+
 /* ---------------------forAritist------------------------ */
 .css-11iqm8 {
   display: flex;
@@ -716,8 +810,13 @@ z-index: 2 !important;
     background-image: url(../src/Images/Vjsmalledited.png);  
     height:1000px !important;
     border-radius: 0px;
-
-
+  }
+  .forIdl{
+    display: none;
+  }
+  .gRloacation{
+    width: 30px;
+    height: 30px;
   }
 }
 
