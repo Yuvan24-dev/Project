@@ -910,11 +910,11 @@ display: flex;
 }
 @media (max-width: 1010px){
   .forbrowsecard{
-    width: 108px !important;
+    width: 98px !important;
   }
     .logocard{
       height: 78px !important;
-      width: 108px !important;
+      width: 98px !important;
     }
 }
 @media (max-width: 450px){
