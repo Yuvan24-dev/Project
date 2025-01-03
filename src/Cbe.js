@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import log from "./Images/logo-light.png"
 import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
-import React from 'react';
 import { Navbar, Nav, Container, Button,Carousel,Row,Col,Offcanvas } from 'react-bootstrap';
 import chennaiEV from "../src/Images/ImgB.jpg"
 import VjAunt from "../src/Images/ImgC.jpg"
@@ -23,8 +22,9 @@ import exportD from "../src/Images/Expo-4.png"
 import exportE from "../src/Images/expo-5.png"
 import exportF from "../src/Images/expo-6.jpg"
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'; // Import the toggle icons
-import { Link, Route, Routes } from 'react-router-dom';
-
+import nexting from '../src/Images/Right.svg'
+import previous from '../src/Images/Left.svg'
+import {React,useRef }from 'react';
 
 
 
@@ -468,6 +468,21 @@ const BigPoster=()=>{
 
 
 const Trendingeve=()=>{
+   const scrollRef = useRef(null);
+  
+    // Scroll to the left
+    const scrollLeft = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: -440, behavior: 'smooth' });
+      }
+    };
+  
+    // Scroll to the right
+    const scrollRight = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
+      }
+    };
   return(
     <>
     <Container className='d-flex justify-content-between'> 
@@ -481,244 +496,138 @@ const Trendingeve=()=>{
         View all
         </span>
     </Container>
-     <Container>
-    <Carousel className="lastcorus" controls={true} indicators={true} interval={null}>
-      {/* Carousel Item 1 */}
-      <Carousel.Item>
-      <Row className="d-flex flex-col gap-0 overflow-x-auto">
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>  <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          </Row>
-      </Carousel.Item>
-{/* Carousel2 */}
-      <Carousel.Item>
-      <Row className="d-flex flex-col gap-0 overflow-x-auto">
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>  <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          </Row>
-      </Carousel.Item>
-{/* Carousel3 */}
-      <Carousel.Item>
-      <Row className="d-flex flex-col gap-0 overflow-x-auto">
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>  <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          </Row>
-      </Carousel.Item>
-
-      {/* Carousel Item 4 */}
-      <Carousel.Item>
-      <Row className="d-flex flex-col gap-0 overflow-x-auto">
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>  <Col className='d-inline' xs={4}>
-            <img className="eventcardimg" src={Devevent} alt="Event 1" />
-            <div className="eventBottomcard">
-              <div className="eventcardtitle m-o">Circus X Namas'cray Experience 2024 | NY2025</div>
-              <div className="eventcontent smalltext m-o">
-                <TbCalendarTime size={20} />
-                <span className="smalltext">December 28 | 6PM</span>
-              </div>
-              <div className="eventcontent m-o">
-                <GrLocation />
-                <span className="smalltext">A.M.Jain College Ground, Chennai</span>
-              </div>
-              <div className="cardfooter">
-                <span>₹1999 Onwards</span>
-                <span className="rightcard">buy now</span>
-              </div>
-            </div>
-          </Col>
-          </Row>
-      </Carousel.Item>
-
-          </Carousel>
-    </Container>
+     <Container className='p-0'>
+           <div className="scroll-container position-relative" style={{ position: 'relative' }}>
+           <button className="float-end nexting" onClick={scrollLeft} >
+           <img src={previous} style={{height:'30px'}} />
+           </button>
+             <div
+               ref={scrollRef}
+               className="scrollref"
+               style={{
+                 overflowX: 'auto',
+                 whiteSpace: 'nowrap',
+                 padding: '0px 0',
+                 position: 'relative',
+               }}
+             >
+               <ul className="py-0 d-flex p-0">
+                 {/* Repeat your Col components as you did above for each item */}
+                 <Col xs={4} className="px-2">
+                   <li className="d-inline mr-4 forimgtabA">
+                     <img className="eventcardimg" src={Devevent} alt="Event 1" />
+                     <div className="eventBottomcard">
+                       <div className="eventcardtitle m-o">
+                         Circus X Namas'cray Experience 2024 | NY2025
+                       </div>
+                       <div className="eventcontent smalltext m-o">
+                         <TbCalendarTime size={20} />
+                         <span className="smalltext">December 28 | 6PM</span>
+                       </div>
+                       <div className="eventcontent m-o">
+                         <GrLocation />
+                         <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                       </div>
+                       <div className="cardfooter">
+                         <span>₹1999 Onwards</span>
+                         <span className="rightcard">buy now</span>
+                       </div>
+                     </div>
+                   </li>
+                 </Col>
+                 <Col xs={4} className="px-2">
+                   <li className="d-inline mr-4 forimgtabA">
+                     <img className="eventcardimg" src={Devevent} alt="Event 1" />
+                     <div className="eventBottomcard">
+                       <div className="eventcardtitle m-o">
+                         Circus X Namas'cray Experience 2024 | NY2025
+                       </div>
+                       <div className="eventcontent smalltext m-o">
+                         <TbCalendarTime size={20} />
+                         <span className="smalltext">December 28 | 6PM</span>
+                       </div>
+                       <div className="eventcontent m-o">
+                         <GrLocation />
+                         <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                       </div>
+                       <div className="cardfooter">
+                         <span>₹1999 Onwards</span>
+                         <span className="rightcard">buy now</span>
+                       </div>
+                     </div>
+                   </li>
+                 </Col> <Col xs={4} className="px-2">
+                   <li className="d-inline mr-4 forimgtabA">
+                     <img className="eventcardimg" src={Devevent} alt="Event 1" />
+                     <div className="eventBottomcard">
+                       <div className="eventcardtitle m-o">
+                         Circus X Namas'cray Experience 2024 | NY2025
+                       </div>
+                       <div className="eventcontent smalltext m-o">
+                         <TbCalendarTime size={20} />
+                         <span className="smalltext">December 28 | 6PM</span>
+                       </div>
+                       <div className="eventcontent m-o">
+                         <GrLocation />
+                         <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                       </div>
+                       <div className="cardfooter">
+                         <span>₹1999 Onwards</span>
+                         <span className="rightcard">buy now</span>
+                       </div>
+                     </div>
+                   </li>
+                 </Col> <Col xs={4} className="px-2">
+                   <li className="d-inline mr-4 forimgtabA">
+                     <img className="eventcardimg" src={Devevent} alt="Event 1" />
+                     <div className="eventBottomcard">
+                       <div className="eventcardtitle m-o">
+                         Circus X Namas'cray Experience 2024 | NY2025
+                       </div>
+                       <div className="eventcontent smalltext m-o">
+                         <TbCalendarTime size={20} />
+                         <span className="smalltext">December 28 | 6PM</span>
+                       </div>
+                       <div className="eventcontent m-o">
+                         <GrLocation />
+                         <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                       </div>
+                       <div className="cardfooter">
+                         <span>₹1999 Onwards</span>
+                         <span className="rightcard">buy now</span>
+                       </div>
+                     </div>
+                   </li>
+                 </Col> <Col xs={4} className="px-2">
+                   <li className="d-inline mr-4 forimgtabA">
+                     <img className="eventcardimg" src={Devevent} alt="Event 1" />
+                     <div className="eventBottomcard">
+                       <div className="eventcardtitle m-o">
+                         Circus X Namas'cray Experience 2024 | NY2025
+                       </div>
+                       <div className="eventcontent smalltext m-o">
+                         <TbCalendarTime size={20} />
+                         <span className="smalltext">December 28 | 6PM</span>
+                       </div>
+                       <div className="eventcontent m-o">
+                         <GrLocation />
+                         <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                       </div>
+                       <div className="cardfooter">
+                         <span>₹1999 Onwards</span>
+                         <span className="rightcard">buy now</span>
+                       </div>
+                     </div>
+                   </li>
+                 </Col>
+                 {/* More items... */}
+               </ul>
+             </div>
+             <button className=" nextingl" onClick={scrollRight} >
+               <img src={nexting} style={{height:'30px'}} />
+             </button>
+           </div>
+         </Container>
   </>
   )
 }

@@ -26,6 +26,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import nexting from '../src/Images/Right.svg'
 import previous from '../src/Images/Left.svg'
+import featured from '../src/Images/feature.svg'
+import { LuMusic4 } from "react-icons/lu";
+import { GiVideoConference } from "react-icons/gi";
+import { BsTicketPerforated } from "react-icons/bs";
+
 
 
 
@@ -344,9 +349,21 @@ const Trendingeve = () => {
   };
 
   return (
+    <>
+       <Container className='d-flex justify-content-between allign-item-center'> 
+          <ul className='d-flex m-0'>
+            <li className='d-inline px-1'><button className='forhistorylog'>
+              <MdOutlineLocalFireDepartment size={20} />
+              </button></li>
+              <li className='d-inline'><p className='m-0 eventung'><b>TRENDING EVENTS</b></p></li>
+          </ul>
+            <span lassName=  ' RightBTN m-0 p-0'>
+            View all
+            </span>
+        </Container>
     <Container>
       <div className="scroll-container position-relative" style={{ position: 'relative' }}>
-      <button className="float-end nexting" onClick={scrollLeft} >
+      <button className="float-end nexting d-none d-lg-block" onClick={scrollLeft} >
       <img src={previous} style={{height:'30px'}} />
       </button>
         <div
@@ -355,13 +372,13 @@ const Trendingeve = () => {
           style={{
             overflowX: 'auto',
             whiteSpace: 'nowrap',
-            padding: '10px 0',
+            padding: '0px',
             position: 'relative',
           }}
         >
-          <ul className="py-3 d-flex p-0">
+          <ul className="py-0 d-flex p-0">
             {/* Repeat your Col components as you did above for each item */}
-            <Col xs={4} className="px-2">
+            <Col xs={4} className="px-2 py-0" >
               <li className="d-inline mr-4 forimgtabA">
                 <img className="eventcardimg" src={Devevent} alt="Event 1" />
                 <div className="eventBottomcard">
@@ -383,7 +400,7 @@ const Trendingeve = () => {
                 </div>
               </li>
             </Col>
-            <Col xs={4} className="px-2">
+            <Col xs={4} className="px-2 py-0">
               <li className="d-inline mr-4 forimgtabA">
                 <img className="eventcardimg" src={Devevent} alt="Event 1" />
                 <div className="eventBottomcard">
@@ -404,7 +421,7 @@ const Trendingeve = () => {
                   </div>
                 </div>
               </li>
-            </Col> <Col xs={4} className="px-2">
+            </Col> <Col xs={4} className="px-2 py-0">
               <li className="d-inline mr-4 forimgtabA">
                 <img className="eventcardimg" src={Devevent} alt="Event 1" />
                 <div className="eventBottomcard">
@@ -471,11 +488,12 @@ const Trendingeve = () => {
             {/* More items... */}
           </ul>
         </div>
-        <button className=" nextingl" onClick={scrollRight} >
+        <button className=" nextingl d-none d-lg-block" onClick={scrollRight} >
           <img src={nexting} style={{height:'30px'}} />
         </button>
       </div>
     </Container>
+    </>
   );
 };
 
@@ -489,7 +507,7 @@ const Artist=()=>{
   return(
     <>
     <Container className='d-flex justify-content-between pt-5'> 
-      <ul className='d-flex'>
+      <ul className='d-flex p-0'>
         <li className='d-inline'><button className='forhistorylog'>
           <GrLocation size={20} />
           </button></li>
@@ -520,6 +538,327 @@ const Artist=()=>{
   </>
   )
 }
+const Featuredeve = () => {
+  const scrollRef = useRef(null);
+
+  // Scroll to the left
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -440, behavior: 'smooth' });
+    }
+  };
+
+  // Scroll to the right
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <>
+  <Container className='d-flex justify-content-between allign-item-center pt-5'> 
+          <ul className='d-flex m-0 p-0 px-2'>
+            <li className='d-inline'>
+              <button className='forhistorylog p-1'>
+             <img src={featured} />
+              </button></li>
+              <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Featured events</b></p></li>
+          </ul>
+        </Container>
+    <Container>
+      <div className="scroll-container position-relative" style={{ position: 'relative' }}>
+      <button className="float-end nexting d-none d-lg-block" onClick={scrollLeft} >
+      <img src={previous} style={{height:'30px'}} />
+      </button>
+        <div
+          ref={scrollRef}
+          className="scrollref"
+          style={{
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
+            padding: '0px',
+            position: 'relative',
+          }}
+        >
+  <ul className="py-0 d-flex p-0">
+  <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+  <li className="d-inline mr-4 forimgtabA position-relative">
+    <span className='position-relative'>
+  <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+  {/* <span className='small-indicat position-absolute translate-middle top-2 end-2'>
+    Hello
+  </span> */}
+  </span>
+  <div className="eventBottomcard">
+    <div className="eventcardtitle m-o">
+      Circus X Namas'cray Experience 2024 | NY2025
+    </div>
+    <div className="eventcontent smalltext m-o">
+      <TbCalendarTime size={20} />
+      <span className="smalltext">December 28 | 6PM</span>
+    </div>
+    <div className="eventcontent m-o">
+      <GrLocation />
+      <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+    </div>
+    <div className="cardfooter">
+      <span>₹1999 Onwards</span>
+      <span className="rightcard">buy now</span>
+    </div>
+  </div>
+</li>
+  </Col> 
+  <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+  <li className="d-inline mr-4 forimgtabA">
+    <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+    <div className="eventBottomcard">
+    <div className="eventcardtitle m-o">
+    Circus X Namas'cray Experience 2024 | NY2025
+    </div>
+    <div className="eventcontent smalltext m-o">
+    <TbCalendarTime size={20} />
+    <span className="smalltext">December 28 | 6PM</span>
+    </div>
+   <div className="eventcontent m-o">
+   <GrLocation />
+   <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+    </div>
+    <div className="cardfooter">
+    <span>₹1999 Onwards</span>
+    <span className="rightcard">buy now</span>
+    </div>
+    </div>
+    </li>
+    </Col> 
+    <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+    <li className="d-inline mr-4 forimgtabA">
+                <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+                <div className="eventBottomcard">
+                  <div className="eventcardtitle m-o">
+                    Circus X Namas'cray Experience 2024 | NY2025
+                  </div>
+                  <div className="eventcontent smalltext m-o">
+                    <TbCalendarTime size={20} />
+                    <span className="smalltext">December 28 | 6PM</span>
+                  </div>
+                  <div className="eventcontent m-o">
+                    <GrLocation />
+                    <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                  </div>
+                  <div className="cardfooter">
+                    <span>₹1999 Onwards</span>
+                    <span className="rightcard">buy now</span>
+                  </div>
+                </div>
+              </li>
+            </Col> 
+            <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+            <li className="d-inline mr-4 forimgtabA">
+                <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+                <div className="eventBottomcard">
+                  <div className="eventcardtitle m-o">
+                    Circus X Namas'cray Experience 2024 | NY2025
+                  </div>
+                  <div className="eventcontent smalltext m-o">
+                    <TbCalendarTime size={20} />
+                    <span className="smalltext">December 28 | 6PM</span>
+                  </div>
+                  <div className="eventcontent m-o">
+                    <GrLocation />
+                    <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                  </div>
+                  <div className="cardfooter">
+                    <span>₹1999 Onwards</span>
+                    <span className="rightcard">buy now</span>
+                  </div>
+                </div>
+              </li>
+            </Col>
+            <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+            <li className="d-inline mr-4 forimgtabA">
+                <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+                <div className="eventBottomcard">
+                  <div className="eventcardtitle m-o">
+                    Circus X Namas'cray Experience 2024 | NY2025
+                  </div>
+                  <div className="eventcontent smalltext m-o">
+                    <TbCalendarTime size={20} />
+                    <span className="smalltext">December 28 | 6PM</span>
+                  </div>
+                  <div className="eventcontent m-o">
+                    <GrLocation />
+                    <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                  </div>
+                  <div className="cardfooter">
+                    <span>₹1999 Onwards</span>
+                    <span className="rightcard">buy now</span>
+                  </div>
+                </div>
+              </li>
+            </Col> 
+            <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+            <li className="d-inline mr-4 forimgtabA">
+                <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+                <div className="eventBottomcard">
+                  <div className="eventcardtitle m-o">
+                    Circus X Namas'cray Experience 2024 | NY2025
+                  </div>
+                  <div className="eventcontent smalltext m-o">
+                    <TbCalendarTime size={20} />
+                    <span className="smalltext">December 28 | 6PM</span>
+                  </div>
+                  <div className="eventcontent m-o">
+                    <GrLocation />
+                    <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                  </div>
+                  <div className="cardfooter">
+                    <span>₹1999 Onwards</span>
+                    <span className="rightcard">buy now</span>
+                  </div>
+                </div>
+              </li>
+            </Col>
+            <Col md={5} xs={9} lg={3} className="px-lg-3 px-2 py-0 featured " >
+            <li className="d-inline mr-4 forimgtabA">
+                <img className="featuredcardimg" src={Devevent} alt="Event 1" />
+                <div className="eventBottomcard">
+                  <div className="eventcardtitle m-o">
+                    Circus X Namas'cray Experience 2024 | NY2025
+                  </div>
+                  <div className="eventcontent smalltext m-o">
+                    <TbCalendarTime size={20} />
+                    <span className="smalltext">December 28 | 6PM</span>
+                  </div>
+                  <div className="eventcontent m-o">
+                    <GrLocation />
+                    <span className="smalltext">A.M.Jain College Ground, Chennai</span>
+                  </div>
+                  <div className="cardfooter">
+                    <span>₹1999 Onwards</span>
+                    <span className="rightcard">buy now</span>
+                  </div>
+                </div>
+              </li>
+            </Col>
+            {/* More items... */}
+          </ul>
+        </div>
+        <button className=" nextingl d-none d-lg-block" onClick={scrollRight} >
+          <img src={nexting} style={{height:'30px'}} />
+        </button>
+      </div>
+    </Container>
+    </>
+  );
+};
+const Browseevent = () => {
+  return (
+    <>
+  <Container className='d-flex justify-content-between allign-item-center pb-3 pt-md-1 pt-lg-5'> 
+          <ul className='d-flex m-0 p-0 px-2'>
+            <li className='d-inline'>
+              <button className='forhistorylog p-1'>
+             <img src={featured} />
+              </button></li>
+              <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Featured events</b></p></li>
+          </ul>
+        </Container>
+    <Container>
+     <ul className='d-flex utilitybrowser gap-4 gap-md-4 gap-lg-4 gap-xl-5 '>
+     <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mr-md-1'>
+     <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <LuMusic4 size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mx-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <GiVideoConference size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>    
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mr-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <BsTicketPerforated size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>     
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mx-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <BsTicketPerforated size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mr-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <LuMusic4 size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>      
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mx-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <LuMusic4 size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>      
+      <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mr-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <BsTicketPerforated size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>     
+     <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mx-md-1'>
+      <li className='forbrowsecard text-decoration-none px-1'>
+        <span className='logocard'>
+      <LuMusic4 size={55} />
+      </span>
+      <div className='dibrows'>
+        <p className='browseinghead text-center'>Music</p>
+        <p className='browseingpara text-center'>5 events</p>
+      </div>
+      </li>
+      </Col>     
+      </ul>
+    </Container>
+    </>
+  );
+};
 const ChennaiPg=()=>{
 return(
     <>
@@ -533,6 +872,8 @@ return(
           <BigPoster />
           <Trendingeve />
           <Artist />
+          <Featuredeve />
+          <Browseevent />
     </>
 )
 }

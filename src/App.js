@@ -13,6 +13,8 @@ import ChennaiPg from './Chennai';
 import Cbepg from './Cbe';
 import MumbaiPg from './Mumbai';
 import { LiaTimesSolid } from "react-icons/lia";
+import blacklogo from '../src/Images/Black-logo.png'
+import ticketimg from '../src/Images/ticket.svg'
 
 
 
@@ -200,20 +202,49 @@ function CustomNavbar() {
         </Container>
       </Navbar>
 
-      <Offcanvas className="forShowcase"  show={showMenu} onHide={toggleMenu} placement="start" style={{ width: '90%', backgroundColor: 'white' }}>
-     <Offcanvas.Body className='FornavB'>
-    <Container>
-      <div style={{width:'20%,'}}>
-      <img
-      src={log}
-      alt="Logo"
-      className=''
-      />
-     <LiaTimesSolid />
+      <Offcanvas className="forShowcase" show={showMenu} onHide={toggleMenu} placement="start" style={{ width: '90%', backgroundColor: 'white' }}>
+  <Offcanvas.Body className='FornavB px-0'>
+    <div className='forbodystyle'>
+    <Container   >
+      {/* First div: Image and Logo */}
+      <div style={{ width: '100%'}}>
+        <img className='p-0 css-bcefdw' src={blacklogo} alt="Logo"/>
+        <LiaTimesSolid size={27} style={{ cursor: 'pointer',float:'right' }} onClick={toggleMenu} />
       </div>
+      
+      {/* Second div: Text */}
+      <div style={{ marginTop: '20px' }}>
+        <h3>Uvan Madix</h3>
+        <p>Uvanmadix6@gmail.com</p>
+      </div>
+
+      {/* Third div: Two Buttons */}
+      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+        <button className='toggler-B-style'>
+          <span className='toggler-B-style-log'>₹</span>
+          <span className='toggler-B-style-text px-1'>balance</span>
+        </button>
+        <button className='toggler-B-style'>
+          <span className='toggler-B-style-log'><GrLocation size={18} /></span>
+          <span className='toggler-B-style-text px-1'>{dropdata}</span>
+        </button>
+      </div>
+      <div className='d-flex allign-item-center py-4'>
+        <img className='togler-ticket' src={ticketimg}  />
+        <p  className='togler-ticket-style'>Tickets</p>
+        </div>
+    </Container>
+    </div>
+    <Container className='px-4 '>
+    <ul className='p-0 py-3 list-unstyled'>
+      <li className='togler-ticket-style py-2'>Edit profile</li>
+      <li className='togler-ticket-style py-2'>About</li>
+      <li className='togler-ticket-style py-2' >Help</li>
+      <li className='togler-ticket-style py-2'>Sign out</li>
+    </ul>
     </Container>
   </Offcanvas.Body>
-   </Offcanvas>
+</Offcanvas>
      
     </>
   );
