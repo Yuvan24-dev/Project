@@ -15,6 +15,7 @@ import MumbaiPg from './Mumbai';
 import { LiaTimesSolid } from "react-icons/lia";
 import blacklogo from '../src/Images/Black-logo.png'
 import ticketimg from '../src/Images/ticket.svg'
+import { Buypage } from './Buypage';
 
 
 
