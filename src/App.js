@@ -4,7 +4,7 @@ import log from "./Images/logo-light.png"
 import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
 import React from 'react';
-import { Navbar, Nav, Container, Button,Carousel,Row,Col,Offcanvas } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button,Offcanvas } from 'react-bootstrap';
 import { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'; // Import the toggle icons
 import { Link, Route, Routes } from 'react-router-dom';
@@ -15,7 +15,6 @@ import MumbaiPg from './Mumbai';
 import { LiaTimesSolid } from "react-icons/lia";
 import blacklogo from '../src/Images/Black-logo.png'
 import ticketimg from '../src/Images/ticket.svg'
-import { Buypage } from './Buypage';
 
 
 
@@ -231,7 +230,7 @@ function CustomNavbar() {
         </button>
       </div>
       <div className='d-flex allign-item-center py-4'>
-        <img className='togler-ticket' src={ticketimg}  />
+        <img className='togler-ticket' src={ticketimg} alt='toggler'  />
         <p  className='togler-ticket-style'>Tickets</p>
         </div>
     </Container>

@@ -22,162 +22,6 @@ import exportC from "../src/Images/Expo-3.jpg"
 import exportD from "../src/Images/Expo-4.png"
 import exportE from "../src/Images/expo-5.png"
 import exportF from "../src/Images/expo-6.jpg"
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa'; // Import the toggle icons
-import { Link, Route, Routes } from 'react-router-dom';
-
-
-
-
-
-
-function CustomNavbar() {
-  // State to control the visibility of the dropdown
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // Toggle function to show or hide the dropdown
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-
-  const [dropdata, setDropdata]=useState('coimbatore');
-
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const updateLocation = (newLocation) => {
-    setDropdata(newLocation);
-    setDropdownOpen(false); // Hide dropdown after selection
-  };
-  const locations = [
-    'Coimbatore', 'Chennai', 'Bangalore', 'Mumbai', 'Delhi'
-  ];
-  
-  const filteredLocations = locations.filter(location =>
-    location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  
-  return (
-    <>
-      {/* Original Navbar */}
-      <Navbar collapseOnSelect expand="lg" variant="light" sticky="top" className="w-100 there_you_go px-2 py-0">
-        <Container fluid className="p-0 px-0">
-          <div className="d-flex align-items-center p-0">
-          
-            <Navbar.Brand className='px-1 mb-1 position-relative' href="#home">
-              <img
-                className='forlogo position-absoulte top-0 p-0'
-                src={log}
-                alt="Logo"
-              />
-              <Button style={{ width: "205px" }} variant="link" className="location_botton align-item-center px-3 d-none d-lg-inline">
-                <GrLocation className='dumlo' size={24} style={{ float: "left", color: "white", strokeWidth: "5" }} />
-                <div className='location_anchour m-0' style={{ float: "right" }}>Event in Coimbatore</div>
-              </Button>
-            </Navbar.Brand>
-          </div>
-          <Nav className="ms-auto d-flex align-items-center"></Nav>
-
-          <Nav className="ms-auto ">
-            <Nav.Link className=" d-flex flex-colum">
-              <Button
-                style={{ width: '129px' }}
-                className="pointer-events-none location_bottonRR location_botton d-none d-xxl-inline"
-                variant="outline-primary"
-              >
-                <p className="location_anchour" style={{ fontSize: '14px' }}>
-                  List your event
-                </p>
-              </Button>
-              <Button
-                style={{ width: '125px' }}
-                className="pointer-events-none location_bottonRR location_botton mx-2  d-none d-xxl-inline"
-                variant="outline-primary"
-              >
-                <p style={{ fontSize: '14px' }} className="location_anchour">
-                  Work with us
-                </p>
-              </Button>
-              <Button className="forSearch d-none d-md-inline mx-3  ">
-                <span>
-                  <GoSearch size={22} className='searchingTr' />
-                </span>
-              </Button>
-              <Button
-      variant="outline-primary"
-      className="d-flex gap-1 location_botton location_bottonR forChatref mt-0 m-0 position-relative"
-      onClick={toggleDropdown} // Trigger the dropdown
-    >
-      <GrLocation className='mr-1' size={21} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
-      <p className="location_anchour Dummy-location d-none d-sm-inline mb-2" style={{ fontSize: '15px' }}>
-        {dropdata}
-      </p>
-      
-      {/* Toggle icon */}
-      {dropdownOpen ? (
-        <FaAngleUp className="ml-auto mt-1" size={21} style={{ color: 'white' }} />
-      ) : (
-        <FaAngleDown className="ml-auto mt-1" size={21} style={{ color: 'white' }} />
-      )}     
-    </Button>
-
-    {dropdownOpen && (
-        <div className="location-dropdown">
-          {/* Search input */}
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search locations..."
-          />
-          
-          {/* Filtered location list */}
-          <ul >
-            {filteredLocations.length > 0 ? (
-              filteredLocations.map((location, index) => (
-                <li
-                  key={index}
-                  className="list-group-item"
-                  onClick={() => updateLocation(location)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {location}
-                </li>
-              ))
-            ) : (
-              <li className="list-group-item">No results found</li>
-            )}
-          </ul>
-        </div>
-      )}            
-            </Nav.Link>
-          </Nav>
-          <Nav.Link className="d-none d-lg-block ">
-            <Button
-              variant="outline-primary"
-              className="forSearch   d-flex justify-content-center align-items-center no-hover "
-              style={{ width: '40px', height: '40px' }}
-            >
-              <p className="location_anchour mt-3" style={{ fontSize: '15px' }}>
-                UM
-              </p>
-            </Button>
-          </Nav.Link>
-
-        </Container>
-      </Navbar>
-
-      <Offcanvas className="forShowcase"  show={false} onHide={() => {}} placement="start" style={{ width: '80%', backgroundColor: 'white' }}>
-        <Offcanvas.Body>
-          <Nav className="flex-column forShowcase"></Nav>
-        </Offcanvas.Body>
-      </Offcanvas>
-     
-    </>
-  );
-}
 
 const Adbanner =()=>{
   return(
@@ -186,10 +30,6 @@ const Adbanner =()=>{
  </Container>
   );
 };
-
-
-
-
 const CustomCarousel = () => {
   return (
     <>
@@ -283,21 +123,21 @@ const CustomCarousel = () => {
         <img
           className="img-fluid imgDimming imgMainstyle"
           src={NeedTalk}
-          alt="Third slide - Image 1"
+          alt="Third slide"
         />
       </Col>
       <Col md={4} className="imgMainstyle px-1">
         <img
           className="img-fluid imgMainstyle"
           src={Paddy}
-          alt="Third slide - Image 2"
+          alt="Third slide"
         />
       </Col>
       <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
           src={VjAunt}
-          alt="Third slide - Image 3"
+          alt="Third slide"
         />
       </Col>
     </Row>
@@ -310,21 +150,21 @@ const CustomCarousel = () => {
         <img
           className="img-fluid imgDimming imgMainstyle"
           src={Paddy}
-          alt="Third slide - Image 1"
+          alt="Third slide"
         />
       </Col>
       <Col md={4} className="imgMainstyle px-1">
         <img
           className="img-fluid imgMainstyle"
           src={VjAunt}
-          alt="Third slide - Image 2"
+          alt="Third slide"
         />
       </Col>
       <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
           src={chennaiEV}
-          alt="Third slide - Image 3"
+          alt="Third slide"
         />
       </Col>
     </Row>
@@ -354,7 +194,7 @@ const Nxttocourousal = () =>{
       <div className="pt-0">
         <ul className="d-flex m-0 m-auto pt-5 overflow-x-auto">
           <li xs={4} className="d-flex Fortablets px-0">
-            <img className="nextTocourousal m=1" src={Devevent} />
+            <img className="nextTocourousal m=1" src={Devevent} alt='nettocourousel' />
             <div className="contentfor">
               <p className="d-block mt-2 px-3">
                 <b>Vibe With Deva</b>
