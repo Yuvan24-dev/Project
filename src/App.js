@@ -15,7 +15,9 @@ import MumbaiPg from './Mumbai';
 import { LiaTimesSolid } from "react-icons/lia";
 import blacklogo from '../src/Images/Black-logo.png'
 import ticketimg from '../src/Images/ticket.svg'
-
+import { Buypage } from './Buypage';
+import { Seating } from './Seatselect';
+import ReactDOM from 'react-dom';
 
 
 
@@ -53,6 +55,13 @@ function CustomNavbar() {
     setSearchTerm(event.target.value);
   };
   
+
+  
+
+  
+  
+
+  
   return (
     <>
       {/* Original Navbar */}
@@ -78,7 +87,7 @@ function CustomNavbar() {
           </div>
           <Nav className="ms-auto d-flex align-items-center"></Nav>
 
-          <Nav className="ms-auto ">
+          <Nav className="ms-auto position-relative ">
             <Nav.Link className=" d-flex flex-colum">
               <Button
                 style={{ width: '129px' }}
@@ -103,88 +112,101 @@ function CustomNavbar() {
                   <GoSearch size={22} className='searchingTr' />
                 </span>
               </Button>
-              <Button
-      variant="outline-primary"
-      className="d-flex gap-1 location_botton location_bottonR forChatref mt-0 m-0 position-relative"
-      onClick={toggleDropdown} // Trigger the dropdown
-    >
-      <GrLocation className='mr-1 gRloacation' size={21} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
-      <p className="location_anchour Dummy-location d-none d-sm-inline mb-2" style={{ fontSize: '15px' }}>
-        {dropdata}
-      </p>
-      
-      {/* Toggle icon */}
-      {dropdownOpen ? (
-        <FaAngleUp className="ml-auto mt-1 forIdl" size={21} style={{ color: 'white' }} />
-      ) : (
-        <FaAngleDown className="ml-auto mt-1 forIdl" size={21} style={{ color: 'white' }} />
-      )}     
-    </Button>
+{/* ----------------------------------dropdown button--------------------------------------------------- */}
+<Button
+        variant="outline-primary"
+        className="d-flex gap-1 location_botton location_bottonR forChatref mt-0 m-0 position-relative"
+        onClick={toggleDropdown}
+      >
+        <GrLocation className="mr-1 gRloacation" size={21} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
+        <p className="location_anchour Dummy-location d-none d-sm-inline mb-2" style={{ fontSize: '15px' }}>
+          {dropdata}
+        </p>
+        {dropdownOpen ? (
+          <FaAngleUp className="ml-auto mt-1 forIdl" size={21} style={{ color: 'white' }} />
+        ) : (
+          <FaAngleDown className="ml-auto mt-1 forIdl" size={21} style={{ color: 'white' }} />
+        )}
+      </Button>
 
-    {dropdownOpen && (
-        <div className="location-dropdown">
-          {/* Search input */}
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search locations..."
-          />
-          
-          {/* Filtered location list */}
-          <ul>
-  {filteredLocations.length > 0 ? (
-    <>
-    <Link to='/coimbatore' className='list-group-item'>
-      <li
-        className="list-group-item"
-        onClick={() => updateLocation('Coimbatore')}
-        style={{ cursor: 'pointer' }}
-      >
-        Coimbatore
-      </li>
-      </Link>
-      <Link to='/Chennai' className='list-group-item'>
-      <li
-        className="list-group-item"
-        onClick={() => updateLocation('Chennai')}
-        style={{ cursor: 'pointer' }}
-      >
-        Chennai
-      </li>
-      </Link>
-      <Link to='/Bangalore' className='list-group-item' >
-      <li
-        className="list-group-item"
-        onClick={() => updateLocation('Bangalore')}
-        style={{ cursor: 'pointer' }}
-      >
-        Bangalore
-      </li>
-      </Link>
-      <Link to='/mumbai' className='list-group-item'>
-      <li
-        className="list-group-item"
-        onClick={() => updateLocation('Mumbai')}
-        style={{ cursor: 'pointer' }}
-      >
-        Mumbai
-      </li>
-      </Link>
-      <li
-        className="list-group-item"
-        onClick={() => updateLocation('Delhi')}
-        style={{ cursor: 'pointer' }}
-      >
-        Delhi
-      </li>
-    </>
-  ) : (
-    <li className="list-group-item">No results found</li>
-  )}
-</ul>
-        </div>
-      )}            
+      {/* Use React Portal to render the dropdown outside the Navbar */}
+      {dropdownOpen &&
+        ReactDOM.createPortal(
+          <div
+            className="location-dropdown position-fixed"
+            style={{
+              top: '50px',  
+              right: '0%',
+              zIndex: 9999, 
+              backgroundColor: 'white', 
+              border: '1px solid #ddd', 
+              borderRadius: '5px', 
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', 
+              width: '210px',
+              maxWidth: '300px', 
+            }}
+          >
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Search locations..."
+              style={{ width: '100%', padding: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+            />
+            <ul>
+              {filteredLocations.length > 0 ? (
+                <>
+                  <Link to="/coimbatore" className="list-group-item">
+                    <li
+                      className="list-group-item"
+                      onClick={() => updateLocation('Coimbatore')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Coimbatore
+                    </li>
+                  </Link>
+                  <Link to="/Chennai" className="list-group-item">
+                    <li
+                      className="list-group-item"
+                      onClick={() => updateLocation('Chennai')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Chennai
+                    </li>
+                  </Link>
+                  <Link to="/Bangalore" className="list-group-item">
+                    <li
+                      className="list-group-item"
+                      onClick={() => updateLocation('Bangalore')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Bangalore
+                    </li>
+                  </Link>
+                  <Link to="/mumbai" className="list-group-item">
+                    <li
+                      className="list-group-item"
+                      onClick={() => updateLocation('Mumbai')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Mumbai
+                    </li>
+                  </Link>
+                  <li
+                    className="list-group-item"
+                    onClick={() => updateLocation('Delhi')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Delhi
+                  </li>
+                </>
+              ) : (
+                <li className="list-group-item">No results found</li>
+              )}
+            </ul>
+          </div>,
+          document.body // This renders the dropdown outside the navbar
+        )}
             </Nav.Link>
           </Nav>
           <Nav.Link className="d-none d-lg-block ">
@@ -257,10 +279,19 @@ function App() {
       </Container>   
       <Routes>
         <Route path='/' element={<Cbepg />} />
-        <Route path='/coimbatore' element={<Cbepg />} />
+        <Route path='/coimbatore' element={<Cbepg />} >
+        <Route path='coimbatore/buynow' element={<Buypage />}/>
+        <Route path='coimbatore/selectseat' element={<Seating />}/>
+        </Route> 
         <Route path='/Bangalore' element={<Bangalorepg />}/>
         <Route path='/chennai' element={<ChennaiPg />} />
         <Route path='/mumbai' element={<MumbaiPg />}/>
+      </Routes>
+      <Routes>
+      <Route path='/buynow' element={<Buypage />}/>
+      </Routes>
+      <Routes>
+        <Route path='/buynow/selectseat' element={<Seating />}/>
       </Routes>
        </>
   ); 

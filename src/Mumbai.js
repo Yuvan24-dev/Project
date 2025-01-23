@@ -13,7 +13,6 @@ import { FiChevronRight } from "react-icons/fi";
 import { GrHistory } from "react-icons/gr";
 import { CiMusicNote1 } from "react-icons/ci";
 import { MdOutlineLocalFireDepartment } from "react-icons/md";
-import { useState } from 'react';
 import { TbCalendarTime } from "react-icons/tb";
 import exportA from "../src/Images/Expo-1.webp"
 import exportB from "../src/Images/expo-2.jpg"
@@ -29,15 +28,7 @@ import featured from '../src/Images/feature.svg'
 import { LuMusic4 } from "react-icons/lu";
 import { GiVideoConference } from "react-icons/gi";
 import { BsTicketPerforated } from "react-icons/bs";
-import buysmall from "../src/Images/Buynowimg.png"
-import { FaChevronUp,FaChevronRight,FaChevronDown  } from "react-icons/fa";
-import lanuage from '../src/Images/language.png'
-import devaimg from '../src/Images/Devaround.jpg'
-import rebun from '../src/Images/rebun.svg'
-import timex from '../src/Images/timex.png'
-import info from '../src/Images/info.png'
 import calender from '../src/Images/calender.svg'
-import loacte from '../src/Images/location.svg'
 import mic from "../src/Images/mic.svg"
 
 
@@ -62,7 +53,7 @@ const CustomCarousel = () => {
       <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
-          src={chennaiEV}
+          src={exportA}
           alt="Second slide"
         />
       </Col>
@@ -356,14 +347,16 @@ const Trendingeve = () => {
   return (
     <>
       <Container className='d-flex justify-content-between allign-item-center'>
-        <ul className='d-flex m-0'>
-          <li className='d-inline px-1'><button className='forhistorylog'>
+        <ul className='d-flex  m-0 px-0'>
+          <li className='d-inline px-md-1 px-xs-0 '>
+            <button className='forhistorylogo'>
             <MdOutlineLocalFireDepartment size={20} />
           </button></li>
-          <li className='d-inline'><p className='m-0 eventung'><b>TRENDING EVENTS</b></p></li>
+          <li className='d-inline'>
+            <p className='m-0 mt-2 eventung d-flex allign-item-center '><b>TRENDING EVENTS</b></p></li>
         </ul>
-        <span lassName=' RightBTN m-0 p-0'>
-          View all
+        <span className=' RightBTN m-0 mt-3 p-0'>
+        <p className='m-0 px-2 py-1 RBpara'>View all</p> 
         </span>
       </Container>
       <Container>
@@ -510,7 +503,7 @@ const Artist=()=>{
   return(
     <>
     <Container className='d-flex justify-content-between pt-5'> 
-      <ul className='d-flex'>
+      <ul className='d-flex p-0'>
         <li className='d-inline'><button className='forhistorylog'>
           <GrLocation size={20} />
           </button></li>
@@ -764,7 +757,7 @@ const Browseevent = () => {
             <button className='forhistorylog p-1'>
               <img alt="Img-verified" src={featured} />
             </button></li>
-          <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Featured events</b></p></li>
+          <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Browse events by genre</b></p></li>
         </ul>
       </Container>
       <Container>
@@ -862,174 +855,6 @@ const Browseevent = () => {
     </>
   );
 };
-
-
-
-
-export const Buypage = () => {
-
-  const [showMore, setShowMore] = useState(false);
-
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
-  };
-
-  return (
-    <>
-      <Adbanner />
-      {/* <Container fluid className='px-0 d-flex' style={{ backgroundColor: "rgb(250,250,250)" }}> */}
-        {/* <Row className='css-cm4ea'> */}
-        <Row className='flex justify-content-md-center px-0 px-md-5 mx-0'>
-          <Col xs={12} md={7} className='px-0'>
-            <Col><img alt="Img-verified" className='img-card d-block py-0  py-md-4 ' src={Devevent} /></Col>
-            <Col  md={12} className='ml-3 d-flex allign-item-center justify-content-center' >
-            <Col xs={11} md={12}>
-            <img alt="Img-verified" className='img-small d-block py-4 px-0 px-sm-4 ' src={buysmall} /> 
-            </Col>
-            </Col>
-            <Col className='css-1trzrhm py-0 d-block d-md-none'>
-          <div><h1 className='css-1mg2664 '>Thenisai Thendral Deva Live in Concert - Madurai</h1></div>
-          <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={rebun}/><p  className='css-15yjbxw m-0'>Music</p></div>
-          <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={calender}/><p className='css-15yjbxw m-0'>January 18 | 5:30PM</p></div>
-          <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={loacte}/><p className='css-15yjbxw m-0'>Velammal Global Hospital Ground,Othakadai,<br/>Madurai</p></div>
-          </Col>
-            <Col className='img-small d-block pt-4 p-0' ><h1 className='buyhead'>About the event</h1>  </Col>
-            <div className=' p-0 m-0'>
-            <Col className='d-block py-0 position-relative '>        
-            <p className='buypara mb-1'>
-        Madurai Makkal, get ready to ‘Vibe with Deva’! This January 2025, it’s time for Madurai to witness the<br />
-        Father of Gaana - Devanesan Chokkalingam, fondly called as Thenisai Thendral Deva, who has composed music<br />
-        for more than 400+ films in his 36 years of music career across 4 languages. He truly is a Legend!
-           </p>
-        {/* Show More content */}
-           {showMore && (
-           <>
-          <p className='buypara mb-1'>
-            From composing music for Manasukkeththa Maharasa in 1989 to Super Star Rajinikanth’s upcoming movie<br />
-            Laal Salaam, Deva is considered a god’s gift for this era and more generations to come.
-          </p>
-          <p className='buypara mb-1'>
-            Imagine listening to him singing his all-time hits from movies like Baasha, Arunachalam, Asai, Annamalai,<br />
-            Naerukku Naer, Gajendra, Kushi and so many more - it’s a treat to the ears. His voice is magical, and his<br />
-            tunes are contagious.
-          </p>
-          <p className='buypara mb-1'>
-            This event is curated by Musico along with YR Events to celebrate Deva’s legacy in Tamil Cinema in<br />
-            Madurai.
-          </p>
-        </>
-        )}
-
-        {/* Button to toggle the visibility of extra content */}
-        <div
-        className='position-absolute bottom-3 start-3 d-flex align-items-center border-bottom pb-3 w-100'
-        style={{ cursor: 'pointer', zIndex: 1 }}
-        onClick={toggleShowMore}
-        >
-        <span>{showMore ? 'Show Less' : 'Show More'}</span>
-        <span style={{ marginLeft: "2px" }} className='me-0 float-end'>
-          {showMore ? (
-            <i  className="bi bi-chevron-up"><FaChevronUp /></i> // Change icon for 'Show Less'
-          ) : (
-            <i className="bi bi-chevron-down"><FaChevronDown/></i> // Change icon for 'Show More'
-          )}
-        </span>
-        </div>
-    </Col >
-    </div>
-            <Col  className='img-small d-block pt-5 p-0' >
-            <div className='css-18oep7e'><h4 className='css-18oep7e' >Event Guid</h4>
-             <p className='css-8faiv6'>See all<FaChevronRight/></p>
-            </div>
-            </Col>
-            <Col  className='img-small d-flex pt-4 p-0' >
-            <Col className='css-xl2q3v'>
-            <figure className='css-1t6wkfn'>
-              <img alt="Img-verified" className='lanuagelogo' src={lanuage} />
-            </figure>
-            <div>
-              <p className='m-0 css-i02w7'>Lanuage</p>
-              <p className='m-0 css-16nwea1'>Tamil</p>
-            </div>
-            </Col>  
-            <Col className='css-xl2q3v'>
-            <figure className='css-1t6wkfn'>
-              <img alt="Img-verified" className='lanuagelogo' src={timex} />
-            </figure>
-            <div>
-              <p className='m-0 css-i02w7'>Duration</p>
-              <p className='m-0 css-16nwea1'>4 Hours</p>
-            </div>
-            </Col>             
-            <Col className='css-xl2q3v'>
-            <figure className='css-1t6wkfn'>
-            <img alt="Img-verified" className='lanuagelogo' src={info} />
-
-            </figure>
-            <div>
-              <p className='m-0 css-i02w7'>Best Suited For Ages</p>
-              <p className='m-0 css-16nwea1'>13 yrs & above</p>
-            </div>
-            </Col> 
-            </Col>
-            <Col  className='img-small d-block pt-4 p-0' ><h1 className='buyhead d-block'>Artist</h1>  
-            <Col xs={5} className='d-flex gap-2'>
-            <div className='css-b5jmm8'><img alt="Img-verified" className='css-12voypq' src={devaimg}/></div>
-            <div className="d-flex flex-column justify-content-center" >
-            <p className='d-block m-0 css-16nwea1'>Deva</p>
-            <span className='d-flex'>
-            <p className='d-block m-0  css-i02w788'>About artist <i><FaChevronRight size={14} /></i>
-            </p>
-            </span>
-            </div>
-            </Col>
-            </Col>
-            <Col  className='img-small d-block pt-4 p-0 ' >
-            <h1 className='buyhead d-block m-0'>Venue</h1>  
-            <div className='px-4 py-2  css-1t6pvtk'>
-              <div className='py-2  d-flex justify-content-between'>
-              <Col xs={7} className=' '>
-              <p className='m-0'>Velammal Global Hospital Ground,Othakadai</p>
-              <p className='m-0'>X57X+3PC, Narasingam, Tamil Nadu 625107, India</p>
-              </Col>
-              <Col xs={3} className='d-flex gap-2  flex-end css-d0985y'>
-              <GrLocation />
-              <p className='m-0'>GET DIRECTION</p>
-              </Col>
-              </div>
-            </div>
-            </Col>
-            <Col  className='img-small d-block pt-4 p-0 ' >
-            <div className='px-4 py-2 d-flex justify-content-between css-1t6pvtk '>
-              <Col xs={7} className='py-2 '>
-              <p className='m-0 css-13snml'>Terms & Conditions</p>
-              </Col>
-              <Col xs={1} className='py-2 align-items-center justify-content-center px-5 '>
-              <FaChevronDown className='float-end mx-3' />
-              </Col>
-            </div>
-            </Col> 
-          </Col>
- {/* ------------------------Right Side---------------------------------------------          */}
-          <Col xs={4}  className='rightttttt py-4 '>
-          <Col className='css-1trzrhm py-4'>
-          <div><h1 className='css-1mg2664 '>Thenisai Thendral Deva Live in Concert - Madurai</h1></div>
-          <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={rebun}/><p className='css-15yjbxw m-0'>Music</p></div>
-          <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={calender}/><p className='css-15yjbxw m-0'>January 18 | 5:30PM</p></div>
-          <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={loacte}/><p className='css-15yjbxw m-0'>Velammal Global Hospital Ground,Othakadai,<br/>Madurai</p></div>
-          <hr></hr>
-          <Col className=' d-flex align-items-center justify-content-between '>
-          <p className='css-1rgjqr3 m-0'><span>₹</span> 499 Onwards</p>
-          <Button className='css-1s6w8n3'>BUY NOW</Button>
-          </Col>
-          </Col>
-          </Col>
-        </Row>
-      {/* </Container> */}
-    </>
-  )
-}
-
 export const Weekevent=() =>{
   return(
     <>
@@ -1093,7 +918,7 @@ const ArtistPg = () => {
 
   return (
     <>
-      <Container className='d-flex justify-content-between allign-item-center pt-5'>
+      <Container className='d-flex justify-content-between allign-item-center py-2'>
         <ul className='d-flex m-0 p-0 px-2'>
           <li className='d-inline'>
             <button className='forhistorylog p-1'>
@@ -1101,6 +926,9 @@ const ArtistPg = () => {
             </button></li>
           <li className='d-flex pt-1 allign-item center '><p className='m-0 Featured-text'><b>ARTISTS</b></p></li>
         </ul>
+        <span className=' RightBTN m-0 mt-3 p-0'>
+        <p className='m-0 px-2 py-1 RBpara'>View all</p> 
+        </span>
       </Container>
       <Container>
         <div className="scroll-container position-relative" style={{ position: 'relative' }}>
@@ -1193,7 +1021,6 @@ return(
           <Browseevent />
           <Weekevent />
           <ArtistPg />
-          {/* <Buypage className="py-5" /> */}
     </>
 )
 }

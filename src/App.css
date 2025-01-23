@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .body{
   overflow-x: hidden !important;
 
@@ -5,6 +10,8 @@
 .there_you_go{
   background-color: #0c172f;
   overflow-x: hidden !important;
+  position: relative;
+  z-index: 10;
 }
 .sticky-navbar {
   position: sticky;
@@ -29,7 +36,7 @@
   border: 2px;
   border-color: rgb(72, 72, 72) !important;
   text-decoration: none !important;
-
+  position: relative;
 }
 .location_bottonR {
   border: 1px solid #31c0f0!important;
@@ -98,18 +105,17 @@
   box-shadow: none !important; 
   outline: none;
 }
-.location-dropdown {
-  position: fixed !important;
-  top: 56%; 
-  right: 0 !important;
-  transform: translateY(-50%);
-  width: 15vw; 
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 9999;
-}
+  .location-dropdown {
+    position: sticky;
+    top: 15%; /* Position dropdown directly below the button */
+    right: 0; /* Align it with the left edge of the button */
+    width: 20%; /* Optional: Ensure the dropdown takes up the same width as the button */
+    z-index: 9999; /* Ensure the dropdown appears on top of other content */
+    background-color: #fff; /* Background color for the dropdown */
+    max-height: 300px; /* Optional: Limit the height of the dropdown */
+    overflow-y: auto; /* Optional: Add scroll if there are too many items */
+  }
+
 .location-dropdown ul {
   list-style: none;
   padding: 0;
@@ -218,7 +224,7 @@
   .forBG{
     background-image: url(../src/Images/Vjsmalledited.png);  
     height:1000px !important;
-    border-radius: 0px;
+    border-radius: 0px !important;
   }
   .forIdl{
     display: none;
@@ -259,7 +265,7 @@
   }
   .css-5j26x3 {
     display: block;
-    width: 30%;
+    width: 30% !important;
     height: auto;
     margin: 5px 0px;
   }
@@ -542,6 +548,19 @@ z-index: 2 !important;
     width: 50px;
     height: 50px;
 }
+.forhistorylogo{
+  background: white !important;
+  border: 1px solid rgb(240, 241, 242) !important;
+  border-radius: 100% !important;
+  margin-right: 12px !important;
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+  -webkit-box-align: center !important ;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  width: 50px;
+  height: 50px;
+}
 .forCoulum{
   padding-right: 0px !important;
 }
@@ -554,8 +573,14 @@ z-index: 2 !important;
 .forimgtab{
   margin-right: 20px;
 }
+@media (max-width:325px){
+  .forhistorylogo{
+    width:25px;
+    height: 45px;
+  }
+}
 /* -------------For Big Poster ------------ */
-.forBG{
+.forBG{ 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -602,7 +627,7 @@ z-index: 2 !important;
       font-weight:'500';
 }
 .Bybutton{
-  display: flex;
+      display: flex;
       padding: 6px 15px;
       flex-direction: column;
       -webkit-box-pack: center;
@@ -620,17 +645,20 @@ z-index: 2 !important;
       text-transform: uppercase;
       line-height: 24px !important;
       font-weight: 400 !important;
-      width: 25%;
+      width: 90px;
 }
 /* ------------fOR Trending events------------ */
 .RightBTN {
-  background-color: rgb(255, 255, 255);
-  color: black;
+  background-color: rgb(255, 255, 255) !important;
+  color: black !important;
   text-decoration: none;
-  border: 1px solid rgb(11, 11, 11);
-  border-radius: 5px;
-  width: 66px;
-  height:66px;
+  border: 1px solid rgb(153, 153, 153);
+  border-radius: 5px !important;
+  width: 68px !important;
+  height:29px !important;
+}
+.RBpara{
+  font-size: 13px;
 }
 .eventung{
     overflow: hidden;
@@ -641,7 +669,6 @@ z-index: 2 !important;
     font-family: "Bebas Neue";
     font-size: 28px;
     font-weight: 400;
-    line-height: 100%;
     text-transform: uppercase;
 }
 .eventcard{
@@ -868,14 +895,16 @@ z-index: 2 !important;
   display: flex;
   flex-direction: column;
 }
-.img-card{
+.img-poster{
   width: 100%;
   min-height:100% ;
-  border-radius: 6px ;
+  border-radius: 22px !important;
+}
+.radious{
+  border-radius: 10px !important;
 }
 .img-small{
   width: 100%;
-  /* height:100px !important; */
   border-radius: 2%;
 }
 .buyhead {
@@ -1033,11 +1062,11 @@ z-index: 2 !important;
     line-height: 22px;
 }
 .css-1s6w8n3 {
-    width: 30% !important;
+    width: 100% !important;
     color: white !important;
     text-align: center !important;
     font-size: 21px !important;
-    padding: 8px 18px !important;
+    /* padding: 8px 18px !important; */
     max-height: 42px !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
@@ -1046,10 +1075,67 @@ z-index: 2 !important;
     background-color: rgb(236, 16, 102) !important;
     font-family: "Bebas Neue", sans-serif !important;
 }
-@media (min-width: 320px) and (max-width: 425px) {
-  .img-card {
+.css-uhpxtn {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: unset;
+  flex-direction: row;
+  gap: 12px;
+}
+.css-8c21p0 {
+  right: 0px;
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  width: 68px;
+  height: 28px;
+}
+.css-q4ufnn {
+  font-size: 14px;
+  font-weight: 700;
+}
+.css-14dzj0w {
+  font-size: 12px;
+  color: rgb(85, 93, 109);
+  font-weight: 400;
+  margin-top: 4px;
+}
+.css-13sz9dv {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: unset;
+  flex-direction: row;
+  gap: 8px;
+}
+.css-v8p379 {
+  border-radius: 16px;
+  background: rgb(243, 243, 245);
+}
+.css-4casp6 {
+  position: sticky;
+  bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px -2px 12px 0px;
+  padding: 12px 6vw;
+  z-index: 1;
+  background-color: white;
+}
+
+@media (max-width: 735px) {
+  .img-poster {
     border-radius: 0px !important;
   }
+}
+
+@media(max-width:780px){
+.css-18oep7e,.css-8faiv6 {
+  padding-bottom: 0px;
+}
 }
 /* -------------------For Browse event -------------------------- */
 .forbrowsecard{
@@ -1221,15 +1307,255 @@ display: flex;
         height: 90px;
       }
       }
+/* ---------------------------for small poster----------------- */
+.forSG{
+  height: 500px;
+  background-image: url(../src/Images/smallposter.png);
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  border-radius: 10px;
+}
+@media(max-width:1024px){
+  .forSG{
+    height: 350px;
+  }
+}
+@media(max-width:780px){
+  .forSG{
+    height: 1000px;
+    background-size: cover; 
+    background-image: url(../src/Images/smallposting.png);
+  }
+}
+@media(max-width:435px){
+  .forSG{
+    height: 550px;
+  }
+}
+@media(max-width:380px){
+  .forSG{
+    height: 450px;
+  }
+}
+ /* --------------------------for footer--------------------------------- */
+
+ .fottersectionTl {
+  background: #0c172f;
+  color: white;
+  padding: 60px 0;
+}
+.footerimglogo {
+  width: auto;
+  height: 39px;
+  margin-bottom: 30px;
+}
+.footerpara {
+  font-size: 14px;
+  line-height: 150%;
+}
+.footerhead {
+  color: white;
+  font-size: 21px;
+  font-family: Bebas Neue, sans-serif;
+  font-weight: 400;
+  line-height: 120%;
+  text-transform: uppercase;
+  margin: 30px 0 9px 0;
+}
+.footerunorder {
+  display: inline-block !important;
+  padding-left: 0;
+  list-style-type: none;
+  vertical-align: top;
+  margin-top: 30px;
+}
+.footerlist {
+  font-family: Bebas Neue, sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 100%;
+  display: inline-block;
+  margin: 0 15px 15px 0;
+  color: white;
+  font-size: 16px;
+}
+.footerlog-unorder {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 15px;
+  padding-left: 0;
+  list-style-type: none;
+  vertical-align: top;
+}
+.listitemtext {
+  display: inline-block;
+  margin: 0 15px 15px 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+}
+/* ----------------------for seating--------------------------------- */
+.cls-1 {
+  fill: #c6e6de;
+}
+
+.cls-2 {
+  fill: #e2ecfe;
+}
+
+.cls-3, .cls-4 {
+  isolation: isolate;
+}
 
 
+.cls-5 {
+  fill: #bcbcbc ;
+}
 
+.cls-6 {
+  fill: #000709;
+}
 
+.cls-7 {
+  fill: #cddbff;
+}
 
+.cls-8 {
+  fill: #bcbcbc;
+}
 
+.cls-9 {
+  opacity: .5;
+}
 
+.cls-10 {
+  fill: #0c172f;
+}
 
+.cls-11 {
+  fill: #ffc573;
+}
 
+.cls-4 {
+  opacity: .2;
+}
+
+.cls-12 {
+  fill: #d3e5a5;
+}
+
+.cls-13 {
+  fill: #f9b9b8;
+}
+.seatingsizeing{
+  width: 20%;
+}
+.seathead {
+  display: flex;
+  flex-flow: column wrap;
+  position: sticky;
+  top: 60px;
+  background: white;
+  width: 100%;
+  padding: 15px;
+  z-index: 3;
+  text-align: center;
+  border-bottom: 0.5px solid rgb(231, 232, 234);
+}
+.seatH {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  color: rgb(36, 46, 68);
+}
+.seatpara {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 133%;
+  color: rgb(85, 93, 109);
+  font-variant: no-contextual;
+}
+.css-wevn09 {
+  color: rgb(49, 192, 240);
+}
+.fottermain {
+  background: rgb(255, 255, 255);
+  position: sticky;
+  bottom: 0px;
+  z-index: 2;
+  border-top: 0.5px solid rgb(231, 232, 234);
+  width: 100%;
+}
+.fottercenter {
+  background: rgb(255, 255, 255);
+  border-top: 0.5px solid rgb(231, 232, 234);
+  padding: 15px;
+  max-width: 1020px;
+  margin: 0px auto;
+  -webkit-box-pack: center;
+  place-content: center;
+  z-index: 2;
+  display: flex;
+  max-height: 300px;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+.footerleft {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 6px;
+  min-width: 140px;
+}
+.css-qtu3gz {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 133%;
+  color: #242E44;
+}
+.css-fbehdw {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  overflow-x: scroll;
+}
+.footerbutton {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  display: flex;
+  min-width: 72px;
+  padding: 6px 9px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 3px;
+  border-radius: 12px;
+  border: 0.5px solid rgb(231, 232, 234);
+  line-height: 24px;
+  background: rgb(255, 255, 255);
+  color: rgb(36, 46, 68);
+  margin-left: 15px;
+}
+@media(max-width:430px){
+  .seatingsizeing{
+    width: 100%;
+  }
+}
 
 
 
