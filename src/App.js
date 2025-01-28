@@ -18,8 +18,8 @@ import ticketimg from '../src/Images/ticket.svg'
 import { Buypage } from './Buypage';
 import { Seating } from './Seatselect';
 import ReactDOM from 'react-dom';
-
-
+import { Ticket } from './Ticketslect';
+import { Login } from './Login';
 
 
 
@@ -273,27 +273,30 @@ function CustomNavbar() {
 }
 function App() { 
   return ( 
-    <>
-    <Container fluid className="there_you_go py-0 px-0 sticky-navbar"> 
-      <CustomNavbar /> 
-      </Container>   
-      <Routes>
-        <Route path='/' element={<Cbepg />} />
-        <Route path='/coimbatore' element={<Cbepg />} >
-        <Route path='coimbatore/buynow' element={<Buypage />}/>
-        <Route path='coimbatore/selectseat' element={<Seating />}/>
-        </Route> 
-        <Route path='/Bangalore' element={<Bangalorepg />}/>
-        <Route path='/chennai' element={<ChennaiPg />} />
-        <Route path='/mumbai' element={<MumbaiPg />}/>
-      </Routes>
-      <Routes>
-      <Route path='/buynow' element={<Buypage />}/>
-      </Routes>
-      <Routes>
-        <Route path='/buynow/selectseat' element={<Seating />}/>
-      </Routes>
-       </>
+<>
+  <Container fluid className="there_you_go py-0 px-0 sticky-navbar">
+    <CustomNavbar />
+  </Container>   
+  
+  <Routes>
+    <Route path='/' element={<Cbepg />} />
+    
+    <Route path='/coimbatore' element={<Cbepg />}>
+      {/* <Route path='buynow' element={<Buypage />} />
+      <Route path='selectseat' element={<Seating />} />
+      <Route path='ticket' element={<Ticket />} /> */}
+    </Route>
+
+    <Route path='/Bangalore' element={<Bangalorepg />} />
+    <Route path='/chennai' element={<ChennaiPg />} />
+    <Route path='/mumbai' element={<MumbaiPg />} />
+    
+    <Route path='coimbatore/buynow' element={<Buypage />} />
+    <Route path='coimbatore/buynow/selectseat' element={<Seating />} />
+    <Route path='coimbatore/buynow/selectseat/ticket' element={<Ticket />} />
+    <Route path='coimbatore/buynow/selectseat/ticket/login' element={<Login />} />
+  </Routes>
+</>
   ); 
 } 
 

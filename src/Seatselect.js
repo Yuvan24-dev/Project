@@ -1,9 +1,22 @@
 import './App.css';
 import filter from '../src/Images/filter.svg'
 import { Adbanner } from './Cbe';
+import { useState,useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 export const Seating = ()=>{
+  const [activeSection, setActiveSection] = useState(null);
+
+  useEffect(() => {
+    // Ensure initial load shows all sections with original colors
+    setActiveSection(null);
+  }, []);
+
+  const handleButtonClick = (section) => {
+    setActiveSection(section);
+  };
+
     return(
       <>
       <Adbanner />
@@ -16,45 +29,12 @@ export const Seating = ()=>{
       <div className='d-flex justify-content-center'>
       <div className='seatingsizeing'>
       <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" data-name="Layer 2" viewBox="0 0 715.72 1247.12">
-      <style type="text/css">
-        {`
-          .sect-0{fill:#ffffff;stroke:#373534;stroke-width:3px}
-          .sect-1{fill:#BFE6F3}
-          .sect-2{fill:#D3E5A5}
-          .sect-3{fill:#FFC573}
-          .sect-4{fill:#FF99B3}
-          .sect-5{fill:#EDC7F7}
-          .sect-6{fill:#E2ECFE}
-          .sect-7{fill:#F9B9B8}
-          .sect-8{fill:#CDDBFF}
-          .sect-9{fill:#C6E6DE}
-          .section-seatmap:hover > .sect-1{fill:#9DDDF2}
-          .section-seatmap:hover > .sect-2{fill:#C5DB8C}
-          .section-seatmap:hover > .sect-3{fill:#FAB552}
-          .section-seatmap:hover > .sect-4{fill:#E6809A}
-          .section-seatmap:hover > .sect-5{fill:#D4AEDE}
-          .section-seatmap:hover > .sect-6{fill:#D5DFF1}
-          .section-seatmap:hover > .sect-7{fill:#ECACAB}
-          .section-seatmap:hover > .sect-8{fill:#C3D1F5}
-          .section-seatmap:hover > .sect-9{fill:#BCDCD4}
-          .sold-out{display:none}
-          .last-few{display:none}
-          .popular{display:none}
-          .sold-out-area{fill:#bcbcbc !important; fill-opacity:20% !important;}
-          .sold-out-area:hover{fill:#bcbcbc !important; fill-opacity:20% !important;}
-          .sold-out-label{fill:#bcbcbc !important; fill-opacity:50% !important;}
-          text{font-family:basis-grotesque-pro,Montserrat,sans-serif;font-weight:700;fill:#000;}
-          .pitch{fill:#FFEAC7;stroke:#ffffff;stroke-width:2px}
-          .sold-out-label path { fill:#bcbcbc !important; fill-opacity:50% !important; }
-          .section-label{fill:#000000 !important;}
-        `}
-      </style>
-  
-      <g id="General" data-id="General - Standing" className="section-seatmap">
+      <Link to='ticket'>
+      <g id="General" data-id="General - Standing"className={`svg-section ${activeSection === 'gendrel' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
         <rect id="Sec2" className="section-background sect-2" x="0" y="991.91" width="352.77" height="203.05" rx="11.13" ry="11.13" />
         <rect id="Sec2" data-name="Sec2" className="section-background sect-2" x="362.95" y="991.91" width="352.77" height="203.05" rx="11.13" ry="11.13" />
         
-        <g id="Label" className="section-label">
+        <g id="Label"className={`svg-section ${activeSection === 'gendrel' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`} >
           <path d="M141.82,1073.09c-.34-.62-.8-1.09-1.39-1.42-.59-.32-1.28-.49-2.07-.49-.87,0-1.65.2-2.32.59-.68.39-1.2.96-1.58,1.69-.38.73-.57,1.58-.57,2.53s.19,1.84.58,2.58c.39.73.93,1.3,1.62,1.69.69.39,1.49.59,2.41.59,1.13,0,2.05-.3,2.77-.9.72-.6,1.19-1.43,1.42-2.5h-5.07v-2.26h7.98v2.58c-.2,1.03-.62,1.98-1.27,2.85s-1.48,1.57-2.5,2.1c-1.02.53-2.17.79-3.43.79-1.42,0-2.71-.32-3.85-.96s-2.05-1.53-2.7-2.67-.98-2.44-.98-3.89.33-2.75.98-3.9,1.56-2.04,2.7-2.68,2.43-.96,3.83-.96c1.66,0,3.1.41,4.33,1.21,1.22.81,2.07,1.95,2.53,3.41h-3.4Z" />
           <path d="M150.74,1071.05v3.7h4.96v2.34h-4.96v3.91h5.6v2.41h-8.55v-14.76h8.55v2.41h-5.6Z" />
           <path d="M171.62,1083.4h-2.96l-6.69-10.12v10.12h-2.96v-14.76h2.96l6.69,10.14v-10.14h2.96v14.76Z" />
@@ -70,14 +50,14 @@ export const Seating = ()=>{
           <path d="M571.3,1080.59h-5.87l-.97,2.81h-3.1l5.3-14.76h3.44l5.3,14.76h-3.13l-.97-2.81ZM570.5,1078.23l-2.13-6.17-2.13,6.17h4.27Z" />
           <path d="M580.34,1081.06h4.86v2.34h-7.81v-14.74h2.96v12.4Z" />
         </g>
-      </g>
+      </g></Link>
 
 
 
-  <g id="Gold" data-id="Gold - Seating" class="section-seatmap">
+  <g id="Gold" data-id="Gold - Seating" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <path id="Sec3" class="section-background sect-3" d="M305.73,506.95c-2.19,0-3.96-1.77-3.96-3.96v-106.52H11.74c-6.48,0-11.74,5.26-11.74,11.74v202.32c0,6.48,5.26,11.74,11.74,11.74h329.29c6.48,0,11.74-5.26,11.74-11.74v-103.58h-47.04Z" data-original-title="" title=""></path>
     <path id="Sec3" data-name="Sec3" class="section-background sect-3" d="M703.98,396.46h-290.03v106.52c0,2.19-1.77,3.96-3.96,3.96h-47.05v103.58c0,6.48,5.26,11.74,11.74,11.74h329.29c6.48,0,11.74-5.26,11.74-11.74v-202.32c0-6.48-5.26-11.74-11.74-11.74Z"></path>
-    <g id="Label-2" data-name="Label" class="section-label">
+    <g id="Label-2" data-name="Label" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
       <path d="M159.29,490.06c-.34-.62-.8-1.09-1.39-1.42s-1.28-.49-2.07-.49c-.87,0-1.65.2-2.32.59s-1.2.96-1.58,1.69c-.38.73-.57,1.58-.57,2.53s.19,1.84.58,2.58c.39.73.93,1.3,1.62,1.69.69.39,1.49.59,2.41.59,1.13,0,2.05-.3,2.77-.9.72-.6,1.19-1.43,1.42-2.5h-5.07v-2.26h7.98v2.58c-.2,1.03-.62,1.98-1.27,2.85s-1.48,1.57-2.5,2.1c-1.02.53-2.17.79-3.43.79-1.42,0-2.71-.32-3.85-.96s-2.05-1.53-2.7-2.67-.98-2.44-.98-3.89.33-2.75.98-3.9c.65-1.15,1.56-2.04,2.7-2.68,1.15-.64,2.43-.96,3.83-.96,1.66,0,3.1.4,4.33,1.21,1.22.81,2.07,1.95,2.53,3.41h-3.4Z"></path>
       <path d="M168.29,499.55c-1.15-.65-2.07-1.54-2.75-2.69-.68-1.15-1.01-2.45-1.01-3.9s.34-2.73,1.01-3.88c.68-1.15,1.59-2.04,2.75-2.69,1.15-.65,2.42-.97,3.8-.97s2.66.32,3.81.97c1.15.65,2.06,1.54,2.72,2.69.67,1.15,1,2.44,1,3.88s-.33,2.75-1,3.9c-.67,1.15-1.58,2.05-2.73,2.69-1.15.65-2.42.97-3.8.97s-2.65-.32-3.8-.97ZM174.43,497.28c.68-.4,1.2-.97,1.58-1.72.38-.75.57-1.61.57-2.6s-.19-1.85-.57-2.59c-.38-.74-.91-1.31-1.58-1.7-.68-.39-1.46-.59-2.34-.59s-1.67.2-2.35.59c-.68.39-1.21.96-1.59,1.7-.38.74-.57,1.6-.57,2.59s.19,1.85.57,2.6c.38.75.91,1.32,1.59,1.72.68.4,1.47.6,2.35.6s1.67-.2,2.34-.6Z"></path>
       <path d="M184.78,498.03h4.86v2.34h-7.81v-14.74h2.96v12.4Z"></path>
@@ -88,10 +68,10 @@ export const Seating = ()=>{
       <path d="M563.71,486.54c1.17.61,2.08,1.47,2.72,2.59.64,1.12.96,2.42.96,3.9s-.32,2.77-.96,3.88c-.64,1.11-1.55,1.96-2.72,2.57-1.18.61-2.54.91-4.09.91h-5.15v-14.74h5.15c1.55,0,2.91.3,4.09.91ZM563.11,496.59c.85-.84,1.27-2.03,1.27-3.57s-.42-2.73-1.27-3.6c-.84-.87-2.04-1.3-3.59-1.3h-2.09v9.74h2.09c1.55,0,2.75-.42,3.59-1.27Z"></path>
     </g>
   </g>
-  <g id="Silver" data-id="Silver - Seating" class="section-seatmap">
+  <g id="Silver" data-id="Silver - Seating" className={`svg-section ${activeSection === 'silver' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec5" class="section-background sect-5" x="0" y="632.44" width="352.77" height="189.51" rx="10.75" ry="10.75" data-original-title="" title=""></rect>
     <rect id="Sec5" data-name="Sec5" class="section-background sect-5" x="362.95" y="632.44" width="352.77" height="189.51" rx="10.75" ry="10.75" data-original-title="" title=""></rect>
-    <g id="Label-3" data-name="Label" class="section-label">
+    <g id="Label-3" data-name="Label" className={`svg-section ${activeSection === 'silver' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
       <path d="M146.05,717.93c-.82-.35-1.48-.86-1.95-1.52-.48-.66-.73-1.44-.74-2.34h3.17c.04.61.26,1.08.64,1.44.39.35.92.53,1.59.53s1.23-.17,1.63-.5c.39-.33.59-.76.59-1.3,0-.44-.13-.8-.4-1.08-.27-.28-.6-.5-1-.67-.4-.16-.95-.34-1.66-.54-.96-.28-1.74-.56-2.33-.83-.6-.27-1.11-.69-1.54-1.25-.43-.56-.64-1.3-.64-2.23,0-.87.22-1.63.65-2.28.44-.65,1.05-1.14,1.84-1.49s1.69-.52,2.7-.52c1.52,0,2.76.37,3.71,1.11.95.74,1.47,1.77,1.57,3.09h-3.25c-.03-.51-.24-.93-.64-1.26-.4-.33-.93-.5-1.59-.5-.58,0-1.04.15-1.38.44-.35.3-.52.73-.52,1.29,0,.39.13.72.39.98.26.26.58.47.97.63.39.16.93.35,1.64.56.96.28,1.74.56,2.34.84.61.28,1.13.7,1.56,1.27.44.56.65,1.3.65,2.22,0,.79-.2,1.52-.61,2.2-.41.68-1.01,1.21-1.8,1.62s-1.72.6-2.81.6c-1.03,0-1.95-.18-2.78-.53Z"></path>
       <path d="M159.55,703.57v14.74h-2.96v-14.74h2.96Z"></path>
       <path d="M165.42,715.97h4.86v2.34h-7.81v-14.74h2.96v12.4Z"></path>
@@ -106,10 +86,10 @@ export const Seating = ()=>{
       <path d="M568.97,718.31l-3.25-5.74h-1.39v5.74h-2.96v-14.74h5.53c1.14,0,2.11.2,2.92.6s1.4.94,1.81,1.63.6,1.45.6,2.29c0,.97-.28,1.85-.84,2.63-.56.78-1.4,1.32-2.51,1.62l3.53,5.98h-3.42ZM564.32,710.35h2.47c.8,0,1.4-.19,1.79-.58.39-.39.59-.93.59-1.62s-.2-1.2-.59-1.57c-.39-.37-.99-.56-1.79-.56h-2.47v4.33Z"></path>
     </g>
   </g>
-  <g id="Bronze" data-id="Bronze - Seating" class="section-seatmap">
+  <g id="Bronze" data-id="Bronze - Seating" className={`svg-section ${activeSection === 'bronze' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec7" class="section-background sect-7" x="0" y="832.13" width="352.77" height="149.6" rx="9.55" ry="9.55" data-original-title="" title=""></rect>
     <rect id="Sec7" data-name="Sec7" class="section-background sect-7" x="362.95" y="832.13" width="352.77" height="149.6" rx="9.55" ry="9.55" data-original-title="" title=""></rect>
-    <g id="Label-4" data-name="Label" class="section-label">
+    <g id="Label-4" data-name="Label" className={`svg-section ${activeSection === 'bronze' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
       <path d="M146.94,891.67c.54.68.8,1.45.8,2.32,0,.79-.19,1.48-.58,2.08s-.95,1.07-1.68,1.4c-.73.34-1.6.51-2.6.51h-6.36v-14.74h6.08c1,0,1.86.16,2.59.49.73.32,1.27.77,1.65,1.35.37.58.56,1.23.56,1.96,0,.86-.23,1.58-.69,2.15s-1.07.99-1.83,1.22c.83.16,1.51.57,2.05,1.25ZM139.49,889.33h2.7c.7,0,1.25-.16,1.63-.48.38-.32.57-.77.57-1.36s-.19-1.05-.57-1.37c-.38-.32-.92-.49-1.63-.49h-2.7v3.7ZM144.15,895.07c.4-.34.6-.82.6-1.44s-.21-1.13-.63-1.49c-.42-.36-.99-.54-1.71-.54h-2.91v3.97h2.98c.72,0,1.28-.17,1.68-.51Z"></path>
       <path d="M157.72,897.99l-3.25-5.74h-1.39v5.74h-2.96v-14.74h5.53c1.14,0,2.11.2,2.91.6.8.4,1.4.94,1.81,1.63s.6,1.45.6,2.29c0,.97-.28,1.85-.84,2.63-.56.78-1.4,1.32-2.51,1.62l3.53,5.98h-3.42ZM153.07,890.02h2.47c.8,0,1.4-.19,1.8-.58.39-.39.59-.93.59-1.62s-.2-1.2-.59-1.57c-.39-.37-.99-.56-1.8-.56h-2.47v4.33Z"></path>
       <path d="M166.69,897.16c-1.15-.65-2.07-1.54-2.75-2.69-.68-1.15-1.01-2.45-1.01-3.9s.34-2.73,1.01-3.88c.68-1.15,1.59-2.04,2.75-2.69,1.15-.65,2.42-.97,3.8-.97s2.66.32,3.81.97c1.15.65,2.06,1.54,2.72,2.69.67,1.15,1,2.44,1,3.88s-.33,2.75-1,3.9c-.67,1.15-1.58,2.05-2.73,2.69-1.15.65-2.42.97-3.8.97s-2.65-.32-3.8-.97ZM172.84,894.89c.68-.4,1.2-.97,1.58-1.72.38-.75.57-1.61.57-2.6s-.19-1.85-.57-2.59c-.38-.74-.91-1.31-1.58-1.7-.68-.39-1.46-.59-2.34-.59s-1.67.2-2.35.59c-.68.39-1.21.96-1.59,1.7-.38.74-.57,1.6-.57,2.59s.19,1.85.57,2.6c.38.75.91,1.32,1.59,1.72.68.4,1.47.6,2.35.6s1.67-.2,2.34-.6Z"></path>
@@ -124,10 +104,10 @@ export const Seating = ()=>{
       <path d="M573.83,885.63v3.7h4.96v2.34h-4.96v3.91h5.6v2.41h-8.55v-14.76h8.55v2.41h-5.6Z"></path>
     </g>
   </g>
-  <g id="MIP" data-id="MIP - Seating" class="section-seatmap">
+  <g id="MIP" data-id="MIP - Seating" className={`svg-section ${activeSection === 'mip' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec8" class="section-background sect-8" x="137.31" y="251.79" width="215.45" height="50.23" rx="4.33" ry="4.33" data-original-title="" title=""></rect>
     <rect id="Sec8" data-name="Sec8" class="section-background sect-8" x="362.95" y="251.79" width="215.45" height="50.23" rx="4.33" ry="4.33"></rect>
-    <g id="Label-5" data-name="Label" class="section-label">
+    <g id="Label-5" data-name="Label" className={`svg-section ${activeSection === 'mip' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
       <path d="M261.51,269.24v14.74h-2.96v-9.59l-3.95,9.59h-2.24l-3.97-9.59v9.59h-2.96v-14.74h3.36l4.69,10.96,4.69-10.96h3.34Z"></path>
       <path d="M267.38,269.24v14.74h-2.96v-14.74h2.96Z"></path>
       <path d="M280.49,276.02c-.37.69-.96,1.25-1.75,1.67s-1.8.63-3.01.63h-2.47v5.66h-2.96v-14.74h5.43c1.14,0,2.11.2,2.91.59.8.39,1.4.94,1.81,1.63.4.69.6,1.47.6,2.34,0,.79-.19,1.53-.56,2.22ZM277.41,275.38c.39-.37.59-.9.59-1.57,0-1.44-.8-2.15-2.41-2.15h-2.34v4.29h2.34c.82,0,1.42-.19,1.82-.56Z"></path>
@@ -136,10 +116,10 @@ export const Seating = ()=>{
       <path d="M470.91,276.02c-.37.69-.96,1.25-1.75,1.67s-1.8.63-3.01.63h-2.47v5.66h-2.96v-14.74h5.43c1.14,0,2.11.2,2.91.59.8.39,1.4.94,1.81,1.63.4.69.6,1.47.6,2.34,0,.79-.19,1.53-.56,2.22ZM467.84,275.38c.39-.37.59-.9.59-1.57,0-1.44-.8-2.15-2.41-2.15h-2.34v4.29h2.34c.82,0,1.42-.19,1.82-.56Z"></path>
     </g>
   </g>
-  <g id="Platinum" data-id="Platinum - Seating" class="section-seatmap">
+  <g id="Platinum" data-id="Platinum - Seating" className={`svg-section ${activeSection === 'platinum' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <path id="Sec4" class="section-background sect-4" d="M301.77,375.38c0-2.19,1.77-3.96,3.96-3.96h47.04v-53.4c0-3.21-2.61-5.82-5.82-5.82H94.3c-3.21,0-5.82,2.61-5.82,5.82v62.44c0,3.21,2.61,5.82,5.82,5.82h207.47v-10.9Z" data-original-title="" title=""></path>
     <path id="Sec4" data-name="Sec4" class="section-background sect-4" d="M621.41,312.2h-252.65c-3.21,0-5.82,2.61-5.82,5.82v53.4h47.05c2.19,0,3.96,1.77,3.96,3.96v10.9h207.45c3.21,0,5.82-2.61,5.82-5.82v-62.44c0-3.21-2.61-5.82-5.82-5.82Z"></path>
-    <g id="Label-6" data-name="Label" class="section-label">
+    <g id="Label-6" data-name="Label" className={`svg-section ${activeSection === 'platinum' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
       <path d="M196.52,348.35c-.37.69-.96,1.25-1.75,1.67s-1.8.63-3.01.63h-2.47v5.66h-2.96v-14.74h5.43c1.14,0,2.11.2,2.91.59.8.39,1.4.94,1.81,1.63.4.69.6,1.47.6,2.34,0,.79-.19,1.53-.56,2.22ZM193.45,347.71c.39-.37.59-.9.59-1.57,0-1.44-.8-2.15-2.41-2.15h-2.34v4.29h2.34c.82,0,1.42-.19,1.82-.56Z"></path>
       <path d="M202.13,353.97h4.86v2.34h-7.81v-14.74h2.96v12.4Z"></path>
       <path d="M217.9,353.51h-5.87l-.97,2.81h-3.1l5.3-14.76h3.44l5.3,14.76h-3.13l-.97-2.81ZM217.1,351.14l-2.13-6.17-2.13,6.17h4.27Z"></path>
@@ -245,19 +225,17 @@ export const Seating = ()=>{
       <p className='css-qtu3gz m-0'>Filter stands by</p>
     </div>
     <div className="css-fbehdw scrollref">
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>      
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>     
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
-      <button className="footerbutton">₹799</button>
+      <button className="footerbutton" onClick={() => handleButtonClick('gendrel')}>₹799</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('bronze')}>₹999</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('silver')}>₹1499</button>      
+      <button className="footerbutton"onClick={() => handleButtonClick('gold')}>₹3999</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('silver')}>₹4499</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('bronze,platinum')}>₹4999</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('gendrel')}>₹7999</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('mip')}>₹10000</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('gold')}>₹11999</button>
+      <button className="footerbutton"onClick={() => handleButtonClick('platinum')}>₹14999</button>     
+      <button className="footerbutton"onClick={() => handleButtonClick('mip')}>₹30000</button>
     </div>
   </div>
 </footer>
