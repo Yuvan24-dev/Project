@@ -45,8 +45,10 @@ import imgI from '../src/Artists/imgI.jpg'
 import log from "./Images/logo-light.png"
 import instalogo from "./Images/insta.svg"
 import fblogo from "./Images/fb.svg"
-import { FaXTwitter } from "react-icons/fa6";
-
+import { FaXTwitter } from "react-icons/fa6"
+import {Cart} from './Cart'
+import { Profile } from './Profile'
+import { Login } from './Login';
 
 
 
@@ -1159,6 +1161,9 @@ return(
           <ArtistPg />
           <SmallPoster />
           <Footer />
+          {/* <Cart />
+          <Profile />
+          <Login /> */}
     </>
 )
 }

@@ -282,9 +282,6 @@ function App() {
     <Route path='/' element={<Cbepg />} />
     
     <Route path='/coimbatore' element={<Cbepg />}>
-      {/* <Route path='buynow' element={<Buypage />} />
-      <Route path='selectseat' element={<Seating />} />
-      <Route path='ticket' element={<Ticket />} /> */}
     </Route>
 
     <Route path='/Bangalore' element={<Bangalorepg />} />
