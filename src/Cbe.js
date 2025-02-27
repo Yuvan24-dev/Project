@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
-import { React, useRef } from 'react';
+import { React, useRef, } from 'react';
 import { Container, Button, Carousel, Row, Col,} from 'react-bootstrap';
 import chennaiEV from "../src/Images/ImgA.jpg"
 import VjAunt from "../src/Images/ImgB.jpg"
@@ -49,11 +49,7 @@ import { FaXTwitter } from "react-icons/fa6"
 import {Cart} from './Cart'
 import { Profile } from './Profile'
 import { Login } from './Login';
-
-
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 
 export const Adbanner = () => {
@@ -64,6 +60,21 @@ export const Adbanner = () => {
   );
 };
 const CustomCarousel = () => {
+  const eventDetail = {
+    concertname: "Thenisai Thendral Deva Live in Concert - Madurai",
+    date: "May 19",
+    time: "05:30 PM",
+    location: "Velammal Global Hospital Ground, Othakadai, Madurai",
+  };
+
+  const navigate = useNavigate(); 
+
+  const passValue = (event) => {
+    const queryString = new URLSearchParams(event).toString(); 
+    navigate(`/coimbatore/buynow?${queryString}`);
+
+  };
+
   return (
     <>
 <div className='py-0  '>
@@ -71,26 +82,26 @@ const CustomCarousel = () => {
   {/* Slide 1 */}
   <Carousel.Item className=" py-0 pt-lg-4  pb-lg-5 pb-md-4">
     <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-      <Link to='buynow'>
+      <Col md={4} className="imgMainstyle px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
+          src={VjAunt}
+          alt="Second slide"
+        />
+      </Col>
+      <Col onClick={()=>passValue(eventDetail)} md={4} className="imgMainstyle d-none d-md-inline px-1">
+      <Link to='buynow'>
+        <img
+          className="img-fluid  imgMainstyle"
           src={chennaiEV}
           alt="Second slide"
         />
       </Link>   
       </Col>
-      <Col md={4} className="imgMainstyle px-1">
-        <img
-          className="img-fluid imgMainstyle"
-          src={Devevent}
-          alt="Second slide"
-        />
-      </Col>
       <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
-          src={NeedTalk}
+          src={Devevent}
           alt="Second slide"
         />
       </Col>
@@ -1161,9 +1172,9 @@ return(
           <ArtistPg />
           <SmallPoster />
           <Footer />
-          {/* <Cart />
+          <Cart />
           <Profile />
-          <Login /> */}
+          <Login />
     </>
 )
 }

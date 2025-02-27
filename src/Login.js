@@ -3,10 +3,9 @@ import { Adbanner } from "./Cbe";
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 
-axios.default.withCredentials=true;
 
 export const Login = () => {
-  const [isLogin, setIsLogin] = useState(true); // Toggle between login and register
+  const [isLogin, setIsLogin] = useState(true); 
 
   const { register: registerSignin, handleSubmit: handleSubmitSignin,watch, formState: { errors: errorsSignin,isPassed } } = useForm();
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin ,isValid } } = useForm();
@@ -15,9 +14,9 @@ export const Login = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const onSubmitLogin = async (data) => {
-    // Handle login API call
     setErrorMessage("");
     setSuccessMessage("");
+  
     try {
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
@@ -28,24 +27,29 @@ export const Login = () => {
           username: data.logname,
           password: data.logpassword,
         }),
+        credentials: "include",  
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         setSuccessMessage(result.message || "Login successful");
-      } 
-      else {
+  
+       
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+        }
+      } else {
         const errorResult = await response.json();
         setErrorMessage(errorResult.message || "Invalid credentials");
       }
-    } 
-    catch (error) {
+    } catch (error) {
       setErrorMessage("An error occurred: " + error.message);
     }
   };
-
+  
+// -----------------------------------------------------------------------------------signin----------------------------------------------------------------------
   const onSubmitSignin = async (data) => {
-    // Handle registration API call
+    
     setErrorMessage("");
     setSuccessMessage("");
     try {
@@ -73,9 +77,6 @@ export const Login = () => {
       setErrorMessage("An error occurred: " + error.message);
     }
   };
-
-  // const enabled = !registerLogin.logname || !registerLogin.logpassword
-  // const cenable = errors.
 
   return (
     <>

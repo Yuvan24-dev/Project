@@ -1,24 +1,42 @@
-import { Container,Col,Row } from "react-bootstrap"
-import { Adbanner } from "./Cbe"
-// import confirm from '../src/Images/confirm.svg'
-import dustbin from '../src/Images/dustbin.svg'
-import add from '../src/Images/add.svg'
-import { useState } from "react"
-import tick from '../src/Images/tick.svg'
+import { Container, Col, Row } from "react-bootstrap";
+import { Adbanner } from "./Cbe";
+import dustbin from '../src/Images/dustbin.svg';
+import add from '../src/Images/add.svg';
+import { useState, useContext } from "react";
+import { TotalAmountContext } from './text'; 
+import axios from "axios";
+const API_URL = 'http://localhost:5000/api/cart';
 
 
-export const Cart =()=>{
-
+export const Cart = () => {
   const [step, setStep] = useState(false);  
 
   const handlestep = () => {
     setStep(true); 
   };
 
-
   const handleSectionClick = () => {
     setStep(false); 
   };
+  const { totalAmount } = useContext(TotalAmountContext);
+  const allamt=(totalAmount+294.94)
+
+  // ------------api--------------
+  const getAuthToken = () => localStorage.getItem('token');
+
+    const deleteCartItem = async () => {
+      try {
+          const response = await axios.delete(`${API_URL}/delete`, {
+              headers: { Authorization: `Bearer ${getAuthToken()}` },
+          });
+          alert(response.data.message);
+      } catch (error) {
+          console.error("Error deleting cart:", error);
+          alert("Failed to delete cart");
+      }
+  };
+
+ 
 
     return(
     <>
@@ -48,15 +66,15 @@ export const Cart =()=>{
                       <p className="css-1d6xumx">Thenisai Thendral Deva Live in Concert | Chennai</p>
                       <div className="css-28hpcg">
                         <p className="css-1hxyujb">Group of Friends Pack of 13 - General - Standing (Pay for 10 Get 13)</p>
-                        <img alt="img" src={dustbin}/>
-                      </div>
+                        <img onClick={() => deleteCartItem()} alt="img" src={dustbin} />
+                        </div>
                       <div className="  allign-item-center ref">
                         <div className="d-flex gap-1 float-start">
                           <p className="css-hyx4sn m-0">1</p>
                           <p className="css-1f8zht8 m-0 ">ticket</p>
                         </div>
                         <div className="float-end ">
-                        <p className="css-hyx4sn m-0  ">₹ 7,999.00</p>
+                        <p className="css-hyx4sn m-0  ">₹ {totalAmount}</p>
                         </div>
                       </div>
                       <div>
@@ -84,13 +102,13 @@ export const Cart =()=>{
                       <div className="css-y8drlo"></div>
                       </div>
                       <div className="d-flex justify-content-between py-2">
-                        <p className="css-1kib8t3 m-0">Order Amount</p>
-                        <p className="css-k0axuj m-0">₹ 1,499.00</p>
+                        <p className="css-1kib8t3 m-0">Booking fee</p>
+                        <p className="css-k0axuj m-0">₹ 294.94</p>
                         </div>   
                         <div className="d-flex justify-content-between pt-2">
                         <p className="css-1kib8t3 m-0">Order Amount</p>
                         <div>
-                        <p className="css-k0axuj m-0">₹ 1,499.00</p>
+                        <p className="css-k0axuj m-0">₹ {totalAmount}</p>
                         </div>
                         </div> 
                         <p className="css-xcdy4r mb-0  ">Includes taxes</p>
@@ -101,7 +119,7 @@ export const Cart =()=>{
                       <div className="d-flex justify-content-between px-4 pt-2">
                         <p className="css-1em4cnj m-0">Order Total</p>
                         <div>
-                        <p className="css-1bvvhob m-0">₹ 3,210.26</p>
+                        <p className="css-1bvvhob m-0">{allamt}</p>
                         </div>
                         </div>
                         <div className="px-3">   

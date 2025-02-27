@@ -2,35 +2,51 @@ import './App.css';
 import filter from '../src/Images/filter.svg'
 import { Adbanner } from './Cbe';
 import { useState,useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import {useNavigate  } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 export const Seating = ()=>{
   const [activeSection, setActiveSection] = useState(null);
 
   useEffect(() => {
-    // Ensure initial load shows all sections with original colors
     setActiveSection(null);
   }, []);
-
+//send
   const handleButtonClick = (section) => {
     setActiveSection(section);
   };
-
+  const navigate=useNavigate()
+  const handlenavigate = (amount)=>{
+    navigate(`/coimbatore/buynow/selectseat/ticket?amount=${amount}`)
+  }
+//get
+  const location = useLocation();
+  const queryparams = new URLSearchParams(location.search);
+  
+  let event = Object.fromEntries(queryparams.entries());
+  
+  if (Object.keys(event).length === 0) {
+    const storedData = localStorage.getItem("seatSelection");
+    event = storedData ? JSON.parse(storedData) : {};
+  }
+  
+  useEffect(() => {
+  }, [event]);
+  
     return(
       <>
       <Adbanner />
       <header className='seathead'>
-        <p className='seatH m-0'>Thenisai Thendral Deva Live in Concert | Chennai</p>
+        <p className='seatH m-0'>   </p>
         <p className='seatpara m-0'>
-        15 Feb, 6 PM<span className='css-wevn09 '>•</span>Chennai
+        {event?.concertname || "NA"}, {event?.time || "NA"}<span className='css-wevn09 '>•</span>{event?.location || "NA"} 
         </p>
       </header>
       <div className='d-flex justify-content-center'>
       <div className='seatingsizeing'>
       <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" data-name="Layer 2" viewBox="0 0 715.72 1247.12">
-      <Link to='ticket'>
-      <g id="General" data-id="General - Standing"className={`svg-section ${activeSection === 'gendrel' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+      <g onClick={()=>handlenavigate(799)} id="General" data-id="General - Standing"className={`svg-section ${activeSection === 'gendrel' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
         <rect id="Sec2" className="section-background sect-2" x="0" y="991.91" width="352.77" height="203.05" rx="11.13" ry="11.13" />
         <rect id="Sec2" data-name="Sec2" className="section-background sect-2" x="362.95" y="991.91" width="352.77" height="203.05" rx="11.13" ry="11.13" />
         
@@ -50,11 +66,11 @@ export const Seating = ()=>{
           <path d="M571.3,1080.59h-5.87l-.97,2.81h-3.1l5.3-14.76h3.44l5.3,14.76h-3.13l-.97-2.81ZM570.5,1078.23l-2.13-6.17-2.13,6.17h4.27Z" />
           <path d="M580.34,1081.06h4.86v2.34h-7.81v-14.74h2.96v12.4Z" />
         </g>
-      </g></Link>
+      </g>
 
 
 
-  <g id="Gold" data-id="Gold - Seating" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+  <g onClick={()=>handlenavigate(999)} id="Gold" data-id="Gold - Seating" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <path id="Sec3" class="section-background sect-3" d="M305.73,506.95c-2.19,0-3.96-1.77-3.96-3.96v-106.52H11.74c-6.48,0-11.74,5.26-11.74,11.74v202.32c0,6.48,5.26,11.74,11.74,11.74h329.29c6.48,0,11.74-5.26,11.74-11.74v-103.58h-47.04Z" data-original-title="" title=""></path>
     <path id="Sec3" data-name="Sec3" class="section-background sect-3" d="M703.98,396.46h-290.03v106.52c0,2.19-1.77,3.96-3.96,3.96h-47.05v103.58c0,6.48,5.26,11.74,11.74,11.74h329.29c6.48,0,11.74-5.26,11.74-11.74v-202.32c0-6.48-5.26-11.74-11.74-11.74Z"></path>
     <g id="Label-2" data-name="Label" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
@@ -68,7 +84,7 @@ export const Seating = ()=>{
       <path d="M563.71,486.54c1.17.61,2.08,1.47,2.72,2.59.64,1.12.96,2.42.96,3.9s-.32,2.77-.96,3.88c-.64,1.11-1.55,1.96-2.72,2.57-1.18.61-2.54.91-4.09.91h-5.15v-14.74h5.15c1.55,0,2.91.3,4.09.91ZM563.11,496.59c.85-.84,1.27-2.03,1.27-3.57s-.42-2.73-1.27-3.6c-.84-.87-2.04-1.3-3.59-1.3h-2.09v9.74h2.09c1.55,0,2.75-.42,3.59-1.27Z"></path>
     </g>
   </g>
-  <g id="Silver" data-id="Silver - Seating" className={`svg-section ${activeSection === 'silver' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+  <g onClick={()=>handlenavigate(1499)} id="Silver" data-id="Silver - Seating" className={`svg-section ${activeSection === 'silver' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec5" class="section-background sect-5" x="0" y="632.44" width="352.77" height="189.51" rx="10.75" ry="10.75" data-original-title="" title=""></rect>
     <rect id="Sec5" data-name="Sec5" class="section-background sect-5" x="362.95" y="632.44" width="352.77" height="189.51" rx="10.75" ry="10.75" data-original-title="" title=""></rect>
     <g id="Label-3" data-name="Label" className={`svg-section ${activeSection === 'silver' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
@@ -86,7 +102,7 @@ export const Seating = ()=>{
       <path d="M568.97,718.31l-3.25-5.74h-1.39v5.74h-2.96v-14.74h5.53c1.14,0,2.11.2,2.92.6s1.4.94,1.81,1.63.6,1.45.6,2.29c0,.97-.28,1.85-.84,2.63-.56.78-1.4,1.32-2.51,1.62l3.53,5.98h-3.42ZM564.32,710.35h2.47c.8,0,1.4-.19,1.79-.58.39-.39.59-.93.59-1.62s-.2-1.2-.59-1.57c-.39-.37-.99-.56-1.79-.56h-2.47v4.33Z"></path>
     </g>
   </g>
-  <g id="Bronze" data-id="Bronze - Seating" className={`svg-section ${activeSection === 'bronze' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+  <g onClick={()=>handlenavigate(999)} id="Bronze" data-id="Bronze - Seating" className={`svg-section ${activeSection === 'bronze' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec7" class="section-background sect-7" x="0" y="832.13" width="352.77" height="149.6" rx="9.55" ry="9.55" data-original-title="" title=""></rect>
     <rect id="Sec7" data-name="Sec7" class="section-background sect-7" x="362.95" y="832.13" width="352.77" height="149.6" rx="9.55" ry="9.55" data-original-title="" title=""></rect>
     <g id="Label-4" data-name="Label" className={`svg-section ${activeSection === 'bronze' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
@@ -104,7 +120,7 @@ export const Seating = ()=>{
       <path d="M573.83,885.63v3.7h4.96v2.34h-4.96v3.91h5.6v2.41h-8.55v-14.76h8.55v2.41h-5.6Z"></path>
     </g>
   </g>
-  <g id="MIP" data-id="MIP - Seating" className={`svg-section ${activeSection === 'mip' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+  <g onClick={()=>handlenavigate(10000)} id="MIP" data-id="MIP - Seating" className={`svg-section ${activeSection === 'mip' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <rect id="Sec8" class="section-background sect-8" x="137.31" y="251.79" width="215.45" height="50.23" rx="4.33" ry="4.33" data-original-title="" title=""></rect>
     <rect id="Sec8" data-name="Sec8" class="section-background sect-8" x="362.95" y="251.79" width="215.45" height="50.23" rx="4.33" ry="4.33"></rect>
     <g id="Label-5" data-name="Label" className={`svg-section ${activeSection === 'mip' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
@@ -116,7 +132,7 @@ export const Seating = ()=>{
       <path d="M470.91,276.02c-.37.69-.96,1.25-1.75,1.67s-1.8.63-3.01.63h-2.47v5.66h-2.96v-14.74h5.43c1.14,0,2.11.2,2.91.59.8.39,1.4.94,1.81,1.63.4.69.6,1.47.6,2.34,0,.79-.19,1.53-.56,2.22ZM467.84,275.38c.39-.37.59-.9.59-1.57,0-1.44-.8-2.15-2.41-2.15h-2.34v4.29h2.34c.82,0,1.42-.19,1.82-.56Z"></path>
     </g>
   </g>
-  <g id="Platinum" data-id="Platinum - Seating" className={`svg-section ${activeSection === 'platinum' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
+  <g onClick={()=>handlenavigate(14999)} id="Platinum" data-id="Platinum - Seating" className={`svg-section ${activeSection === 'platinum' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
     <path id="Sec4" class="section-background sect-4" d="M301.77,375.38c0-2.19,1.77-3.96,3.96-3.96h47.04v-53.4c0-3.21-2.61-5.82-5.82-5.82H94.3c-3.21,0-5.82,2.61-5.82,5.82v62.44c0,3.21,2.61,5.82,5.82,5.82h207.47v-10.9Z" data-original-title="" title=""></path>
     <path id="Sec4" data-name="Sec4" class="section-background sect-4" d="M621.41,312.2h-252.65c-3.21,0-5.82,2.61-5.82,5.82v53.4h47.05c2.19,0,3.96,1.77,3.96,3.96v10.9h207.45c3.21,0,5.82-2.61,5.82-5.82v-62.44c0-3.21-2.61-5.82-5.82-5.82Z"></path>
     <g id="Label-6" data-name="Label" className={`svg-section ${activeSection === 'platinum' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
@@ -230,7 +246,6 @@ export const Seating = ()=>{
       <button className="footerbutton"onClick={() => handleButtonClick('silver')}>₹1499</button>      
       <button className="footerbutton"onClick={() => handleButtonClick('gold')}>₹3999</button>
       <button className="footerbutton"onClick={() => handleButtonClick('silver')}>₹4499</button>
-      <button className="footerbutton"onClick={() => handleButtonClick('bronze,platinum')}>₹4999</button>
       <button className="footerbutton"onClick={() => handleButtonClick('gendrel')}>₹7999</button>
       <button className="footerbutton"onClick={() => handleButtonClick('mip')}>₹10000</button>
       <button className="footerbutton"onClick={() => handleButtonClick('gold')}>₹11999</button>

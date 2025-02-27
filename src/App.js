@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import log from "./Images/logo-light.png"
 import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
-import React from 'react';
 import { Navbar, Nav, Container, Button,Offcanvas } from 'react-bootstrap';
 import { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'; // Import the toggle icons
@@ -20,11 +19,16 @@ import { Seating } from './Seatselect';
 import ReactDOM from 'react-dom';
 import { Ticket } from './Ticketslect';
 import { Login } from './Login';
+// import AuthProvider from './logincontext';
+import { Cart } from './Cart';
+import { TotalAmountProvider } from './text'; 
+import { Ogamount } from './Ticketslect';
+import { DetailProvider } from './Buypage';
 
 
+const App = () => {
 
 
-function CustomNavbar() {
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -54,6 +58,7 @@ function CustomNavbar() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
   
 
   
@@ -268,33 +273,34 @@ function CustomNavbar() {
   </Offcanvas.Body>
 </Offcanvas>
      
+
+
+
+
+{/* <AuthProvider> */}
+<Ogamount value={0}>
+      <TotalAmountProvider value={0}>
+        <Routes>
+          <Route path="/" element={<Cbepg />} />
+          <Route path="/coimbatore" element={<Cbepg />} />
+          <Route path="/Bangalore" element={<Bangalorepg />} />
+          <Route path="/chennai" element={<ChennaiPg />} />
+          <Route path="/mumbai" element={<MumbaiPg />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route path="coimbatore/buynow" element={<Buypage />} /> 
+          <Route path="coimbatore/buynow/selectseat" element={<Seating />} />
+          <Route path="coimbatore/buynow/selectseat/ticket"element={<Ticket />}/>
+          <Route path="coimbatore/buynow/selectseat/ticket/cart"element={<Cart />}/>
+        </Routes>
+      </TotalAmountProvider>
+      </Ogamount>
+
+    {/* </AuthProvider> */}
     </>
   );
 }
-function App() { 
-  return ( 
-<>
-  <Container fluid className="there_you_go py-0 px-0 sticky-navbar">
-    <CustomNavbar />
-  </Container>   
-  
-  <Routes>
-    <Route path='/' element={<Cbepg />} />
-    
-    <Route path='/coimbatore' element={<Cbepg />}>
-    </Route>
 
-    <Route path='/Bangalore' element={<Bangalorepg />} />
-    <Route path='/chennai' element={<ChennaiPg />} />
-    <Route path='/mumbai' element={<MumbaiPg />} />
-    
-    <Route path='coimbatore/buynow' element={<Buypage />} />
-    <Route path='coimbatore/buynow/selectseat' element={<Seating />} />
-    <Route path='coimbatore/buynow/selectseat/ticket' element={<Ticket />} />
-    <Route path='coimbatore/buynow/selectseat/ticket/login' element={<Login />} />
-  </Routes>
-</>
-  ); 
-} 
+
 
 export default App;
