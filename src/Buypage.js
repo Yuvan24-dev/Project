@@ -52,21 +52,21 @@ export const Buypage = () => {
   
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
-    const event = Object.fromEntries(queryparams.entries());
+    let event = Object.fromEntries(queryparams.entries()); 
+    
+    if (Object.keys(event).length === 0) {
+      const storedData = localStorage.getItem("eventdetails");
+      event = storedData ? JSON.parse(storedData) : {};
+    }
 
 
 
     const goToSeatSelection = (children) => {
-      if (!children || Object.keys(children).length === 0) {
-        console.warn("No query parameters available");
-        return;
-      }
-          const queryString = new URLSearchParams(Object.entries(children)).toString();
+
+      const queryString = new URLSearchParams(Object.entries(children)).toString();
       
       localStorage.setItem("seatSelection", JSON.stringify(children));
-    
-      console.log("Navigating with query:", queryString);
-      
+          
       navigate(`/coimbatore/buynow/selectseat?${queryString}`);
     };
     
@@ -74,7 +74,7 @@ export const Buypage = () => {
 
     return (
       <>
-        <div fluid className='forADbanner py-0 px-0'>
+        <div  className='forADbanner py-0 px-0'>
       insider.in has a new home.
        </div>
           <Row className='flex justify-content-md-center px-0 px-lg-5 mx-0 pb-0 pb-lg-5'>

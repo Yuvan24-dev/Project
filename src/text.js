@@ -6,7 +6,12 @@ export const TotalAmountContext = createContext();
 
 export const TotalAmountProvider = ({ children }) => {
 
-const { ticketamount }=useContext(Actamount);
+const { event }=useContext(Actamount);
+console.log(event)
+
+const  ticketamount = event.ogamt;
+const seattype=event.seattype;
+const concertname = event.concertname;
 
 const familypack=(ticketamount * 3);
 
@@ -18,6 +23,8 @@ const familypack=(ticketamount * 3);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [individualTicketPrice,setIndividualTicketPrice] = useState(ticketamount);
   const [familyPackPrice,setFamilyPackPrice] = useState(familypack);
+  const[tickettype,setTickettype]=useState(" ");
+
 
  
   const totalAmount = (ticket * individualTicketPrice) + (token * familyPackPrice);
@@ -57,12 +64,14 @@ const familypack=(ticketamount * 3);
     setIsClicked(true);
     setTicket(1);
     setIndividualTicketPrice(ticketamount)
+    setTickettype("Phase 1 - Seating")
   };
 
   const handlebutton = () => {
     setIsEnabled(true);
     setToken(1);
     setFamilyPackPrice(familypack)
+    setTickettype("Family Experience Pack of 4 - Gold - Seating (Pay for 3 Get 4)")
   };
 
 
@@ -84,7 +93,11 @@ const familypack=(ticketamount * 3);
         isFooterVisible,
         familypack,
         ticketamount,
-        totalTicket
+        totalTicket,
+        event,
+        tickettype,
+        seattype,
+        concertname
     }}>
       {children}
     </TotalAmountContext.Provider>

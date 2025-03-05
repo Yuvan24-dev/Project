@@ -2,9 +2,16 @@ import { Container, Col, Row, Button,Alert } from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
+import { useLocation,useNavigate } from "react-router-dom";
 
+
+// -----------------------------------------------------------------------------------login----------------------------------------------------------------------
 
 export const Login = () => {
+  const location = useLocation();
+  const navigate= useNavigate();
+  const from = location.state?.from?.pathname || "/"; 
+
   const [isLogin, setIsLogin] = useState(true); 
 
   const { register: registerSignin, handleSubmit: handleSubmitSignin,watch, formState: { errors: errorsSignin,isPassed } } = useForm();
@@ -33,12 +40,12 @@ export const Login = () => {
       if (response.ok) {
         const result = await response.json();
         setSuccessMessage(result.message || "Login successful");
-  
-       
         if (result.token) {
           localStorage.setItem("token", result.token);
+          navigate(from, { replace: true });
         }
-      } else {
+      } 
+      else {
         const errorResult = await response.json();
         setErrorMessage(errorResult.message || "Invalid credentials");
       }
@@ -95,7 +102,7 @@ export const Login = () => {
               </div>
             </div>
             <hr className="mt-2 px-0" />
-{/* ----------------------------------------------------------------------------------Switch for signin-------------------------------------------------------------- */}
+{/* ----------------------------------------------------------------------------------Switch for signin and login-------------------------------------------------------------- */}
             <div className="d-flex justify-content-between px-3">
               <Button
                 className={isLogin ? "activebtn" : "decativebtn"}
@@ -114,7 +121,7 @@ export const Login = () => {
             </div>
 
             <Row className="px-3">
-{/* ---------------------------------------------------------------------------------for login-------------------------------------------------------------------               */}
+{/* ---------------------------------------------------------------------------------for login page-------------------------------------------------------------------               */}
               <Col xs={12} md={6} className={`active ${isLogin ? 'active' : 'disabled'}`}>
                 <Col>
                   <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
@@ -152,7 +159,7 @@ export const Login = () => {
                 </Col>
               </Col>
 
-{/* ---------------------------------------------------------------------------------for login-------------------------------------------------------------------                */}
+{/* ---------------------------------------------------------------------------------for signin page-------------------------------------------------------------------                */}
               <Col xs={12} md={6} className={`active ${!isLogin ? 'active' : 'disabled'}`}>
                 <Col className="css-1aa5ze0">
                   <form onSubmit={handleSubmitSignin(onSubmitSignin)} className="pb-4 px-2">

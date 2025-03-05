@@ -46,10 +46,8 @@ import log from "./Images/logo-light.png"
 import instalogo from "./Images/insta.svg"
 import fblogo from "./Images/fb.svg"
 import { FaXTwitter } from "react-icons/fa6"
-import {Cart} from './Cart'
-import { Profile } from './Profile'
-import { Login } from './Login';
 import { useNavigate } from 'react-router-dom';
+import AdminDashboard from './Adimin';
 
 
 export const Adbanner = () => {
@@ -65,14 +63,15 @@ const CustomCarousel = () => {
     date: "May 19",
     time: "05:30 PM",
     location: "Velammal Global Hospital Ground, Othakadai, Madurai",
+    district:"Madurai"
   };
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const passValue = (event) => {
-    const queryString = new URLSearchParams(event).toString(); 
-    navigate(`/coimbatore/buynow?${queryString}`);
-
+    const queryString = new URLSearchParams(event).toString();
+    navigate(`/coimbatore/buynow?${queryString}`); 
+    localStorage.setItem("eventdetails", JSON.stringify(event));
   };
 
   return (
@@ -80,16 +79,16 @@ const CustomCarousel = () => {
 <div className='py-0  '>
 <Carousel className="m-0 pb-0 py-0 " indicators={true}>
   {/* Slide 1 */}
-  <Carousel.Item className=" py-0 pt-lg-4  pb-lg-5 pb-md-4">
+  <Carousel.Item className=" py-0 pt-lg-4 pb-lg-5 pb-md-4">
     <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle px-1">
+      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
         <img
           className="img-fluid imgDimming imgMainstyle"
           src={VjAunt}
           alt="Second slide"
         />
       </Col>
-      <Col onClick={()=>passValue(eventDetail)} md={4} className="imgMainstyle d-none d-md-inline px-1">
+      <Col onClick={()=>passValue(eventDetail)} md={4} className="imgMainstyle  px-1">
       <Link to='buynow'>
         <img
           className="img-fluid  imgMainstyle"
@@ -775,7 +774,7 @@ const Featuredeve = () => {
 const Browseevent = () => {
   return (
     <>
-      <Container className='d-flex justify-content-between allign-item-center pb-3 pt-md-1 pt-lg-4'>
+      <Container className='d-none d-sm-flex justify-content-between allign-item-center pb-3 pt-md-1 pt-lg-4 '>
         <ul className='d-flex m-0 p-0 px-2 px-0'>
           <li className='d-inline'>
             <button className='forhistorylog p-1'>
@@ -784,8 +783,17 @@ const Browseevent = () => {
           <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Browse events by genre</b></p></li>
         </ul>
       </Container>
+      <div className='d-block d-sm-none'>
+      <ul className='d-flex m-0 p-0 px-2 px-0'>
+          <li className='d-inline'>
+            <button className='forhistorylog p-1'>
+              <img alt="Img-verified" src={featured} />
+            </button></li>
+          <li className='d-inline p-2 '><p className='m-0 Featured-text'><b>Browse events by genre</b></p></li>
+        </ul>
+        </div>
       <Container>
-        <ul className='d-flex utilitybrowser gap-4 gap-md-4 gap-lg-4 gap-xl-5 '>
+        <ul className='d-flex utilitybrowser gap-0 gap-sm-4 gap-md-4 gap-lg-4 gap-xl-5 '>
           <Col md={1} className='mx-lg-2 mx-xl-0 px-1 mr-md-1'>
             <li className='forbrowsecard text-decoration-none px-1'>
               <span className='logocard'>
@@ -1172,9 +1180,7 @@ return(
           <ArtistPg />
           <SmallPoster />
           <Footer />
-          <Cart />
-          <Profile />
-          <Login />
+          <AdminDashboard />
     </>
 )
 }

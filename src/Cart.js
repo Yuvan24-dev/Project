@@ -5,10 +5,12 @@ import add from '../src/Images/add.svg';
 import { useState, useContext } from "react";
 import { TotalAmountContext } from './text'; 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const API_URL = 'http://localhost:5000/api/cart';
 
 
 export const Cart = () => {
+  const navigate= useNavigate()
   const [step, setStep] = useState(false);  
 
   const handlestep = () => {
@@ -35,7 +37,11 @@ export const Cart = () => {
           alert("Failed to delete cart");
       }
   };
+// -------------------------------------------------------paymenynavigation----------------------------------------------------
 
+const paymentnav = () =>{
+  navigate("/payment")
+}
  
 
     return(
@@ -191,7 +197,7 @@ export const Cart = () => {
                       <p className="css-1qfkwur m-0">I have read and accepted the <span style={{ color: 'rgb(49, 192, 240)' }}>terms and conditions</span> </p>
                       </div>
 
-                      <div className="lastbt float-end ">
+                      <div className="lastbt float-end" onClick={()=>paymentnav()}>
                         <span className="css-jh44gk">Continue</span>
                       </div>
 

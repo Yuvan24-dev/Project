@@ -1,43 +1,47 @@
 import { Col,Container,Row } from "react-bootstrap";
 import { Adbanner } from "./Cbe";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 
 export const Profile = ()=>{
-        const [isChecked, setIsChecked] = useState(false);
-    
-      
-        const handleToggle = () => {
-          setIsChecked((prevChecked) => !prevChecked);
-        };
+
+const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,ispassed}}=useForm();
 
 
 
 
-        
+  const handleLogout = () => {
+  localStorage.removeItem("token"); 
+  alert("You have been logged out.");
+  window.location.href = "/login"; 
+  };
     return(
-    <div className="my-3">
+     <>
     <div className="user-overlay">
     <Adbanner />
     <Container className="d-flex justify-content-center">
-    <Col xs={8} className="User-overlay px-5 d-flex justify-content-between py-4">
+    <Col xs={12} lg={8} className="User-overlay px-0 px-sm-5 d-md-flex d-block justify-content-between py-4">
     <div>
     <h1 className="profile_name mb-3">Uvan madix</h1>
     <p className="m-0">uvanmadix6@gmail.com</p>
     </div>
-    <div className="d-flex">
+    <div className="d-flex mt-2 mt-md-0">
     <div className="css-c3t494">EDIT PROFILE</div>
-    <div className="css-kbdhi1">SIGN OUT</div>
+    <div className="css-kbdhi1" onClick={()=>handleLogout()}>SIGN OUT</div>
 
     </div>
     </Col>
     </Container>
     </div>
+    <div className="px-md-0 px-">
     <ul className="d-flex flex-colum justify-content-center user-tab-list">
-    <li className="tabs__tab--selected p-3">Edit Profile</li>
-    <li className="tabs__tab--selected p-3">Tickets</li>
-    <li className="tabs__tab--selected p-3">Passes</li>
-    <li className="tabs__tab--selected p-3">Wallet</li>
+    <li className="tabs__tab--selected p-2 p-sm-3">Edit Profile</li>
+    <li className="tabs__tab--selected p-2 p-sm-3">Tickets</li>
+    <li className="tabs__tab--selected p-2 p-sm-3">Passes</li>
+    <li className="tabs__tab--selected p-2 p-sm-3">Wallet</li>
     </ul>
+  {/* -----------------------------------------------------------------Form--------------------------------------------------------------------- */}
+  <form onSubmit={handleUpdate()} className=" gap-2 px-3 py-2">
     <div className="d-flex justify-content-center">
     <Col xl={6}   >
     <label className="css-75erk3 pb-3">Please update your account details below</label>
@@ -45,39 +49,86 @@ export const Profile = ()=>{
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="First name" /></Col>
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Last name" /></Col>
     </Row>
-    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Phone number" />
+    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Phone number"/>
     <div className="css-bln63c">
-    <form className=" gap-2 px-3 py-2">
     <div>
     <p className="css-75erk3 m-0">Delivery details</p>
     <p className="css-1pq50zy m-0">These details will be used to send physical tickets</p>
     </div>
-    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Address 1*" />
-    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Address 2*" />
+    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Address 1*" 
+    {...register("firstAdd",{
+    required:"please enter Address",
+     })}
+    />
+    {error.firstAdd && <span className="error">{error.firstAdd.message}</span>}
+    <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Address 2*"
+    {...register("secondAdd",{
+      required:"please enter Address"
+    })}
+    />
+    {error.secondAdd && <span className="error">{error.secondAdd.message}</span>}
     <Row>
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Land mark" /></Col>
-    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="City *" /></Col>
+    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="City *"
+    {...register("city",{
+      required:"please enter city",
+      pattern:{
+        value:/^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/,
+        message:"Please enter valid city name"
+      }
+    })}
+    />
+    {error.city && <span className="error">{error.city.message}</span>}
+    </Col>
     </Row>
     <Row>
-    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Pincode *" /></Col>
-    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="State *" /></Col>
+    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Pincode *"
+    {...register("pincode",{
+      required:"Please enter pincode",
+      pattern:{
+        value:/^[1-9][0-9]{5}$/,
+        message:"Please enter valid pincode"
+      }
+    })} />
+    {error.pincode && <span className="error">{error.pincode.message}</span>}
+    </Col>
+    <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="State *"
+    {...register("state",{
+      required:"Please enter state",
+      pattern:{
+        value:/^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/,
+        message:"please enter valid state"
+      }
+    })}
+    />
+    {error.state && <span className="error">{error.state.message}</span>}
+    </Col>
     </Row>
     <input className="custom-input w-100 my-2 " placeholder="Enter discount code" />
     <div className="d-flex justify-content-between">
-    <p className="css-75erk3 m-0">Address Type*</p>
-    <div className="d-flex">
+    <p className="css-75erk3 m-0">Address Type</p>
+    <div className="d-flex ">
     <label className="css-hu917e d-flex gap-1">
-    <input name="addressType" type="radio" />
-    <p className="m-0 ">Residential</p>
-    </label>
-    <label className="css-hu917e d-flex gap-1 m-0">
-    <input name="addressType" type="radio" />
-    <p className="m-0 ">Business</p>
-    </label>
+          <input
+            type="radio"
+            value="Residential"
+          />
+          <p className="m-0">Residential</p>
+        </label>
+
+        <label className="css-hu917e d-flex gap-1 m-0">
+          <input
+            type="radio"
+            value="Business"
+            {...register("addressType", { required: "Please select an address type" })}
+            name="addressType"
+          />
+          <p className="m-0">Business</p>
+        </label>
+      </div>
     </div>
     </div>
-    </form>   
-    </div>
+    
     <div className="css-bln63c my-3">
     <div className="px-3">
     <p className="css-75erk3 m-0">Billing Details</p>
@@ -95,27 +146,13 @@ export const Profile = ()=>{
     </Row>
     </div>
     </div>
-    <div className="d-flex px-3">
-    <p className="m-0">Receive updates on the latest events, exclusive offers and much more in your inbox.</p>
-    <div className="css-thkgcw">
-  <input
-    type="checkbox"
-    id="toggle"
-    className="toggle-checkbox"
-    checked={isChecked}
-    onChange={handleToggle}
-  />
-  <label htmlFor="toggle" className="css-171h12w">
-    <span className="yes">YES</span>
-  </label>
-</div>
-    </div>
     <div className="d-flex justify-content-center ">
       <button className="css-u0fjmv"><p className="m-0 css-1ju1coy">Update</p></button>
       </div>
-
     </Col>
     </div>
+    </form>   
     </div>
+    </>
     )
 }

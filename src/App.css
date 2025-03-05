@@ -205,14 +205,7 @@
   .Dummy-location{
     display: none;
   }
-  .forChatref {
-    width: 45px;
-    height: 45px;
-    border-color: #31c0f0; 
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 50%;
-  }
+
   
   .imgMainstyle{
     border-radius: 0px; 
@@ -223,16 +216,13 @@
   }
   .forBG{
     background-image: url(../src/Images/Vjsmalledited.png);  
-    height:1000px !important;
+    background-size: contain;
     border-radius: 0px !important;
   }
   .forIdl{
     display: none;
   }
-  .gRloacation{
-    width: 30px;
-    height: 30px;
-  }
+
 }
 @media (max-width: 790px){
 .Dummy-location{
@@ -320,9 +310,45 @@
     border-radius: 10px;
   }
 }
+
+
+.locate{
+  display: none;
+}
+
+.locateA{
+  display: block;
+}
+
 .forOGcontent{ 
   gap: 0px;
   padding: 0px 0px 0px 0px;
+}
+@media (min-width: 576px) { 
+  .locate{
+    display: block;
+  }
+  .locateA{
+    display: none;
+  }
+  .forIdl{
+    display: none;
+  }
+  
+ }
+@media(max-width:575px){
+  .forChatref {
+    width: 40px;
+    height: 40px;
+    border-color: #31c0f0; 
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 50%;
+  }
+  .forIdl{
+    display: none;
+  }
+
 }
 /*------------ For Courousal------------- */
 .carousel-indicators button {
@@ -479,7 +505,6 @@ z-index: 2 !important;
   border-color: #31c0f0; 
   border-style: solid;
   border-width: 1px;
-  height: 40px;
 }
 /*------------ For Searchicons------------- */
 .Forsearching{
@@ -884,6 +909,11 @@ z-index: 2 !important;
         height: 250px;
     
       }}
+      @media (max-width: 768px){
+        .featuredcardimg{
+          height: 250px !important;
+      
+        }}
 /* ---------------------Buypage--------------------------------------- */
 .css-cm4ear {
   display: flex;
@@ -1208,15 +1238,23 @@ display: flex;
         width: 85px !important;
       }
     }
-  @media (max-width: 424px){
+  @media (max-width: 435px){
       .forbrowsecard{
-        width: 45px !important;
+        width: 55px !important;
       }
-        .logocard{
-          height: 78px;
-          width: 45px !important;
+      .forbrowsecard{
+        width: 55px !important;
+        margin: 0px 18px 0px 18px !important;
+      }
+
+      }
+      @media (max-width: 320px){
+        .forbrowsecard{
+          width: 55px !important;
+          margin: 0px 15px 0px 15px !important;
         }
-      }
+        }
+
 /* --------------------------------For Weekly event------------------------------------------ */
 .css-cl3kya {
   display: inline-block;
@@ -1502,7 +1540,7 @@ display: flex;
 }
 @media(max-width:430px){
   .seatingsizeing{
-    width: 100%;
+    width: 40%;
   }
 }
 
@@ -2220,6 +2258,7 @@ button.disabled {
   padding: 9px;
   height: min-content;
   color:white ;
+  cursor: pointer;
 }
 .css-kbdhi1 {
   margin-left: 20px;
@@ -2229,12 +2268,14 @@ button.disabled {
   height: fit-content;
   height: min-content;
   color:white ;
+  cursor: pointer;
 }
 .tabs__tab--selected {
   font-weight: 700;
   color: #000;
   list-style-type: none;
   font-size:large;
+  cursor: pointer;
   
 }
 .user-tab-list {
@@ -2267,13 +2308,6 @@ button.disabled {
   line-height: 150%;
   color: rgb(122, 124, 130);
 }
-
-
-
-
-
-
-
 .css-thkgcw {
   position: relative;
   width: 74px;
@@ -2345,21 +2379,20 @@ button.disabled {
   color: rgb(171, 173, 179);
 }
 
-/* Toggled state (when the checkbox is checked) */
 input[type="checkbox"]:checked + .css-171h12w {
-  background-color: rgb(12, 23, 47); /* Background color when toggled */
+  background-color: rgb(12, 23, 47);
 }
 
 input[type="checkbox"]:checked + .css-171h12w::before {
-  left: calc(100% - 32px); /* Move the "YES" to the right */
-  content: "NO"; /* Change YES to NO when checked */
-  color: rgb(171, 173, 179); /* Change color to match NO label */
+  left: calc(100% - 32px); 
+  content: "NO"; 
+  color: rgb(171, 173, 179); 
 }
 
 input[type="checkbox"]:checked + .css-171h12w::after {
-  content: "YES"; /* Change NO to YES when checked */
-  right: calc(100% - 32px); /* Move the "NO" to the left */
-  color: rgb(255, 255, 255); /* Change color to match YES label */
+  content: "YES"; 
+  right: calc(100% - 32px); 
+  color: rgb(255, 255, 255); 
 }
 
 
@@ -2382,6 +2415,7 @@ input[type="checkbox"]:checked + .css-171h12w::after {
   color: rgb(12, 23, 47);
   text-transform: uppercase;
 }
+
 
 @media(max-width:435px){
   .css-u0fjmv{

@@ -2,11 +2,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import log from "./Images/logo-light.png"
 import { GrLocation } from "react-icons/gr";
+import { FaLocationDot } from "react-icons/fa6";
 import { GoSearch } from "react-icons/go";
 import { Navbar, Nav, Container, Button,Offcanvas } from 'react-bootstrap';
 import { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'; // Import the toggle icons
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import Bangalorepg from './Bang';
 import ChennaiPg from './Chennai';
 import Cbepg from './Cbe';
@@ -19,16 +20,18 @@ import { Seating } from './Seatselect';
 import ReactDOM from 'react-dom';
 import { Ticket } from './Ticketslect';
 import { Login } from './Login';
-// import AuthProvider from './logincontext';
+import ProtectedRoute from './logincontext';
 import { Cart } from './Cart';
 import { TotalAmountProvider } from './text'; 
 import { Ogamount } from './Ticketslect';
-import { DetailProvider } from './Buypage';
+import { Profile } from './Profile';
+import Payment from './Payment';
 
 
 const App = () => {
 
 
+  const navigate = useNavigate()
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -59,14 +62,14 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  
+  const profileClick = ()=>{
+    navigate("/profile")
+  }
 
-  
+ const profileNavaigator = ()=>{
+  navigate("/profile")
+ }
 
-  
-  
-
-  
   return (
     <>
       {/* Original Navbar */}
@@ -75,7 +78,7 @@ const App = () => {
           <div className="d-flex align-items-center p-0">
           <Navbar.Toggle
               aria-controls="responsive-navbar-nav flex-row"
-              className="d-md-none float-start p-0 toogler_Toy"
+              className="d-lg-none float-start p-0 toogler_Toy"
               onClick={toggleMenu}  
             />            
             <Navbar.Brand className='px-1 mb-1 position-relative' href="#home">
@@ -118,12 +121,13 @@ const App = () => {
                 </span>
               </Button>
 {/* ----------------------------------dropdown button--------------------------------------------------- */}
-<Button
+     <Button
         variant="outline-primary"
         className="d-flex gap-1 location_botton location_bottonR forChatref mt-0 m-0 position-relative"
         onClick={toggleDropdown}
       >
-        <GrLocation className="mr-1 gRloacation" size={21} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
+        <GrLocation className="mr-1  locate" size={25} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
+        <FaLocationDot className="mr-1 locateA" size={30} style={{ float: 'left', color: 'white', strokeWidth: '2' }} />
         <p className="location_anchour Dummy-location d-none d-sm-inline mb-2" style={{ fontSize: '15px' }}>
           {dropdata}
         </p>
@@ -206,6 +210,7 @@ const App = () => {
                   </li>
                 </>
               ) : (
+
                 <li className="list-group-item">No results found</li>
               )}
             </ul>
@@ -219,6 +224,7 @@ const App = () => {
               variant="outline-primary"
               className="forSearch   d-flex justify-content-center align-items-center no-hover "
               style={{ width: '40px', height: '40px' }}
+              onClick={()=>profileClick()}
             >
               <p className="location_anchour mt-3" style={{ fontSize: '15px' }}>
                 UM
@@ -229,23 +235,20 @@ const App = () => {
         </Container>
       </Navbar>
 
-      <Offcanvas className="forShowcase" show={showMenu} onHide={toggleMenu} placement="start" style={{ width: '90%', backgroundColor: 'white' }}>
+  <Offcanvas className="forShowcase" show={showMenu} onHide={toggleMenu} placement="start" style={{ width: '90%', backgroundColor: 'white' }}>
   <Offcanvas.Body className='FornavB px-0'>
     <div className='forbodystyle'>
     <Container   >
-      {/* First div: Image and Logo */}
       <div style={{ width: '100%'}}>
         <img className='p-0 css-bcefdw' src={blacklogo} alt="Logo"/>
         <LiaTimesSolid size={27} style={{ cursor: 'pointer',float:'right' }} onClick={toggleMenu} />
       </div>
       
-      {/* Second div: Text */}
       <div style={{ marginTop: '20px' }}>
         <h3>Uvan Madix</h3>
         <p>Uvanmadix6@gmail.com</p>
       </div>
 
-      {/* Third div: Two Buttons */}
       <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
         <button className='toggler-B-style'>
           <span className='toggler-B-style-log'>₹</span>
@@ -264,7 +267,9 @@ const App = () => {
     </div>
     <Container className='px-4 '>
     <ul className='p-0 py-3 list-unstyled'>
-      <li className='togler-ticket-style py-2'>Edit profile</li>
+      <li onClick={()=>{profileNavaigator();
+        toggleMenu()
+      }} className='togler-ticket-style py-2'>Edit profile</li>
       <li className='togler-ticket-style py-2'>About</li>
       <li className='togler-ticket-style py-2' >Help</li>
       <li className='togler-ticket-style py-2'>Sign out</li>
@@ -287,12 +292,18 @@ const App = () => {
           <Route path="/chennai" element={<ChennaiPg />} />
           <Route path="/mumbai" element={<MumbaiPg />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/buynow" element={<Buypage />} /> 
+
 
           <Route path="coimbatore/buynow" element={<Buypage />} /> 
           <Route path="coimbatore/buynow/selectseat" element={<Seating />} />
-          <Route path="coimbatore/buynow/selectseat/ticket"element={<Ticket />}/>
-          <Route path="coimbatore/buynow/selectseat/ticket/cart"element={<Cart />}/>
-        </Routes>
+          <Route path="/coimbatore/buynow/selectseat/ticket" element={<Ticket />} />
+          <Route element={<ProtectedRoute />}> 
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/payment" element={<Payment />} />
+          </Route>
+          </Routes>
       </TotalAmountProvider>
       </Ogamount>
 

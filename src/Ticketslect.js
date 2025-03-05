@@ -1,39 +1,35 @@
-import React, { createContext,useContext,useState,useEffect } from "react";
+import React, { createContext,useContext } from "react";
 import { Row,Col,Container} from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import plus from '../src/Images/minus.svg'
 import minus from '../src/Images/plus.svg'
-import { Link } from "react-router-dom";
-import { TotalAmountContext } from './text'; // Import the context
+import {  useNavigate } from "react-router-dom";
+import { TotalAmountContext } from './text'; 
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
-const API_URL = 'http://localhost:5000/api/cart';
+
 // -------------------------------------------------------------------------------------------------context----------------------------------------------------------
-export const Actamount=createContext({ ticketamount: 0 })
+export const Actamount=createContext({ ticketamount: 0,  event: {} })
 
 
-export const Ogamount=({children})=>{
-
+export const Ogamount = ({ children }) => {
+ 
   const location = useLocation();
-  const quaryparams=new URLSearchParams(location.search);
-  const ticketamount=quaryparams.get("amount") || 0;
-
-  const [amount, setAmount] = useState(ticketamount);
-
-  useEffect(() => {
-    setAmount(ticketamount);  
-  }, [ticketamount]);
-
-
-  return(
-      <Actamount.Provider value={{ticketamount:amount}}>
-        {children}
-      </Actamount.Provider>
-  )
-
-}
+  const queryparams = new URLSearchParams(location.search);
+  const event = Object.fromEntries(queryparams.entries());
+  const contextValue = {
+    event
+  };
+  return (
+    <Actamount.Provider value={contextValue}>
+      {children}
+    </Actamount.Provider>
+  );
+};
 
 export const  Ticket = ()=>{
+
+  const navigate = useNavigate();
 
   const { 
     totalAmount, 
@@ -50,61 +46,66 @@ export const  Ticket = ()=>{
      isFooterVisible,
      familypack,
      ticketamount,
-     totalTicket
+     totalTicket,
+     event,
+     seattype,
+     concertname
    } = useContext(TotalAmountContext);
+   console.log(seattype)
 
-   const getAuthToken = () => localStorage.getItem('token');
+    const getAuthToken = () => localStorage.getItem("token");
 
-   const addToCart = async () => {
-    try {
-      const token = localStorage.getItem("token"); 
-  
-      const response = await axios.post(
-        "http://localhost:5000/api/cart/add",
-        {
-          ticket: totalTicket, 
-          totalAmount: totalAmount, 
-          seatType: "silver",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, 
-          },
+    const addToCart = async () => {
+      const token = localStorage.getItem("token");
+        navigate("/cart"); 
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/api/cart/add",
+                {
+                    ticket: totalTicket,
+                    totalAmount: totalAmount,
+                    seatType: seattype, 
+                    eventdetails: concertname,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log("Cart added successfully", response.data);
+        } catch (error) {
+            console.error("Error adding to cart:", error);
         }
-      );
-  
-      console.log("Cart added successfully", response.data);
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
+    };
 
- const getCartItems = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/`, {
-            headers: { Authorization: `Bearer ${getAuthToken()}` },
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching cart:', error);
-    }
-};
+    // Fetch Cart Items
+    const getCartItems = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/cart/", {
+                headers: { Authorization: `Bearer ${getAuthToken()}` },
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching cart:", error);
+        }
+    };
 
- const updateCartItem = async (id, ticket, totalAmount, seatType) => {
-    try {
-        const response = await axios.put(
-            `${API_URL}/update/${id}`,
-            { ticket, totalAmount, seatType },
-            { headers: { Authorization: `Bearer ${getAuthToken()}` } }
-        );
-        return response.data;
-    } catch (error) {
-        console.error('Error updating cart item:', error);
-    }
-};
-
-
+    // Update Cart Item
+    const updateCartItem = async (id, ticket, totalAmount, seatType) => {
+        try {
+            const response = await axios.put(
+                `http://localhost:5000/api/cart/update/${id}`,
+                { ticket, totalAmount, seatType },
+                { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+            );
+            return response.data;
+        } catch (error) {
+            console.error("Error updating cart item:", error);
+        }
+    };
 
     return(
         <>
@@ -112,16 +113,16 @@ export const  Ticket = ()=>{
         <Container>
           <Row className="justify-content-center flex-column">
             <header className="seathead">
-              <p className="seatH m-0">Thenisai Thendral Deva Live in Concert | Chennai</p>
-              <p className="seatpara m-0">
-                15 Feb, 6 PM<span className="css-wevn09">•</span>Chennai
+            <p className="seatH m-0">{ event.concertname } | {event.district}</p>
+            <p className="seatpara m-0">
+                {event.date}, {event.time}<span className="css-wevn09">•</span>{event.district}
               </p>
             </header>
               <div className="w-100 d-flex justify-content-center">
               <Col xs={12} md={11} lg={7} xl={6} className="py-4 d-flex justify-content-center flex-column">
                 <p className="css-5fwy47">Choose Tickets</p>
                 <div className="css-bln63c px-3">
-                  <p className="css-3i6ki3 m-0 css-qzzcto">Phase 1 - Gold - Seating</p>
+                  <p className="css-3i6ki3 m-0 css-qzzcto">Phase 1 - {seattype} - Seating</p>
                   <div className="css-ghje90">
                     <p className="css-wsn3os">{ticketamount}</p>
                     {!isClicked && <button className="css-1hwnyow" onClick={handleClick}>ADD</button>}
@@ -145,7 +146,7 @@ export const  Ticket = ()=>{
             <div className="w-100 d-flex justify-content-center">
               <Col xs={12} md={11} lg={7} xl={6} className="py-0">
                 <div className="css-bln63c px-3">
-                  <p className="css-3i6ki3 m-0 css-qzzcto">Family Experience Pack of 4 - Gold - Seating (Pay for 3 Get 4)</p>
+                  <p className="css-3i6ki3 m-0 css-qzzcto">Family Experience Pack of 4 - {seattype} - Seating (Pay for 3 Get 4)</p>
                   <div className="css-ghje90">
                     <p className="css-wsn3os">{familypack}</p>
   
@@ -179,11 +180,9 @@ export const  Ticket = ()=>{
                     <p className="css-1b525ie m-0">{`₹${totalAmount}`}</p>
                     <p className="css-11axp93 m-0">{`${totalTicket} tickets`}</p>
                   </div>
-                  <Link to='cart'>
-                  <button onSubmit={addToCart()} className="css-1gnzuhz pr-5 float-end">
-                    <span>add to cart</span>
-                  </button>
-                  </Link>
+                  <button onClick={addToCart} className="css-1gnzuhz pr-5 float-end">
+                Add to Cart
+               </button>
                 </Col>
               </Col>
             </Container>
