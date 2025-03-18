@@ -2,7 +2,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import dustbin from '../src/Images/dustbin.svg';
 import add from '../src/Images/add.svg';
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect,useCallback  } from "react";
 import { TotalAmountContext } from './Cartcontext'; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -24,25 +24,23 @@ export const Cart = () => {
   const { totalAmount } = useContext(TotalAmountContext);
   const allamt=(totalAmount+294.94)
 // ---------------------------------------GetCart-----------------------------------------
-const getCartItems  = async () =>{
-  try{
-  const response = await axios.get("http://localhost:5000/api/cart/",{
-    headers:{Authorization:`Bearer ${getAuthToken()}`},
-  });
-  setCart(response.data || []); 
-  console.log("carting",response.data)
-}catch(error){
-  console.error("Error fetching cart:", error);
-  setCart([]); 
-}
-}
-
-useEffect(()=>{
-  getCartItems ();
+const getCartItems = useCallback(async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/cart/", {
+      headers: { Authorization: `Bearer ${getAuthToken()}` },
+    });
+    setCart(response.data || []);
+    console.log("carting", response.data);
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    setCart([]);
+  }
 }, []);
+
 useEffect(() => {
-  console.log("Updated cart:", cart);
-}, [cart]);
+  getCartItems();
+}, [getCartItems]);
+
 
 
 

@@ -7,7 +7,6 @@ import { Container, Button, Carousel, Row, Col,} from 'react-bootstrap';
 import chennaiEV from "../src/Images/ImgA.jpg";
 import VjAunt from "../src/Images/ImgB.jpg";
 import Devevent from "../src/Images/ImgC.jpg";
-import NeedTalk from "../src/Images/ImgD.png";
 import Paddy from "../src/Images/ImgE.png";
 import { FiChevronRight } from "react-icons/fi";
 import { GrHistory } from "react-icons/gr";

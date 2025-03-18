@@ -23,7 +23,6 @@ import nexting from '../src/Images/Right.svg'
 import { SmallPoster,Footer } from "./Cbe";
 import people from "../src/Images/people.svg"
 import { FaXTwitter } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 
 
 export const Event = createContext();
@@ -40,7 +39,7 @@ export const Eventdetails = ({ children }) => {
     if (Object.keys(newEvent).length > 0) {
       setEvent(newEvent);
     }
-  }, [location.search]); // Update event only if new query params are available
+  }, [newEvent]);
 
   return (
     <Event.Provider value={{ event }}>
@@ -51,8 +50,6 @@ export const Eventdetails = ({ children }) => {
 
 export const Buypage = () => {
   
-
-    const navigate = useNavigate()
     const [showMore, setShowMore] = useState(false);
     const scrollRef = useRef(null);
 

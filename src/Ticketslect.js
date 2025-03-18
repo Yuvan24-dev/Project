@@ -61,7 +61,6 @@ export const  Ticket = ()=>{
     setTickettype(`Family Experience Pack of 4 - {seattype} - Seating (Pay for 3 Get 4)`)
   }
 
-    const getAuthToken = () => localStorage.getItem("token");
 
     const addToCart = async () => {
       const token = localStorage.getItem("token");
@@ -91,19 +90,19 @@ export const  Ticket = ()=>{
             console.error("Error adding to cart:", error);
         }
     };
-    // Update Cart Item
-    const updateCartItem = async (id, ticket, totalAmount, seatType) => {
-        try {
-            const response = await axios.put(
-                `http://localhost:5000/api/cart/update/${id}`,
-                { ticket, totalAmount, seatType },
-                { headers: { Authorization: `Bearer ${getAuthToken()}` } }
-            );
-            return response.data;
-        } catch (error) {
-            console.error("Error updating cart item:", error);
-        }
-    };
+    // // Update Cart Item
+    // const updateCartItem = async (id, ticket, totalAmount, seatType) => {
+    //     try {
+    //         const response = await axios.put(
+    //             `http://localhost:5000/api/cart/update/${id}`,
+    //             { ticket, totalAmount, seatType },
+    //             { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+    //         );
+    //         return response.data;
+    //     } catch (error) {
+    //         console.error("Error updating cart item:", error);
+    //     }
+    // };
 
     return(
         <>

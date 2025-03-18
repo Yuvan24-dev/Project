@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-
-import { Container, Row, Col, Card, Nav, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import "./App.css";
 
 function Dashboard() {
-  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   return (
     <div className="dashboard-container d-flex flex-column">
