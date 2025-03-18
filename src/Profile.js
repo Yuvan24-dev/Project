@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 export const Profile = ()=>{
 
-const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,ispassed}}=useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
 
 
@@ -41,7 +41,7 @@ const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,
     <li className="tabs__tab--selected p-2 p-sm-3">Wallet</li>
     </ul>
   {/* -----------------------------------------------------------------Form--------------------------------------------------------------------- */}
-  <form onSubmit={handleUpdate()} className=" gap-2 px-3 py-2">
+  <form onSubmit={handleSubmit()} className=" gap-2 px-3 py-2">
     <div className="d-flex justify-content-center">
     <Col xl={6}   >
     <label className="css-75erk3 pb-3">Please update your account details below</label>
@@ -60,13 +60,13 @@ const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,
     required:"please enter Address",
      })}
     />
-    {error.firstAdd && <span className="error">{error.firstAdd.message}</span>}
+    {errors.firstAdd && <span className="error">{errors.firstAdd.message}</span>}
     <input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Address 2*"
     {...register("secondAdd",{
       required:"please enter Address"
     })}
     />
-    {error.secondAdd && <span className="error">{error.secondAdd.message}</span>}
+    {errors.secondAdd && <span className="error">{errors.secondAdd.message}</span>}
     <Row>
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="Land mark" /></Col>
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="City *"
@@ -78,7 +78,7 @@ const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,
       }
     })}
     />
-    {error.city && <span className="error">{error.city.message}</span>}
+    {errors.city && <span className="error">{errors.city.message}</span>}
     </Col>
     </Row>
     <Row>
@@ -90,7 +90,7 @@ const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,
         message:"Please enter valid pincode"
       }
     })} />
-    {error.pincode && <span className="error">{error.pincode.message}</span>}
+    {errors.pincode && <span className="error">{errors.pincode.message}</span>}
     </Col>
     <Col xs={6}><input className="custom-input w-100 my-2 css-1vj7536 " placeholder="State *"
     {...register("state",{
@@ -101,7 +101,7 @@ const{register:register,handleSubmit:handleUpdate,watch,formState:{errors:error,
       }
     })}
     />
-    {error.state && <span className="error">{error.state.message}</span>}
+    {errors.state && <span className="error">{errors.state.message}</span>}
     </Col>
     </Row>
     <input className="custom-input w-100 my-2 " placeholder="Enter discount code" />
