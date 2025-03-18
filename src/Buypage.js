@@ -6,7 +6,7 @@ import rebun from '../src/Images/rebun.svg'
 import timex from '../src/Images/timex.png'
 import info from '../src/Images/info.png'
 import loacte from '../src/Images/location.svg'
-import { useState } from 'react';
+import { useState,createContext,useEffect } from 'react';
 import { Button, Row, Col,} from 'react-bootstrap';
 import Devevent from "../src/Images.chennai/expo3.jpg"
 import calender from '../src/Images/calender.svg'
@@ -26,8 +26,31 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 
+export const Event = createContext();
+
+// Context Provider
+export const Eventdetails = ({ children }) => {
+  const location = useLocation();
+  const queryparams = new URLSearchParams(location.search);
+  let newEvent = Object.fromEntries(queryparams.entries());
+
+  const [event, setEvent] = useState(newEvent);
+
+  useEffect(() => {
+    if (Object.keys(newEvent).length > 0) {
+      setEvent(newEvent);
+    }
+  }, [location.search]); // Update event only if new query params are available
+
+  return (
+    <Event.Provider value={{ event }}>
+      {children}
+    </Event.Provider>
+  );
+};
 
 export const Buypage = () => {
+  
 
     const navigate = useNavigate()
     const [showMore, setShowMore] = useState(false);
@@ -52,24 +75,9 @@ export const Buypage = () => {
   
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
-    let event = Object.fromEntries(queryparams.entries()); 
+    let event = Object.fromEntries(queryparams.entries());
     
-    if (Object.keys(event).length === 0) {
-      const storedData = localStorage.getItem("eventdetails");
-      event = storedData ? JSON.parse(storedData) : {};
-    }
-
-
-
-    const goToSeatSelection = (children) => {
-
-      const queryString = new URLSearchParams(Object.entries(children)).toString();
-      
-      localStorage.setItem("seatSelection", JSON.stringify(children));
-          
-      navigate(`/coimbatore/buynow/selectseat?${queryString}`);
-    };
-    
+   
 
 
     return (
@@ -86,9 +94,9 @@ export const Buypage = () => {
               </Col>
               </Col>
               <Col className='css-1trzrhm py-0 d-block d-md-none pt-3 pt-md-0'>
-            <div><h1 className='css-1mg2664 '>{event.concertname}</h1></div>
-            <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={rebun}/><p  className='css-15yjbxw m-0'>Music</p></div>
-            <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={calender}/><p className='css-15yjbxw m-0'>`{event.date} | {event.time}`</p></div>
+            <div><h1 className='css-1mg2664 '>{event.eventName}</h1></div>
+            <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={rebun}/><p  className='css-15yjbxw m-0'>{event.category}</p></div>
+            <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={calender}/><p className='css-15yjbxw m-0'>{event.date} | {event.time}</p></div>
             <div className='d-flex gap-2 py-2'><img alt="Img-verified" src={loacte}/><p className='css-15yjbxw m-0'>{event.location}</p></div>
             </Col>
               <Col className='img-small d-none d-lg-block pt-4 p-0' ><h1 className='buyhead'>About the event</h1>  </Col>
@@ -213,14 +221,14 @@ export const Buypage = () => {
    {/* ------------------------Right Side---------------------------------------------*/}
             <Col xs={4}  className='py-0 py-lg-4 '>
             <Col className='css-1trzrhm py-4 d-none d-md-block'>
-            <div><h1 className='css-1mg2664 '>{event.concertname}</h1></div>
-            <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={rebun}/><p className='css-15yjbxw m-0'>Music</p></div>
+            <div><h1 className='css-1mg2664 '>{event.eventName}</h1></div>
+            <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={rebun}/><p className='css-15yjbxw m-0'>{event.category}</p></div>
             <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={calender}/><p className='css-15yjbxw m-0'>{event.date} | {event.time}</p></div>
             <div className='d-flex gap-2 py-1'><img alt="Img-verified" src={loacte}/><p className='css-15yjbxw m-0'>{event.location}</p></div>
             <hr></hr>
             <Col className=' d-none d-lg-flex align-items-center justify-content-between '>
             <Col xs={8}><p className='css-1rgjqr3 m-0'><span>₹</span> 799 Onwards</p></Col>
-            <Col xs={4}><Link to='selectseat'><Button onClick={()=>goToSeatSelection(event)} className='css-1s6w8n3'>BUY NOW</Button></Link> </Col>
+            <Col xs={4}><Link to='selectseat'><Button className='css-1s6w8n3'>BUY NOW</Button></Link> </Col>
             </Col>
             </Col>
             <div className="d-lg-flex d-none  align-item-center">

@@ -2,52 +2,52 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GrLocation } from "react-icons/gr";
 import { GoSearch } from "react-icons/go";
-import { React, useRef, } from 'react';
+import { React, useEffect, useRef, useState, } from 'react';
 import { Container, Button, Carousel, Row, Col,} from 'react-bootstrap';
-import chennaiEV from "../src/Images/ImgA.jpg"
-import VjAunt from "../src/Images/ImgB.jpg"
-import Devevent from "../src/Images/ImgC.jpg"
-import NeedTalk from "../src/Images/ImgD.png"
-import Paddy from "../src/Images/ImgE.png"
+import chennaiEV from "../src/Images/ImgA.jpg";
+import VjAunt from "../src/Images/ImgB.jpg";
+import Devevent from "../src/Images/ImgC.jpg";
+import NeedTalk from "../src/Images/ImgD.png";
+import Paddy from "../src/Images/ImgE.png";
 import { FiChevronRight } from "react-icons/fi";
 import { GrHistory } from "react-icons/gr";
 import { CiMusicNote1 } from "react-icons/ci";
 import { MdOutlineLocalFireDepartment } from "react-icons/md";
 import { TbCalendarTime } from "react-icons/tb";
-import exportA from "../src/Images/Expo-1.webp"
-import exportB from "../src/Images/expo-2.jpg"
-import exportC from "../src/Images/Expo-3.jpg"
-import exportD from "../src/Images/Expo-4.png"
-import exportE from "../src/Images/expo-5.png"
-import exportF from "../src/Images/expo-6.jpg"
+import exportA from "../src/Images/Expo-1.webp";
+import exportB from "../src/Images/expo-2.jpg";
+import exportC from "../src/Images/Expo-3.jpg";
+import exportD from "../src/Images/Expo-4.png";
+import exportE from "../src/Images/expo-5.png";
+import exportF from "../src/Images/expo-6.jpg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import nexting from '../src/Images/Right.svg'
-import previous from '../src/Images/Left.svg'
-import featured from '../src/Images/feature.svg'
+import nexting from '../src/Images/Right.svg';
+import previous from '../src/Images/Left.svg';
+import featured from '../src/Images/feature.svg';
 import { LuMusic4 } from "react-icons/lu";
 import { GiVideoConference } from "react-icons/gi";
 import { BsTicketPerforated } from "react-icons/bs";
-import calender from '../src/Images/calender.svg'
-import mic from "../src/Images/mic.svg"
+import calender from '../src/Images/calender.svg';
+import mic from "../src/Images/mic.svg";
 import { Link} from 'react-router-dom';
-import illayaraja from '../src/Artists/illyaraja.jpg'
-import devaimage from '../src/Artists/Devaround.jpg'
-import Vijayimg from '../src/Artists/vj.webp'
-import imgA from '../src/Artists/imgA.jpg'
-import imgB from '../src/Artists/imgB.webp'
-import imgC from '../src/Artists/imgC.webp'
-import imgD from '../src/Artists/imgD.webp'
-import imgF from '../src/Artists/ImgF.jpg'
-import imgG from '../src/Artists/imgG.webp'
-import imgH from '../src/Artists/imgH.webp'
-import imgI from '../src/Artists/imgI.jpg'
-import log from "./Images/logo-light.png"
-import instalogo from "./Images/insta.svg"
-import fblogo from "./Images/fb.svg"
-import { FaXTwitter } from "react-icons/fa6"
+import illayaraja from '../src/Artists/illyaraja.jpg';
+import devaimage from '../src/Artists/Devaround.jpg';
+import Vijayimg from '../src/Artists/vj.webp';
+import imgA from '../src/Artists/imgA.jpg';
+import imgB from '../src/Artists/imgB.webp';
+import imgC from '../src/Artists/imgC.webp';
+import imgD from '../src/Artists/imgD.webp';
+import imgF from '../src/Artists/ImgF.jpg';
+import imgG from '../src/Artists/imgG.webp';
+import imgH from '../src/Artists/imgH.webp';
+import imgI from '../src/Artists/imgI.jpg';
+import log from "./Images/logo-light.png";
+import instalogo from "./Images/insta.svg";
+import fblogo from "./Images/fb.svg";
+import { FaXTwitter } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import AdminDashboard from './Adimin';
+import axios from "axios";
 
 
 export const Adbanner = () => {
@@ -58,168 +58,84 @@ export const Adbanner = () => {
   );
 };
 const CustomCarousel = () => {
-  const eventDetail = {
-    concertname: "Thenisai Thendral Deva Live in Concert - Madurai",
-    date: "May 19",
-    time: "05:30 PM",
-    location: "Velammal Global Hospital Ground, Othakadai, Madurai",
-    district:"Madurai"
-  };
-
+  const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch events from backend
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:7000/api/products");
+      setEvents(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Function to pass selected event details when clicking an image
   const passValue = (event) => {
-    const queryString = new URLSearchParams(event).toString();
-    navigate(`/coimbatore/buynow?${queryString}`); 
-    localStorage.setItem("eventdetails", JSON.stringify(event));
+    const queryString = new URLSearchParams({
+      id: event._id,
+      eventName: event.eventName,
+      category: event.Category,
+      price: event.price,
+      date: event.date,
+      time: event.time,
+      location: event.location,
+      status: event.status,
+      image: event.image,
+    }).toString();
+
+    navigate(`/coimbatore/buynow?${queryString}`);
   };
 
   return (
     <>
-<div className='py-0  '>
-<Carousel className="m-0 pb-0 py-0 " indicators={true}>
-  {/* Slide 1 */}
-  <Carousel.Item className=" py-0 pt-lg-4 pb-lg-5 pb-md-4">
-    <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={VjAunt}
-          alt="Second slide"
-        />
-      </Col>
-      <Col onClick={()=>passValue(eventDetail)} md={4} className="imgMainstyle  px-1">
-      <Link to='buynow'>
-        <img
-          className="img-fluid  imgMainstyle"
-          src={chennaiEV}
-          alt="Second slide"
-        />
-      </Link>   
-      </Col>
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={Devevent}
-          alt="Second slide"
-        />
-      </Col>
-    </Row>
-  </Carousel.Item>
+    <div className="py-0">
+      <Carousel className="m-0 pb-0 py-0" indicators={true} interval={3000}>
+        {events.map((event, index) => {
+          const prevEvent = events[(index - 1 + events.length) % events.length]; 
+          const nextEvent = events[(index + 1) % events.length]; 
 
-  {/* Slide 2 */}
-  <Carousel.Item className="py-0  pt-lg-4  pb-lg-5 pb-md-4">
-    <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={chennaiEV}
-          alt="Second slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle px-1">
-        <img
-          className="img-fluid imgMainstyle"
-          src={Devevent}
-          alt="Second slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={NeedTalk}
-          alt="Second slide"
-        />
-      </Col>
-    </Row>
-  </Carousel.Item>
+          return (
+            <Carousel.Item key={event._id} className="py-0 pt-lg-4 pb-lg-5 pb-md-4">
+              <Row className="justify-content-center">
+                <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
+                  <img
+                    className="img-fluid imgDimming imgMainstyle"
+                    src={`http://localhost:7000/uploads/${prevEvent.image}`}
+                    alt={prevEvent.eventName}
+                  />
+                </Col>
 
-  {/* Slide 3 */}
-  <Carousel.Item className="py-0  pt-lg-4  pb-lg-5 pb-md-4">
-    <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={Devevent}
-          alt="Third slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle px-1">
-        <img
-          className="img-fluid imgMainstyle"
-          src={NeedTalk}
-          alt="Third slide "
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={Paddy}
-          alt="Third slide"
-        />
-      </Col>
-    </Row>
-  </Carousel.Item>
+                <Col onClick={() => passValue(event)} md={4} className="imgMainstyle px-1">
+                  <img
+                    className="img-fluid imgMainstyle"
+                    src={`http://localhost:7000/uploads/${event.image}`}
+                    alt={event.eventName}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Col>
 
-  {/* Slide 4 */}
-  <Carousel.Item className="py-0 pt-lg-4  pb-lg-5 pb-md-4">
-    <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={NeedTalk}
-          alt="Third slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle px-1">
-        <img
-          className="img-fluid imgMainstyle"
-          src={Paddy}
-          alt="Third slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={VjAunt}
-          alt="Third slide"
-        />
-      </Col>
-    </Row>
-  </Carousel.Item>
-
-  {/* Slide 5 */}
-  <Carousel.Item className="py-0  pt-lg-4  pb-lg-5 pb-md-4">
-    <Row className="justify-content-center">
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={Paddy}
-          alt="Third slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle px-1">
-        <img
-          className="img-fluid imgMainstyle"
-          src={VjAunt}
-          alt="Third slide"
-        />
-      </Col>
-      <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-        <img
-          className="img-fluid imgDimming imgMainstyle"
-          src={chennaiEV}
-          alt="Third slide"
-        />
-      </Col>
-    </Row>
-  </Carousel.Item>
+                <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
+                  <img
+                    className="img-fluid imgDimming imgMainstyle"
+                    src={`http://localhost:7000/uploads/${nextEvent.image}`}
+                    alt={nextEvent.eventName}
+                  />
+                </Col>
+              </Row>
+            </Carousel.Item>
+          );
+        })}
 </Carousel>
 </div>
     </>
   );
 };
-
 const Searchsection = () => {
   return (
     <Container className="search-wrapper pt-5 d-block d-sm-none">
@@ -1142,11 +1058,6 @@ export const Footer = ()=> {
           <li className='listitemtext'><img alt='social' src={instalogo}/></li>
           <li className='listitemtext'><FaXTwitter size={35} /></li>
         </ul>
-      
-      
-      
-      
-      
       </Container>
     </div>
   )
@@ -1180,7 +1091,6 @@ return(
           <ArtistPg />
           <SmallPoster />
           <Footer />
-          <AdminDashboard />
     </>
 )
 }

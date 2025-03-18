@@ -2,14 +2,15 @@ import { Container, Col, Row } from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import dustbin from '../src/Images/dustbin.svg';
 import add from '../src/Images/add.svg';
-import { useState, useContext } from "react";
-import { TotalAmountContext } from './text'; 
+import { useState, useContext, useEffect } from "react";
+import { TotalAmountContext } from './Cartcontext'; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const API_URL = 'http://localhost:5000/api/cart';
 
 
 export const Cart = () => {
+  const [cart, setCart] = useState([]);
   const navigate= useNavigate()
   const [step, setStep] = useState(false);  
 
@@ -22,6 +23,31 @@ export const Cart = () => {
   };
   const { totalAmount } = useContext(TotalAmountContext);
   const allamt=(totalAmount+294.94)
+// ---------------------------------------GetCart-----------------------------------------
+const getCartItems  = async () =>{
+  try{
+  const response = await axios.get("http://localhost:5000/api/cart/",{
+    headers:{Authorization:`Bearer ${getAuthToken()}`},
+  });
+  setCart(response.data || []); 
+  console.log("carting",response.data)
+}catch(error){
+  console.error("Error fetching cart:", error);
+  setCart([]); 
+}
+}
+
+useEffect(()=>{
+  getCartItems ();
+}, []);
+useEffect(() => {
+  console.log("Updated cart:", cart);
+}, [cart]);
+
+
+
+
+
 
   // ------------api--------------
   const getAuthToken = () => localStorage.getItem('token');
@@ -69,18 +95,18 @@ const paymentnav = () =>{
                       </div>
                     </div>
                     <div className="css-egk103">
-                      <p className="css-1d6xumx">Thenisai Thendral Deva Live in Concert | Chennai</p>
+                      <p className="css-1d6xumx">{cart[0]?.eventdetails}</p>
                       <div className="css-28hpcg">
                         <p className="css-1hxyujb">Group of Friends Pack of 13 - General - Standing (Pay for 10 Get 13)</p>
                         <img onClick={() => deleteCartItem()} alt="img" src={dustbin} />
                         </div>
                       <div className="  allign-item-center ref">
                         <div className="d-flex gap-1 float-start">
-                          <p className="css-hyx4sn m-0">1</p>
+                          <p className="css-hyx4sn m-0"> {cart[0]?.ticket}</p>
                           <p className="css-1f8zht8 m-0 ">ticket</p>
                         </div>
                         <div className="float-end ">
-                        <p className="css-hyx4sn m-0  ">₹ {totalAmount}</p>
+                        <p className="css-hyx4sn m-0  ">₹ {cart[0]?.totalAmount}</p>
                         </div>
                       </div>
                       <div>
@@ -114,7 +140,7 @@ const paymentnav = () =>{
                         <div className="d-flex justify-content-between pt-2">
                         <p className="css-1kib8t3 m-0">Order Amount</p>
                         <div>
-                        <p className="css-k0axuj m-0">₹ {totalAmount}</p>
+                        <p className="css-k0axuj m-0">₹ {cart[0]?.totalAmount}</p>
                         </div>
                         </div> 
                         <p className="css-xcdy4r mb-0  ">Includes taxes</p>

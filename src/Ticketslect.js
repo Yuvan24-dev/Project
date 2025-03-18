@@ -1,10 +1,10 @@
-import React, { createContext,useContext } from "react";
+import React, { createContext,useContext,useState } from "react";
 import { Row,Col,Container} from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import plus from '../src/Images/minus.svg'
 import minus from '../src/Images/plus.svg'
 import {  useNavigate } from "react-router-dom";
-import { TotalAmountContext } from './text'; 
+import { TotalAmountContext } from './Cartcontext'; 
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 
@@ -28,6 +28,7 @@ export const Ogamount = ({ children }) => {
 };
 
 export const  Ticket = ()=>{
+  const[tickettype,setTickettype]=useState(" ");
 
   const navigate = useNavigate();
 
@@ -49,9 +50,16 @@ export const  Ticket = ()=>{
      totalTicket,
      event,
      seattype,
-     concertname
+     concertname,
    } = useContext(TotalAmountContext);
-   console.log(seattype)
+
+
+   const clickphase = ()=>{
+    setTickettype(`Phase 1 - {seattype} - Seating`)
+  }
+  const clickFampack = ()=>{
+    setTickettype(`Family Experience Pack of 4 - {seattype} - Seating (Pay for 3 Get 4)`)
+  }
 
     const getAuthToken = () => localStorage.getItem("token");
 
@@ -66,6 +74,7 @@ export const  Ticket = ()=>{
                     totalAmount: totalAmount,
                     seatType: seattype, 
                     eventdetails: concertname,
+                    seatingName:tickettype
                 },
                 {
                     headers: {
@@ -76,23 +85,12 @@ export const  Ticket = ()=>{
             );
 
             console.log("Cart added successfully", response.data);
+
+            
         } catch (error) {
             console.error("Error adding to cart:", error);
         }
     };
-
-    // Fetch Cart Items
-    const getCartItems = async () => {
-        try {
-            const response = await axios.get("http://localhost:5000/api/cart/", {
-                headers: { Authorization: `Bearer ${getAuthToken()}` },
-            });
-            return response.data;
-        } catch (error) {
-            console.error("Error fetching cart:", error);
-        }
-    };
-
     // Update Cart Item
     const updateCartItem = async (id, ticket, totalAmount, seatType) => {
         try {
@@ -113,10 +111,9 @@ export const  Ticket = ()=>{
         <Container>
           <Row className="justify-content-center flex-column">
             <header className="seathead">
-            <p className="seatH m-0">{ event.concertname } | {event.district}</p>
+            <p className="seatH m-0">{ event.eventName } | {event.location ? event.location.split(", ").pop() : "NA"}</p>
             <p className="seatpara m-0">
-                {event.date}, {event.time}<span className="css-wevn09">•</span>{event.district}
-              </p>
+            {event.date}, {event.time}<span className="css-wevn09">•</span>{event.location ? event.location.split(", ").pop() : "NA"}</p>
             </header>
               <div className="w-100 d-flex justify-content-center">
               <Col xs={12} md={11} lg={7} xl={6} className="py-4 d-flex justify-content-center flex-column">
@@ -125,7 +122,7 @@ export const  Ticket = ()=>{
                   <p className="css-3i6ki3 m-0 css-qzzcto">Phase 1 - {seattype} - Seating</p>
                   <div className="css-ghje90">
                     <p className="css-wsn3os">{ticketamount}</p>
-                    {!isClicked && <button className="css-1hwnyow" onClick={handleClick}>ADD</button>}
+                    {!isClicked && <button className="css-1hwnyow" onClick={() => { handleClick(); clickphase(); }}>ADD</button>}
                     {isClicked && (
                       <div className="css-vdw6wo">
                         <span onClick={decrement}><img alt="img" src={minus} /></span>
@@ -150,7 +147,7 @@ export const  Ticket = ()=>{
                   <div className="css-ghje90">
                     <p className="css-wsn3os">{familypack}</p>
   
-                    {!isEnabled && <button className="css-1hwnyow" onClick={handlebutton}>ADD</button>}
+                    {!isEnabled && <button className="css-1hwnyow" onClick={() => { handlebutton(); clickFampack(); }}>ADD</button>}
                     {isEnabled && (
                       <div className="css-vdw6wo">
                         <span onClick={decrease}><img alt="img" src={minus} /></span>

@@ -1,10 +1,9 @@
 import './App.css';
 import filter from '../src/Images/filter.svg'
 import { Adbanner } from './Cbe';
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useContext } from 'react';
 import {useNavigate  } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
+import { Event } from './Buypage';
 
 export const Seating = ()=>{
   const [activeSection, setActiveSection] = useState(null);
@@ -19,27 +18,19 @@ export const Seating = ()=>{
     setActiveSection(section);
   };
 
-const location = useLocation(); 
-const queryparams = new URLSearchParams(location.search);  
-let event = Object.fromEntries(queryparams.entries());
-  
-  if (Object.keys(event).length === 0) {
-    const storedData = localStorage.getItem("eventdetails");
-    event = storedData ? JSON.parse(storedData) : {};
-  }
-  
-  const eventDetails = event; 
 
-  const navigate = useNavigate();
+  const { event } = useContext(Event); 
+  const navigate = useNavigate(); 
 
-  const handlenavigate = (amount,seatType) => {
+  const handlenavigate = (amount, seatType) => {
     const updatedEvent = {
-      ...eventDetails,
-      seattype: seatType, 
-      ogamt: amount, 
+      ...event,
+      seattype: seatType,
+      ogamt: amount,
     };
+
     const eventQueryString = new URLSearchParams(updatedEvent).toString();
-    let url = `/coimbatore/buynow/selectseat/ticket?&${eventQueryString}`;
+    let url = `/coimbatore/buynow/selectseat/ticket?${eventQueryString}`;
     navigate(url);
   };
 
@@ -49,7 +40,7 @@ let event = Object.fromEntries(queryparams.entries());
       <header className='seathead'>
         <p className='seatH m-0'>   </p>
         <p className='seatpara m-0'>
-        {event?.concertname || "NA"}, {event?.time || "NA"}<span className='css-wevn09 '>•</span>{event?.location || "NA"} 
+        {event?.eventName || "NA"}, {event?.time || "NA"}<span className='css-wevn09 '>•</span>{event?.location || "NA"} 
         </p>
       </header>
       <div className='d-flex justify-content-center'>
