@@ -28,18 +28,41 @@ const ProductManagement = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
+
+  
 
   const [editFormData, setEditFormData] = useState({
     Category: "",
     eventName: "",
-    price: "",
     date: "",
-    time: "05:30 AM",  
-    location:"",
-    tickettype: "",
+    time: "05:30 AM",
+    location: "",
     status: "",
+    prices: {
+      General: 799,
+      Bronze: 999,
+      Silver: 1299,
+      Gold: 1599,
+      Platinum: 1999,
+      VIP: 2999,
+    },
   });
+
+
+  const handlePriceChange = (ticketType, newPrice) => {
+    setEditFormData((prevData) => ({
+      ...prevData,
+      prices: {
+        ...prevData.prices,
+        [ticketType]: newPrice ? Number(newPrice) : prevData.prices[ticketType], 
+      },
+    }));
+  };
+  
+
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -86,40 +109,109 @@ const ProductManagement = () => {
 const fetchProducts = async () => {
   try {
     const response = await axios.get("http://localhost:7000/api/products");
-
+    
     if (response.status === 200 && Array.isArray(response.data)) {
-      setProducts(response.data);
-    } 
-    else {
-      console.error("Invalid response format:", response.data);
+      const formattedProducts = response.data.map((product) => {
+        if (!product.date) return {...product, date: ""};
+
+        // Convert to local date string
+        const localDate = new Date(product.date);
+        const offset = localDate.getTimezoneOffset() * 60000;
+        const localISODate = new Date(localDate - offset).toISOString().split("T")[0];
+
+        return {
+          ...product,
+          date: localISODate,
+          prices: parsePrices(product.prices)
+        };
+      });
+      
+      setProducts(formattedProducts);
     }
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Fetch error:", error);
   }
 };
 
-useEffect(() => {
+// Add this helper function
+const parsePrices = (prices) => {
+  if (!prices) return DEFAULT_PRICES;
+  if (typeof prices === 'string') {
+    try {
+      return JSON.parse(prices);
+    } catch {
+      return DEFAULT_PRICES;
+    }
+  }
+  if (typeof prices === 'object') return prices;
+  return DEFAULT_PRICES;
+};
+
+const DEFAULT_PRICES = {
+  General: 799,
+  Bronze: 999,
+  Silver: 1299,
+  Gold: 1599,
+  Platinum: 1999,
+  VIP: 2999
+};
+useEffect(()=>{
   fetchProducts();
-}, []);
+},[])
+
 
 // ------------------------------------------------------------backend and front end logic for edit and add-------------------------------------------------------
 //for edit
 const handleEdit = (product) => {
   setSelectedProduct(product);
+
+  const defaultPrices = {
+    General: 799,
+    Bronze: 999,
+    Silver: 1299,
+    Gold: 1599,
+    Platinum: 1999,
+    VIP: 2999,
+  };
+  
+  // Price normalization logic
+  const normalizePrices = (prices) => {
+    if (!prices) return defaultPrices;
+    if (typeof prices === 'string') {
+      try {
+        return JSON.parse(prices);
+      } catch {
+        return defaultPrices;
+      }
+    }
+    if (typeof prices === 'object') return prices;
+    return defaultPrices;
+  };
+
   setEditFormData({
-    Category: product.Category,
-    eventName: product.eventName,
-    price: product.price,
-    date: product.date,
-    time:product.time,
-    location:product.location,
-    tickettype:product.tickettype,
-    status: product.status,
-    image: null,
+    _id: product._id,
+    Category: product.Category || "",
+    eventName: product.eventName || "",
+    date: product.date || "",
+    time: product.time || "05:30 AM",
+    location: product.location || "",
+    status: product.status || "",
+    existingImage: product.image || "", // Store existing filename
+    newImage: null, // For potential new uploads
+    prices: normalizePrices(product.prices)
   });
+
+  setImagePreview(product.image 
+    ? `http://localhost:7000/uploads/${product.image}`
+    : null
+  );
   setEditMode(true);
   setShowAddProductForm(true);
+
 };
+
+
+
 
 const handleInputChange = (e) => {
   const { name, value } = e.target;
@@ -132,16 +224,28 @@ const handleInputChange = (e) => {
 };
 
 const handleFileChange = (e) => {
-  setEditFormData((prevData) => ({
-    ...prevData,
-    image: e.target.files[0],
-  }));
+  const file = e.target.files[0];
+  if (file) {
+    setEditFormData(prev => ({
+      ...prev,
+      newImage: file // Store new file separately
+    }));
+    setImagePreview(URL.createObjectURL(file));
+  }
 };
 //for add
 const handleProductSubmit = async (e) => {
   e.preventDefault();
 
-  if (!editFormData.Category || !editFormData.eventName || !editFormData.price || !editFormData.date || !editFormData.time ||!editFormData.location ||!editFormData.tickettype || !editFormData.status) {
+
+
+
+  if (typeof editFormData.prices !== 'object') {
+    setError("Invalid price structure");
+    return;
+  }
+
+  if (!editFormData.Category || !editFormData.eventName || !editFormData.prices || !editFormData.date || !editFormData.time ||!editFormData.location || !editFormData.status) {
     setError("All fields are required.");
     return;
   }
@@ -151,20 +255,25 @@ const handleProductSubmit = async (e) => {
     let formData = new FormData();
     formData.append("Category", editFormData.Category);
     formData.append("eventName", editFormData.eventName);
-    formData.append("price", parseFloat(editFormData.price)); 
-    formData.append("date", editFormData.date);  
+    formData.append("date", editFormData.date); 
     formData.append("time", editFormData.time);
     formData.append("location", editFormData.location); 
-    formData.append("tickettype", editFormData.tickettype);
     formData.append("status", editFormData.status);
+    formData.append("prices", JSON.stringify(editFormData.prices));
     if (editFormData.image) formData.append("image", editFormData.image);
 
     let url = "http://localhost:7000/api/products"; 
     let method = "POST"; 
 
-    if (editMode && selectedProduct) {
-      url = `http://localhost:7000/update/${selectedProduct._id}`; 
-      method = "PUT";
+    if (editMode) {
+      formData.append("existingImage", editFormData.existingImage);
+      if (editFormData.newImage) {
+        formData.append("image", editFormData.newImage);
+      }
+    } else {
+      if (editFormData.newImage) {
+        formData.append("image", editFormData.newImage);
+      }
     }
 
     const response = await fetch(url, {
@@ -253,18 +362,17 @@ const handleProductSubmit = async (e) => {
 
   // CSV Export Implementation
   const exportAsCSV = (data) => {
-    const headers = ["Main Category", "Sub Category", "Price", "date","time","location","tickettype", "Status"];
+    const headers = ["Main Category", "Sub Category", "prices", "date","time","location", "Status"];
     
     const csvData = [
       headers,
       ...data.map(item => [
         `"${item.Category}"`, 
         `"${item.eventName}"`, 
-        `"${item.price}"`,  
+        `"${item.prices}"`,  
         `"${item.date}"`, 
         `"${item.time}"`, 
         `"${item.location}"`,
-        `"${item.tickettype}"`,
         `"${item.status}"`
       ])
     ];
@@ -289,11 +397,10 @@ const handleProductSubmit = async (e) => {
     const worksheet = XLSX.utils.json_to_sheet(data.map(item => ({
       "Main Category": item.Category,
       "Sub Category": item.eventName,
-      "Price": item.price,
+      "Price": item.prices,
       "date": item.date,
       "time": item.time,
       "location":item.location,
-      "tickettype":item.tickettype,
       "Status": item.status
     })));
 
@@ -310,15 +417,14 @@ const handleProductSubmit = async (e) => {
     doc.text("Product List", 14, 15);
     
     autoTable(doc, {
-      head: [["Main Category", "Sub Category", "Price", "date","time","location,","tickettype", "Status"]],
+      head: [["Main Category", "Sub Category", "prices", "date","time","location,", "Status"]],
       body: data.map(product => [
         product.Category,
         product.eventName,
-        `$${product.price.toFixed(2)}`,
+        `$${product.prices.toFixed(2)}`,
         product.date,
         product.time,
         product.location,
-        product.tickettype,
         product.status
       ]),
       startY: 25,
@@ -334,6 +440,30 @@ const handleProductSubmit = async (e) => {
     doc.save("products.pdf");
   };
 
+  const handleAddProduct = () => {
+    setEditFormData({
+      Category: "",
+      eventName: "",
+      date: "",  // Set date to empty
+      time: "05:30 AM",  // Default time
+      location: "",
+      tickettype: "",
+      status: "",
+      image: null,  // Ensure image is null
+      prices: {
+        General: 799,
+        Bronze: 999,
+        Silver: 1299,
+        Gold: 1599,
+        Platinum: 1999,
+        VIP: 2999,
+      },
+    });
+  
+    setEditMode(false); // Ensure it's not in edit mode
+    setShowAddProductForm(true); // Open the form
+  };
+  
   return (
     <Container fluid className="bg-light min-vh-100 p-4">
       <Row className="g-4">
@@ -346,6 +476,7 @@ const handleProductSubmit = async (e) => {
                   variant="primary" 
                   className="rounded-pill px-4"
                   onClick={() => {
+                    handleAddProduct();
                     setShowAddProductForm(!showAddProductForm);
                     setEditMode(false);
                   }}
@@ -361,7 +492,7 @@ const handleProductSubmit = async (e) => {
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder="Search by category, price,location or status"
+                    placeholder="Search by category, location or status"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="rounded-pill"
@@ -393,28 +524,30 @@ const handleProductSubmit = async (e) => {
   <Button 
     variant="outline-danger" 
     className="rounded-pill px-4 d-flex align-items-center gap-2"
-    onClick={handleExport('pdf')}
-
-  >
+    onClick={handleExport('pdf')}>
     <FaFilePdf /> PDF
   </Button>
   <Button 
     variant="outline-primary" 
     className="rounded-pill px-4 d-flex align-items-center gap-2"
-    onClick={handleExport('excel')}
-
-  >
+    onClick={handleExport('excel')}>
     <FaFileExcel /> Excel
   </Button>
 </Col>
-              </Row>
-            </div>
+  </Row>
+ </div>
 
 {/* Product Form */}
 {showAddProductForm && (
-  <div className="bg-gray-100 rounded-3 p-4 mb-4">
+  <div
+    className="bg-gray-100 rounded-3 p-4 mb-4"
+    onClick={() => setError("")}  // 🔹 Hide error when clicking anywhere inside the form
+    onChange={() => setError("")} // 🔹 Hide error when changing any input field
+  >
     <h5 className="mb-4">{editMode ? "Edit Product" : "Add Product"}</h5>
-    {error && <div className="alert alert-danger">{error}</div>}
+
+    {/* Error message with auto-hide logic */}
+
 
     <Form onSubmit={handleProductSubmit}> {/* 🔹 Use the optimized function */}
       <Row className="g-3 mb-4">
@@ -437,7 +570,7 @@ const handleProductSubmit = async (e) => {
 
         <Col md={6}>
           <Form.Group>
-            <Form.Label>Event name</Form.Label>
+            <Form.Label>Event Name</Form.Label>
             <Form.Control
               type="text"
               name="eventName"
@@ -460,75 +593,59 @@ const handleProductSubmit = async (e) => {
               className="rounded-pill"
             />
           </Form.Group>
+
+          {/* Show image preview if available */}
+          {imagePreview && (
+            <div className="mt-2">
+              <img 
+                src={imagePreview} 
+                alt="Preview" 
+                className="img-thumbnail" 
+                style={{ width: '100px', height: '80px', objectFit: 'cover' }} 
+              />
+            </div>
+          )}
         </Col>
 
         <Col md={6}>
           <Form.Group>
-            <Form.Label>Price</Form.Label>
+            <Form.Label>Date</Form.Label>
             <Form.Control
-              type="number"
-              name="price"
-              value={editFormData.price}
-              onChange={handleInputChange}
+              type="date"
+              name="date"
+              value={editFormData.date}
+              onChange={(e) => setEditFormData({ ...editFormData, date: e.target.value })}
               className="rounded-pill"
             />
           </Form.Group>
         </Col>
 
         <Col md={6}>
-  <Form.Group>
-    <Form.Label>Date</Form.Label>
-    <Form.Control
-      type="date"
-      name="date"
-      value={editFormData.date}
-      onChange={handleInputChange}
-      className="rounded-pill"
-    />
-  </Form.Group>
-</Col>
+          <Form.Group>
+            <Form.Label>Time</Form.Label>
+            <InputGroup>
+              <TimePicker
+                onChange={handleTimeChange}
+                value={editFormData.time}
+                format="h:mm a"         
+                disableClock={true} 
+                clearIcon={null}  
+                className="form-control rounded-pill"
+              />
+            </InputGroup>
+          </Form.Group>
+        </Col>
 
         <Col md={6}>
-        <Form.Group>
-        <Form.Label>Time</Form.Label>
-        <InputGroup>
-          <TimePicker
-            onChange={handleTimeChange}
-            value={editFormData.time}
-            format="h:mm a"         
-            disableClock={true} 
-            className="form-control rounded-pill"
-          />
-        </InputGroup>
-      </Form.Group>
-    </Col>
-
-    <Col md={6}>
           <Form.Group>
             <Form.Label>Location</Form.Label>
             <Form.Control
               type="text"
               name="location"
-              value={editFormData.location } 
+              value={editFormData.location} 
               onChange={handleInputChange}
               className="rounded-pill"
             />
-          </Form.Group>
-        </Col>
-
-        <Col md={6}>
-          <Form.Group>
-            <Form.Label>Ticket type</Form.Label>
-            <Form.Select 
-              name="tickettype"
-              value={editFormData.tickettype} 
-              onChange={handleInputChange}
-              className="rounded-pill"
-            >
-              <option value="">Select tickettype</option>
-              <option value="Available">Available</option>
-              <option value="Sold out">Sold out</option>
-            </Form.Select>
           </Form.Group>
         </Col>
 
@@ -549,7 +666,30 @@ const handleProductSubmit = async (e) => {
         </Col>
       </Row>
 
+      <Row className="mt-3">
+        <Col md={6}>
+          <Form.Label>Ticket Type</Form.Label>
+        </Col>
+        <Col md={6}>
+          <Form.Label>Price</Form.Label>
+        </Col>
+      </Row>
 
+      {Object.entries(editFormData.prices).map(([ticketType, price]) => (
+        <Row key={ticketType} className="mb-2">
+          <Col md={6}>
+            <Form.Control type="text" value={ticketType} disabled className="rounded-pill" />
+          </Col>
+          <Col md={6}>
+            <Form.Control
+              type="number"
+              value={price.toString()}  // 👈 Always convert to string
+              onChange={(e) => handlePriceChange(ticketType, e.target.value)}
+              className="rounded-pill"
+            />
+          </Col>
+        </Row>
+      ))}
 
       <div className="d-flex justify-content-end gap-2 mt-4">
         <Button 
@@ -557,7 +697,6 @@ const handleProductSubmit = async (e) => {
           className="rounded-pill px-4"
           onClick={() => {
             setShowAddProductForm(false);
-            // resetForm();
           }}
         >
           Cancel
@@ -567,8 +706,14 @@ const handleProductSubmit = async (e) => {
         </Button>
       </div>
     </Form>
+    {error && (
+      <div className="alert alert-danger">
+        {error}
+      </div>
+    )}
   </div>
 )}
+
             {/* Product List */}
             <div className="bg-white rounded-3 shadow-sm p-4">
               <div className="d-flex justify-content-between align-items-center mb-4">
@@ -592,77 +737,82 @@ const handleProductSubmit = async (e) => {
                     <th>Category</th>
                     <th>Event name</th>
                     <th>Image</th>
-                    <th>Price</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Location</th>
-                    <th>Ticket</th>
                     <th>Status</th>
                     <th className="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct).map((product, index) => (
-                    <tr key={product._id}>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          checked={selectedProducts.includes(product._id)}
-                          onChange={() => handleCheckboxChange(product._id)}
-                        />
-                      </td>
-                      <td>{index + 1}</td>
-                      <td>{product.Category}</td>
-                      <td>{product.eventName}</td>
-                      <td>
-                        <img src={`http://localhost:7000/uploads/${product.image}`}
-                        alt={product.Category}
-                        className="img-thumbnail"
-                        style={{ width: '80px', height: '60px', objectFit: 'cover' }}
-                        />
-                      </td>
-                      <td>{product.price}</td>
-                      <td>
-                     {new Date(product.date).toLocaleDateString('en-GB', {
-                     day: 'numeric',
-                     month: 'short'
-                     })}
-                    </td> 
-                     <td>{product.time}</td>
-                      <td>{product.location}</td>
-                      <td>{product.tickettype}</td>
-                      <td>{product.status}</td>
-                      <td className="text-center">
-                        <div className="d-flex justify-content-center gap-2">
-                          <Button 
-                            variant="light" 
-                            size="sm" 
-                            className="text-info border-0"
-                            onClick={() => handleView(product)}
-                          >
-                            <FaEye size={18} />
-                          </Button>
-                          <Button 
-                            variant="light" 
-                            size="sm" 
-                            className="text-warning border-0"
-                            onClick={() => handleEdit(product)}
-                          >
-                            <FaEdit size={18} />
-                          </Button>
-                          <Button 
-                            variant="light" 
-                            size="sm" 
-                            className="text-danger border-0"
-                            onClick={() => handleDeleteClick(product)}
-                          >
-                            <FaTrash size={18} />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+    {filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct).map((product, index) => {
+
+      return (
+        <tr
+          key={product._id}
+        >
+          <td>
+            <Form.Check
+              type="checkbox"
+              checked={selectedProducts.includes(product._id)}
+              onChange={() => handleCheckboxChange(product._id)}
+            />
+          </td>
+          <td>{index + 1}</td>
+          <td>{product.Category}</td>
+          <td>{product.eventName}</td>
+          <td>
+            <img
+              src={`http://localhost:7000/uploads/${product.image}`}
+              alt={product.Category}
+              className="img-thumbnail"
+              style={{ width: '80px', height: '60px', objectFit: 'cover' }}
+            />
+          </td>
+          <td>
+            {new Date(product.date).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+            })}
+          </td>
+          <td>{product.time}</td>
+          <td>{product.location}</td>
+          <td>{product.status}</td>
+          <td className="text-center">
+            <div className="d-flex justify-content-center gap-2">
+              <Button
+                variant="light"
+                size="sm"
+                className="text-info border-0"
+                onClick={() => handleView(product)}
+              >
+                <FaEye size={18} />
+              </Button>
+              <Button
+                variant="light"
+                size="sm"
+                className="text-warning border-0"
+                onClick={() => {
+                  handleEdit(product);
+                  setEditMode(true);
+                }}
+              >
+                <FaEdit size={18} />
+              </Button>
+              <Button
+                variant="light"
+                size="sm"
+                className="text-danger border-0"
+                onClick={() => handleDeleteClick(product)}
+              >
+                <FaTrash size={18} />
+              </Button>
+            </div>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
               </Table>
             </div>
           </div>
@@ -687,7 +837,7 @@ const handleProductSubmit = async (e) => {
         </Row>
         <Row className="mb-3">
           <Col md={4} className="fw-medium">Price:</Col>
-          <Col md={8}>${selectedProduct.price}</Col>
+          <Col md={8}>${selectedProduct.prices}</Col>
         </Row>
         <Row className="mb-3">
           <Col md={4} className="fw-medium">date:</Col>

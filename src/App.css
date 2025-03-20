@@ -1152,6 +1152,10 @@ z-index: 2 !important;
     border-radius: 0px !important;
   }
 }
+.img-poster {
+  border-radius: 0px !important;
+max-height: 550px !important;
+}
 
 @media(max-width:780px){
 .css-18oep7e,.css-8faiv6 {

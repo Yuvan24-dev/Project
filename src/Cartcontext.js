@@ -7,7 +7,8 @@ export const TotalAmountContext = createContext();
 export const TotalAmountProvider = ({ children }) => {
 
 const { event }=useContext(Actamount);
-const  ticketamount = event.price;
+console.log("amount",event);
+const  ticketamount = event.ogamt;
 const seattype=event.seattype;
 const concertname = event.eventName;
 

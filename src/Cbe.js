@@ -47,6 +47,14 @@ import fblogo from "./Images/fb.svg";
 import { FaXTwitter } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import event1 from "../src/Images/ImgA.jpg";
+import event2 from "../src/Images/ImgB.jpg";
+import event3 from "../src/Images/ImgC.jpg";
+import event4 from "../src/Images/ImgE.png";
+import event5 from "../src/Images/ImgE.png";
+
+
+
 
 
 export const Adbanner = () => {
@@ -57,6 +65,86 @@ export const Adbanner = () => {
   );
 };
 const CustomCarousel = () => {
+  console.log("Imported Image Path:", exportA);
+
+  useEffect(()=>{
+  const defaultEvents = [
+    {
+      _id: "1",
+      eventName: "Deve Concert",
+      Category: "Music",
+      date: "2025-04-15",
+      time: "19:00",
+      location: "Coimbatore Arena",
+      status: "Available",
+      image: event1, // 
+      prices: {
+        General:799,
+        Bronze: 999,
+        Silver: 1299,
+        Gold:1599,
+        Platinum:1999,
+        VIP:2999,
+      }
+    },
+    {
+      _id: "2",
+      eventName: "Stand-Up Comedy",
+      Category: "Comedy",
+      date: "2025-04-20",
+      time: "18:30",
+      location: "Grand Hall, Coimbatore",
+      status: "Available",
+      image: event2, 
+      prices: {
+        General:799,
+        Bronze: 999,
+        Silver: 1299,
+        Gold:1599,
+        Platinum:1999,
+        VIP:2999,
+      }
+    },
+    {
+      _id: "3",
+      eventName: "Stand-Up Comedy",
+      Category: "Comedy",
+      date: "2025-04-20",
+      time: "18:30",
+      location: "Grand Hall, Coimbatore",
+      status: "Available",
+      image: event3, 
+      prices: {
+        General:799,
+        Bronze: 999,
+        Silver: 1299,
+        Gold:1599,
+        Platinum:1999,
+        VIP:2999,
+      }
+    },
+    {
+      _id: "4",
+      eventName: "Stand-Up Comedy",
+      Category: "Comedy",
+      date: "2025-04-20",
+      time: "18:30",
+      location: "Grand Hall, Coimbatore",
+      status: "Available",
+      image: event4, 
+      prices: {
+        General:799,
+        Bronze: 999,
+        Silver: 1299,
+        Gold:1599,
+        Platinum:1999,
+        VIP:2999,
+      }
+    }
+  ];
+  setEvents(defaultEvents); 
+},[])
+  
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
@@ -64,11 +152,25 @@ const CustomCarousel = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:7000/api/products");
-      setEvents(response.data);
+  
+      if (response.status === 200 && Array.isArray(response.data)) {
+        const parsedData = response.data.map((event) => ({
+          ...event,
+          prices: typeof event.prices === "string" ? JSON.parse(event.prices) : event.prices,
+        }));
+        setEvents(parsedData);
+      } else {
+        console.error("Invalid response format:", response.data);
+        //setEvents(defaultEvents);
+        alert("Server not connected, now displaying static data.");
+      }
     } catch (error) {
       console.error("Error fetching products:", error);
+      //setEvents(defaultEvents);
+      alert("Server not connected, now displaying static data.");
     }
   };
+  
 
   useEffect(() => {
     fetchProducts();
@@ -76,20 +178,31 @@ const CustomCarousel = () => {
 
   // Function to pass selected event details when clicking an image
   const passValue = (event) => {
-    const queryString = new URLSearchParams({
+    const queryParams = new URLSearchParams({
       id: event._id,
       eventName: event.eventName,
       category: event.Category,
-      price: event.price,
       date: event.date,
       time: event.time,
       location: event.location,
       status: event.status,
       image: event.image,
-    }).toString();
-
+    });
+  
+    // Ensure prices are properly appended
+    if (event.prices && typeof event.prices === "object") {
+      Object.entries(event.prices).forEach(([key, value]) => {
+        queryParams.append(`price_${key}`, value);
+      });
+    }
+  
+    const queryString = queryParams.toString();
     navigate(`/coimbatore/buynow?${queryString}`);
+  
+    console.log("Final URL with Prices:", `/coimbatore/buynow?${queryString}`);
   };
+  
+    
 
   return (
     <>
@@ -103,28 +216,36 @@ const CustomCarousel = () => {
             <Carousel.Item key={event._id} className="py-0 pt-lg-4 pb-lg-5 pb-md-4">
               <Row className="justify-content-center">
                 <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-                  <img
-                    className="img-fluid imgDimming imgMainstyle"
-                    src={`http://localhost:7000/uploads/${prevEvent.image}`}
-                    alt={prevEvent.eventName}
-                  />
+               <img className="img-fluid imgMainstyle"src={typeof prevEvent.image === 'string' ? `http://localhost:7000/uploads/${prevEvent.image}`: event.image}
+               alt={event.eventName}
+               onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = event1; // Fallback image
+              }}
+               style={{ cursor: "pointer" }}
+             />
                 </Col>
 
                 <Col onClick={() => passValue(event)} md={4} className="imgMainstyle px-1">
-                  <img
-                    className="img-fluid imgMainstyle"
-                    src={`http://localhost:7000/uploads/${event.image}`}
-                    alt={event.eventName}
-                    style={{ cursor: "pointer" }}
-                  />
+                <img className="img-fluid imgMainstyle"src={typeof event.image === 'string' ? `http://localhost:7000/uploads/${event.image}`: event.image}
+               alt={event.eventName}
+               onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = event2; // Fallback image
+              }}
+               style={{ cursor: "pointer" }}
+              />
                 </Col>
 
                 <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
-                  <img
-                    className="img-fluid imgDimming imgMainstyle"
-                    src={`http://localhost:7000/uploads/${nextEvent.image}`}
-                    alt={nextEvent.eventName}
-                  />
+                <img className="img-fluid imgMainstyle"src={typeof nextEvent.image === 'string' ? `http://localhost:7000/uploads/${nextEvent.image}`: event.image}
+               alt={event.eventName}
+               onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = event3; // Fallback image
+              }}
+               style={{ cursor: "pointer" }}
+             />
                 </Col>
               </Row>
             </Carousel.Item>

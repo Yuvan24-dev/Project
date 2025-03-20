@@ -6,13 +6,16 @@ import { useState, useContext, useEffect,useCallback  } from "react";
 import { TotalAmountContext } from './Cartcontext'; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import empty from '../src/Images/Emptycart.webp';
 const API_URL = 'http://localhost:5000/api/cart';
 
 
 export const Cart = () => {
   const [cart, setCart] = useState([]);
   const navigate= useNavigate()
-  const [step, setStep] = useState(false);  
+  const [step, setStep] = useState(false); 
+  const [del,setDel]=useState(false);
+ 
 
   const handlestep = () => {
     setStep(true); 
@@ -41,12 +44,6 @@ useEffect(() => {
   getCartItems();
 }, [getCartItems]);
 
-
-
-
-
-
-
   // ------------api--------------
   const getAuthToken = () => localStorage.getItem('token');
 
@@ -66,11 +63,17 @@ useEffect(() => {
 const paymentnav = () =>{
   navigate("/payment")
 }
- 
+
 
     return(
     <>
     <Adbanner />
+          {del ? (
+        <Container className="d-flex justify-content-center">
+          <img src={empty} alt="Empty Cart" className="img-fluid" />
+        </Container>
+      ) : (
+      <div>
     <Container className="d-flex justify-content-center">
     <Col xs={12} md={11} lg={7} xl={8} className="py-0 d-flex justify-content-center flex-column ">
                 <div className={`css-bln63c ${ step ? "opacity-50" : ""}`}   >
@@ -96,7 +99,9 @@ const paymentnav = () =>{
                       <p className="css-1d6xumx">{cart[0]?.eventdetails}</p>
                       <div className="css-28hpcg">
                         <p className="css-1hxyujb">Group of Friends Pack of 13 - General - Standing (Pay for 10 Get 13)</p>
-                        <img onClick={() => deleteCartItem()} alt="img" src={dustbin} />
+                        <img onClick={() =>{ deleteCartItem();
+                          setDel(true)
+                        }} alt="img" src={dustbin} />
                         </div>
                       <div className="  allign-item-center ref">
                         <div className="d-flex gap-1 float-start">
@@ -231,6 +236,8 @@ const paymentnav = () =>{
 
               </Col>
     </Container> 
+    </div>
+      )}
     </>
     )
 }

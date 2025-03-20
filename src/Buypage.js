@@ -1,12 +1,12 @@
 import buysmall from "../src/Images/Buynowimg.png"
 import { FaChevronUp,FaChevronRight,FaChevronDown  } from "react-icons/fa";
 import lanuage from '../src/Images/language.png'
-import devaimg from '../src/Images/Devaround.jpg'
 import rebun from '../src/Images/rebun.svg'
 import timex from '../src/Images/timex.png'
 import info from '../src/Images/info.png'
 import loacte from '../src/Images/location.svg'
-import { useState,createContext,useEffect } from 'react';
+import devaimg from '../src/Images/Devaround.jpg'
+import { useState,createContext,useEffect,useMemo } from 'react';
 import { Button, Row, Col,} from 'react-bootstrap';
 import Devevent from "../src/Images.chennai/expo3.jpg"
 import calender from '../src/Images/calender.svg'
@@ -25,32 +25,55 @@ import people from "../src/Images/people.svg"
 import { FaXTwitter } from "react-icons/fa6";
 
 
+
+
 export const Event = createContext();
 
-// Context Provider
 export const Eventdetails = ({ children }) => {
   const location = useLocation();
-  const queryparams = new URLSearchParams(location.search);
-  let newEvent = Object.fromEntries(queryparams.entries());
 
-  const [event, setEvent] = useState(newEvent);
+  const eventDataFromURL = useMemo(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const params = Object.fromEntries(queryParams.entries());
+
+    const processedEvent = {};
+    Object.keys(params).forEach(key => {
+      if (key.startsWith('price_')) {
+        const priceKey = key.replace('price_', '');
+        processedEvent[priceKey] = parseFloat(params[key]) || 0;
+      } else {
+        processedEvent[key] = params[key];
+      }
+    });
+
+    return processedEvent;
+  }, [location.search]); 
+
+  const [event, setEvent] = useState(() => {
+    if (Object.keys(eventDataFromURL).length > 0) {
+      return eventDataFromURL;
+    }
+    const storedData = sessionStorage.getItem("eventData");
+    return storedData ? JSON.parse(storedData) : {};
+  });
 
   useEffect(() => {
-    if (Object.keys(newEvent).length > 0) {
-      setEvent(newEvent);
+    if (Object.keys(eventDataFromURL).length > 0) {
+      setEvent(eventDataFromURL);
     }
-  }, [newEvent]);
+  }, [eventDataFromURL]);
 
-  return (
-    <Event.Provider value={{ event }}>
-      {children}
-    </Event.Provider>
-  );
+  useEffect(() => {
+    sessionStorage.setItem("eventData", JSON.stringify(event));
+  }, [event]);
+
+  return <Event.Provider value={{ event }}>{children}</Event.Provider>;
 };
 
 export const Buypage = () => {
   
     const [showMore, setShowMore] = useState(false);
+    const [disabelby, setdisabelby] = useState(false);
     const scrollRef = useRef(null);
 
     const toggleShowMore = () => {
@@ -69,13 +92,23 @@ export const Buypage = () => {
         scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
       }
     };
-  
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
-    let event = Object.fromEntries(queryparams.entries());
     
-   
-
+    let event = Object.fromEntries(queryparams.entries());
+       Object.keys(event)
+      .filter(key => key.startsWith("price_")) 
+      .reduce((acc, key) => {
+        const priceCategory = key.replace("price_", ""); 
+        acc[priceCategory] = parseFloat(event[key]);
+        return acc;
+      }, {});
+      useEffect(()=>{
+        if(event.status == "Sold out"){
+          setdisabelby(true);
+          }
+          console.log("imagetst",event.image)
+      },[])
 
     return (
       <>
@@ -84,7 +117,8 @@ export const Buypage = () => {
        </div>
           <Row className='flex justify-content-md-center px-0 px-lg-5 mx-0 pb-0 pb-lg-5'>
             <Col xs={12} md={7} className='px-0'>
-              <Col><img alt="Img-verified" className=' img-poster d-block py-0  py-md-4 ' src={Devevent} /></Col>
+              <Col><img alt="Server error cant load image😊" className=' img-poster d-block py-0  py-md-4 ' src={event.image.startsWith("http") ? event.image : `http://localhost:7000/uploads/${event.image}`|| devaimg}
+              /></Col>
               <Col  md={12} className='d-none ml-3 d-lg-flex allign-item-center justify-content-center' >
               <Col xs={11} md={12}>
               <img alt="Img-verified" className='img-small d-block py-4 px-0 px-sm-4 ' src={buysmall} /> 
@@ -132,9 +166,9 @@ export const Buypage = () => {
           <span>{showMore ? 'Show Less' : 'Show More'}</span>
           <span style={{ marginLeft: "2px" }} className='me-0 float-end'>
             {showMore ? (
-              <i  className="bi bi-chevron-up"><FaChevronUp /></i> // Change icon for 'Show Less'
+              <i  className="bi bi-chevron-up"><FaChevronUp /></i> 
             ) : (
-              <i className="bi bi-chevron-down"><FaChevronDown/></i> // Change icon for 'Show More'
+              <i className="bi bi-chevron-down"><FaChevronDown/></i> 
             )}
           </span>
           </div>
@@ -178,7 +212,7 @@ export const Buypage = () => {
               </Col>
               <Col  className='d-none img-small d-lg-block pt-4 p-0' ><h1 className='buyhead d-block'>Artist</h1>  
               <Col xs={5} className='d-flex gap-2'>
-              <div className='css-b5jmm8'><img alt="Img-verified" className='css-12voypq' src={devaimg}/></div>
+              <div className='css-b5jmm8'><img alt="Img-verified" className='css-12voypq' src={event}/></div>
               <div className="d-flex flex-column justify-content-center" >
               <p className='d-block m-0 css-16nwea1'>Deva</p>
               <span className='d-flex'>
@@ -225,8 +259,14 @@ export const Buypage = () => {
             <hr></hr>
             <Col className=' d-none d-lg-flex align-items-center justify-content-between '>
             <Col xs={8}><p className='css-1rgjqr3 m-0'><span>₹</span> 799 Onwards</p></Col>
-            <Col xs={4}><Link to='selectseat'><Button className='css-1s6w8n3'>BUY NOW</Button></Link> </Col>
-            </Col>
+            <Col xs={4}>
+          <Link to={disabelby ? "#" : "selectseat"} onClick={(e) => disabelby && e.preventDefault()}>
+           <Button className="css-1s6w8n3" disabled={disabelby}>
+         {disabelby ? "SOLD OUT" : "BUY NOW"}
+         </Button>
+         </Link>
+         </Col>
+          </Col>
             </Col>
             <div className="d-lg-flex d-none  align-item-center">
               <div className=" d-flex justify-content-between py-3 my-3 w-100 css-v8p379">
@@ -530,7 +570,6 @@ export const Buypage = () => {
         </Col>
       <SmallPoster />
       <Footer />
-
       </>
     )
   }
