@@ -5,9 +5,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container d-flex flex-column">
-      {/* Top Navigation Bar */}
-
-
         {/* Main Content */}
         <div className="main-content p-4 flex-grow-1" style={{ overflowX: "hidden" }}>
           <h2 className="mb-4">Dashboard</h2>

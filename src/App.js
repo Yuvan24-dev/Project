@@ -1,6 +1,6 @@
 import './App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes,Outlet } from 'react-router-dom';
 import Bangalorepg from './Bang';
 import ChennaiPg from './Chennai';
 import Cbepg from './Cbe';
@@ -70,7 +70,7 @@ const App = () => {
     </Eventdetails>
   </TotalAmountProvider>
 </Ogamount>
-
+<Outlet />
     </>
 )};
 

@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { FaCcVisa, FaCcMastercard, FaGooglePay } from "react-icons/fa";
 import { SiPaytm } from "react-icons/si";
 import { MdPayments } from "react-icons/md";
 import { SiPhonepe } from "react-icons/si";
 
 
-
 const Payment = () => {
+
+  const location = useLocation();
+  const cart = location.state?.cart || [];
+
+
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [cardDetails, setCardDetails] = useState({
     cardNumber: "",
@@ -24,30 +28,25 @@ const Payment = () => {
 
   const handlePayment = () => {
     alert("Payment Successful!");
-    navigate("/success"); // Redirect to success page after payment
+    navigate("/"); 
   };
 
   return (
     <div className="container mt-5">
       <div className="row">
-        {/* Order Summary */}
         <div className="col-md-4">
           <div className="card p-3 shadow">
             <h4 className="text-center">Order Summary</h4>
             <hr />
-            <p>🎫 Product: Premium Subscription</p>
-            <p>💰 Amount: ₹999</p>
-            <p>📌 Tax: ₹99</p>
-            <h5>💳 Total: ₹1098</h5>
+            {cart.length > 0 && <p>🎫 Event Name: {cart[0].eventdetails}</p>}
+            {cart.length > 0 && <p>💰 Total amount: {cart[0].totalAmount}</p>}
           </div>
         </div>
 
-        {/* Payment Section */}
         <div className="col-md-8">
           <div className="card p-4 shadow">
             <h3 className="text-center mb-4">💳 Payment Details</h3>
 
-            {/* Payment Method Selection */}
             <div className="mb-3">
               <label className="form-label">Choose Payment Method:</label>
               <select
@@ -61,7 +60,6 @@ const Payment = () => {
               </select>
             </div>
 
-            {/* Card Payment Form */}
             {paymentMethod === "card" && (
               <div>
                 <div className="d-flex justify-content-between mb-2">
@@ -118,8 +116,6 @@ const Payment = () => {
                 </div>
               </div>
             )}
-
-            {/* UPI Payment */}
             {paymentMethod === "upi" && (
              <div>
             <MdPayments size={40} color="green" />
@@ -133,8 +129,6 @@ const Payment = () => {
             </div>
            </div>
             )}
-
-            {/* Wallet Payment */}
             {paymentMethod === "wallet" && (
               <div className="mb-3">
                 <label className="form-label">Select Wallet</label>
@@ -151,10 +145,8 @@ const Payment = () => {
                 </div>
               </div>
             )}
-
-            {/* Pay Button */}
             <button className="btn btn-primary w-100 mt-3" onClick={handlePayment}>
-              Pay ₹1098
+               {cart.length > 0 &&<p className="m-0"> Pay : {[cart[0].totalAmount]}</p> }
             </button>
           </div>
         </div>

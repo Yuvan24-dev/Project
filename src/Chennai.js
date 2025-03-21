@@ -318,15 +318,6 @@ const BigPoster = () => {
       </Col>
     </Container>)
 }
-
-
-// import { useRef } from 'react';
-// import { Col, Container } from 'react-bootstrap'; // Assuming you're using React-Bootstrap
-// import { TbCalendarTime } from 'react-icons/tb';
-// import { GrLocation } from 'react-icons/gr';
-// import Devevent from './Devevent.jpg'; // Assuming your image import
-// // Replace Devevent with the correct image path
-
 const Trendingeve = () => {
   const scrollRef = useRef(null);
 
@@ -375,7 +366,6 @@ const Trendingeve = () => {
             }}
           >
             <ul className="py-0 d-flex p-0">
-              {/* Repeat your Col components as you did above for each item */}
               <Col xs={4} className="px-2 py-0" >
                 <li className="d-inline mr-4 forimgtabA">
                   <img  alt="Img-verified" className="eventcardimg" src={Devevent}/>
@@ -582,9 +572,6 @@ const Featuredeve = () => {
                 <li className="d-inline mr-4 forimgtabA position-relative">
                   <span className='position-relative'>
                     <img  className="featuredcardimg" src={VjAunt} alt="Event 1" />
-                    {/* <span className='small-indicat position-absolute translate-middle top-2 end-2'>
-    Hello
-  </span> */}
                   </span>
                   <div className="eventBottomcard">
                     <div className="eventcardtitle m-o">

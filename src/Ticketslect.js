@@ -3,15 +3,13 @@ import { Row,Col,Container} from "react-bootstrap";
 import { Adbanner } from "./Cbe";
 import plus from '../src/Images/minus.svg'
 import minus from '../src/Images/plus.svg'
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate,useLocation } from "react-router-dom";
 import { TotalAmountContext } from './Cartcontext'; 
-import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import { useEffect } from "react";
 
 // -------------------------------------------------------------------------------------------------context----------------------------------------------------------
 export const Actamount=createContext({ ticketamount: 0,  event: {} })
-
-
 export const Ogamount = ({ children }) => {
  
   const location = useLocation();
@@ -29,6 +27,8 @@ export const Ogamount = ({ children }) => {
 
 export const  Ticket = ()=>{
   const[tickettype,setTickettype]=useState(" ");
+  const location = useLocation();
+
 
   const navigate = useNavigate();
 
@@ -51,17 +51,22 @@ export const  Ticket = ()=>{
      event,
      seattype,
      concertname,
+     setTicket, 
+     setToken
    } = useContext(TotalAmountContext);
+
+useEffect(() => {
+  setTicket("");
+  setToken("");
+}, [location.key]);
 
 
    const clickphase = ()=>{
-    setTickettype(`Phase 1 - {seattype} - Seating`)
+    setTickettype(`Phase 1 - ${seattype} - Seating`)
   }
   const clickFampack = ()=>{
-    setTickettype(`Family Experience Pack of 4 - {seattype} - Seating (Pay for 3 Get 4)`)
+    setTickettype(`Family Experience Pack of 4 - ${seattype} - Seating (Pay for 3 Get 4)`)
   }
-// console.log(totalTicket,totalAmount,seattype,concertname,tickettype)
-
     const addToCart = async () => {
       const token = localStorage.getItem("token");
         navigate("/cart"); 
@@ -82,14 +87,12 @@ export const  Ticket = ()=>{
                       },
                 }
             );
-
             console.log("Cart added successfully", response.data);
-
-            
         } catch (error) {
             console.error("Error adding to cart:", error);
         }
     };
+
 
     return(
         <>

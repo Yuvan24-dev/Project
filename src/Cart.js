@@ -7,10 +7,19 @@ import { TotalAmountContext } from './Cartcontext';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import empty from '../src/Images/Emptycart.webp';
+import { useForm } from "react-hook-form";
+
+
+
 const API_URL = 'http://localhost:5000/api/cart';
-
-
 export const Cart = () => {
+  const {register,handleSubmit,formState:{errors}}=useForm();
+  const onSubmit = (data) => {
+    if (errors.checkbox) {
+      alert(errors.checkbox.message);
+    } 
+    paymentnav();
+  };
   const [cart, setCart] = useState([]);
   const navigate= useNavigate()
   const [step, setStep] = useState(false); 
@@ -33,7 +42,6 @@ const getCartItems = useCallback(async () => {
       headers: { Authorization: `Bearer ${getAuthToken()}` },
     });
     setCart(response.data || []);
-    console.log("carting", response.data);
   } catch (error) {
     console.error("Error fetching cart:", error);
     setCart([]);
@@ -61,10 +69,8 @@ useEffect(() => {
 // -------------------------------------------------------paymenynavigation----------------------------------------------------
 
 const paymentnav = () =>{
-  navigate("/payment")
+  navigate("/payment",{state:{cart}})
 }
-
-
     return(
     <>
     <Adbanner />
@@ -98,7 +104,7 @@ const paymentnav = () =>{
                     <div className="css-egk103">
                       <p className="css-1d6xumx">{cart[0]?.eventdetails}</p>
                       <div className="css-28hpcg">
-                        <p className="css-1hxyujb">Group of Friends Pack of 13 - General - Standing (Pay for 10 Get 13)</p>
+                        <p className="css-1hxyujb">{cart[0]?.seatingName}</p>
                         <img onClick={() =>{ deleteCartItem();
                           setDel(true)
                         }} alt="img" src={dustbin} />
@@ -167,9 +173,6 @@ const paymentnav = () =>{
                 </div>
               </Col>
     </Container> 
-
- 
-    
     <Container className={`d-flex justify-content-center opacity-50 pb-5 ${ step ? "d-none" : ""}`}>
     <Col xs={12} md={11} lg={7} xl={8} className="py-4 d-flex justify-content-center flex-column disabled ">
                 <div className="css-bln63c">
@@ -184,11 +187,6 @@ const paymentnav = () =>{
                 </div>
               </Col>
     </Container>
-
-
-
-
-
     <Container  className={`d-flex justify-content-center ${!step ? "d-none" : ""}`}>
     <Col xs={12} md={11} lg={7} xl={8} className="py-4 d-flex justify-content-center flex-column ">
                 <div className="css-bln63c">
@@ -204,37 +202,44 @@ const paymentnav = () =>{
                   <div className="css-y8drlo mt-3"></div>   
                     <form className=" gap-2 px-3 py-2">
                     <div className="css-y8drlo my-2"></div>   
-                      <label className="css-qwww05 pb-3">These details will be shown on your invoice *</label>
-                      <input className="custom-input w-100 my-2 " placeholder="Name*" />
-                      <input className="custom-input w-100 my-2 " placeholder="Mobile*" />
+                      <label className="css-qwww05 pb-3">If you want your profile details to appear on the invoice, you can skip this form*</label>
+                      <input className="custom-input w-100 my-2 " placeholder="Name" />
+                      <input className="custom-input w-100 my-2 " placeholder="Mobile" />
                       <Row>
-                        <Col xs={6}><input className="custom-input w-100 my-2 " placeholder="Indian pincode*" /></Col>
-                        <Col xs={6}><input className="custom-input w-100 my-2 " placeholder="State*" /></Col>
+                        <Col xs={6}><input className="custom-input w-100 my-2 " placeholder="Indian pincode" /></Col>
+                        <Col xs={6}><input className="custom-input w-100 my-2 " placeholder="State" /></Col>
                       </Row>
-                      <input className="custom-input w-100 my-2 " placeholder="Email*" />
+                      <input className="custom-input w-100 my-2 " placeholder="Email" />
                       <label className="css-1h6wmy8 ">E-tickets will be sent to this email address</label>
                     </form>   
                       <div className="px-3">   
                       <div className="css-y8drlo mt- mb-2 "></div>
                       </div>
-                      <div className="d-flex align-items-center justify-content-between px-3 mt-4 w-100">
-                      <div className="d-flex gap-4">
-                      <label className="custom-checkbox">
-                      <input type="checkbox" />
-                      <span className="checkmark"></span>
-                      </label> 
-                      <p className="css-1qfkwur m-0">I have read and accepted the <span style={{ color: 'rgb(49, 192, 240)' }}>terms and conditions</span> </p>
-                      </div>
-
-                      <div className="lastbt float-end" onClick={()=>paymentnav()}>
-                        <span className="css-jh44gk">Continue</span>
-                      </div>
-
-
-                      </div>
-                      </div>
-
-              </Col>
+                      <form onSubmit={handleSubmit(onSubmit)}>
+  <div className="d-flex align-items-center justify-content-between px-3 mt-4 w-100">
+    <div className="d-flex gap-4">
+      <label className="custom-checkbox">
+        <input
+          type="checkbox"
+          {...register("checkbox", {
+            required: "You need to accept the terms and conditions before proceeding",
+          })}
+        />
+        <span className="checkmark"></span>
+      </label>
+      <p className="css-1qfkwur m-0">
+        *I have read and accepted the{" "}
+        <span style={{ color: "rgb(49, 192, 240)" }}>terms and conditions</span>
+      </p>
+    </div>
+    {errors.checkbox && <p className="text-danger">{errors.checkbox.message}</p>}
+    <button type="submit" className="lastbt float-end">
+      <span className="css-jh44gk">Continue</span>
+    </button>
+  </div>
+</form>
+  </div>
+   </Col>
     </Container> 
     </div>
       )}

@@ -25,8 +25,6 @@ import people from "../src/Images/people.svg"
 import { FaXTwitter } from "react-icons/fa6";
 
 
-
-
 export const Event = createContext();
 
 export const Eventdetails = ({ children }) => {
@@ -104,11 +102,10 @@ export const Buypage = () => {
         return acc;
       }, {});
       useEffect(()=>{
-        if(event.status == "Sold out"){
+        if(event.status === "Sold out"){
           setdisabelby(true);
           }
-          console.log("imagetst",event.image)
-      },[])
+      },[event.image,event.status])
 
     return (
       <>
@@ -138,7 +135,6 @@ export const Buypage = () => {
           Father of Gaana - Devanesan Chokkalingam, fondly called as Thenisai Thendral Deva, who has composed music<br />
           for more than 400+ films in his 36 years of music career across 4 languages. He truly is a Legend!
              </p>
-          {/* Show More content */}
              {showMore && (
              <>
             <p className='buypara mb-1'>
@@ -156,9 +152,7 @@ export const Buypage = () => {
             </p>
           </>
           )}
-  
-          {/* Button to toggle the visibility of extra content */}
-          <div
+            <div
           className='position-absolute bottom-3 start-3 d-flex align-items-center border-bottom pb-3 w-100'
           style={{ cursor: 'pointer', zIndex: 1 }}
           onClick={toggleShowMore}
@@ -173,7 +167,6 @@ export const Buypage = () => {
           </span>
           </div>
       </Col >
-      
       </div>
               <Col  className='img-small d-none d-lg-block pt-5 p-0' >
               <div className='css-18oep7e'><h4 className='css-18oep7e' >Event Guid</h4>
@@ -296,7 +289,6 @@ export const Buypage = () => {
           Father of Gaana - Devanesan Chokkalingam, fondly called as Thenisai Thendral Deva, who has composed music<br />
           for more than 400+ films in his 36 years of music career across 4 languages. He truly is a Legend!
              </p>
-          {/* Show More content */}
              {showMore && (
              <>
             <p className='buypara mb-1'>
@@ -314,9 +306,7 @@ export const Buypage = () => {
             </p>
           </>
           )}
-  
-          {/* Button to toggle the visibility of extra content */}
-          <div
+            <div
           className='position-absolute bottom-3 start-3 d-flex align-items-center border-bottom pb-3 w-100'
           style={{ cursor: 'pointer', zIndex: 1 }}
           onClick={toggleShowMore}
@@ -324,9 +314,9 @@ export const Buypage = () => {
           <span>{showMore ? 'Show Less' : 'Show More'}</span>
           <span style={{ marginLeft: "2px" }} className='me-0 float-end'>
             {showMore ? (
-              <i  className="bi bi-chevron-up"><FaChevronUp /></i> // Change icon for 'Show Less'
+              <i  className="bi bi-chevron-up"><FaChevronUp /></i>
             ) : (
-              <i className="bi bi-chevron-down"><FaChevronDown/></i> // Change icon for 'Show More'
+              <i className="bi bi-chevron-down"><FaChevronDown/></i> 
             )}
           </span>
           </div>
@@ -556,7 +546,6 @@ export const Buypage = () => {
                   </div>
                 </li>
               </Col>
-              {/* More items... */}
             </ul>
           </div>
           <button className=" nextingl d-none d-lg-block" onClick={scrollRight} >

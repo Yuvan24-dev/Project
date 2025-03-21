@@ -51,7 +51,6 @@ import event1 from "../src/Images/ImgA.jpg";
 import event2 from "../src/Images/ImgB.jpg";
 import event3 from "../src/Images/ImgC.jpg";
 import event4 from "../src/Images/ImgE.png";
-import event5 from "../src/Images/ImgE.png";
 
 
 
@@ -65,7 +64,6 @@ export const Adbanner = () => {
   );
 };
 const CustomCarousel = () => {
-  console.log("Imported Image Path:", exportA);
 
   useEffect(()=>{
   const defaultEvents = [
@@ -148,7 +146,6 @@ const CustomCarousel = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch events from backend
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:7000/api/products");
@@ -161,12 +158,10 @@ const CustomCarousel = () => {
         setEvents(parsedData);
       } else {
         console.error("Invalid response format:", response.data);
-        //setEvents(defaultEvents);
         alert("Server not connected, now displaying static data.");
       }
     } catch (error) {
       console.error("Error fetching products:", error);
-      //setEvents(defaultEvents);
       alert("Server not connected, now displaying static data.");
     }
   };
@@ -176,7 +171,6 @@ const CustomCarousel = () => {
     fetchProducts();
   }, []);
 
-  // Function to pass selected event details when clicking an image
   const passValue = (event) => {
     const queryParams = new URLSearchParams({
       id: event._id,
@@ -189,7 +183,6 @@ const CustomCarousel = () => {
       image: event.image,
     });
   
-    // Ensure prices are properly appended
     if (event.prices && typeof event.prices === "object") {
       Object.entries(event.prices).forEach(([key, value]) => {
         queryParams.append(`price_${key}`, value);
@@ -199,11 +192,7 @@ const CustomCarousel = () => {
     const queryString = queryParams.toString();
     navigate(`/coimbatore/buynow?${queryString}`);
   
-    console.log("Final URL with Prices:", `/coimbatore/buynow?${queryString}`);
   };
-  
-    
-
   return (
     <>
     <div className="py-0">
@@ -215,12 +204,12 @@ const CustomCarousel = () => {
           return (
             <Carousel.Item key={event._id} className="py-0 pt-lg-4 pb-lg-5 pb-md-4">
               <Row className="justify-content-center">
-                <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
+                <Col md={4} className="imgMainstyle d-none d-md-inline px-1 	opacity-25">
                <img className="img-fluid imgMainstyle"src={typeof prevEvent.image === 'string' ? `http://localhost:7000/uploads/${prevEvent.image}`: event.image}
                alt={event.eventName}
                onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = event1; // Fallback image
+                e.target.src = event1; 
               }}
                style={{ cursor: "pointer" }}
              />
@@ -231,18 +220,18 @@ const CustomCarousel = () => {
                alt={event.eventName}
                onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = event2; // Fallback image
+                e.target.src = event2; 
               }}
                style={{ cursor: "pointer" }}
               />
                 </Col>
 
-                <Col md={4} className="imgMainstyle d-none d-md-inline px-1">
+                <Col md={4} className="imgMainstyle d-none d-md-inline px-1 	opacity-25">
                 <img className="img-fluid imgMainstyle"src={typeof nextEvent.image === 'string' ? `http://localhost:7000/uploads/${nextEvent.image}`: event.image}
                alt={event.eventName}
                onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = event3; // Fallback image
+                e.target.src = event3; 
               }}
                style={{ cursor: "pointer" }}
              />
@@ -268,7 +257,6 @@ const Searchsection = () => {
     </Container>
   )
 }
-
 const Nxttocourousal = () => {
   return (
     <Container fluid="lg">
@@ -319,9 +307,7 @@ const Nxttocourousal = () => {
       </div>
     </Container>
   );
-
 }
-
 const Recentlyviewd = () => {
   return (
     <Container>
@@ -364,7 +350,6 @@ const Recentlyviewd = () => {
     </Container>
   )
 }
-
 const BigPoster = () => {
   return (
     <Container fluid="sm" className='px-0 px-sm-4  z-index-1'>
@@ -403,7 +388,6 @@ const Trendingeve = () => {
       scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
     }
   };
-
   return (
     <>
       <Container className='d-flex gap-md-0 gap-xs-1 justify-content-between allign-item-center'>
@@ -556,10 +540,6 @@ const Trendingeve = () => {
     </>
   );
 };
-
-
-
-
 const Artist=()=>{
 
   return(
@@ -599,14 +579,11 @@ const Artist=()=>{
 const Featuredeve = () => {
   const scrollRef = useRef(null);
 
-  // Scroll to the left
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -440, behavior: 'smooth' });
     }
   };
-
-  // Scroll to the right
   const scrollRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
@@ -796,7 +773,6 @@ const Featuredeve = () => {
                   </div>
                 </li>
               </Col>
-              {/* More items... */}
             </ul>
           </div>
           <button className=" nextingl d-none d-lg-block" onClick={scrollRight} >
@@ -965,8 +941,6 @@ export const Weekevent=() =>{
     </>
   )
 }
-
-
 const ArtistPg = () => {
   const scrollRef = useRef(null);
 
@@ -983,7 +957,6 @@ const ArtistPg = () => {
       scrollRef.current.scrollBy({ left: 440, behavior: 'smooth' });
     }
   };
-
   return (
     <>
       <Container className='d-flex justify-content-between allign-item-center py-2'>
@@ -1130,7 +1103,6 @@ const ArtistPg = () => {
                   </div>
                 </li>
               </Col>
-              {/* More items... */}
             </ul>
           </div>
           <button className=" nextingl d-none d-lg-block" onClick={scrollRight} >
@@ -1141,8 +1113,6 @@ const ArtistPg = () => {
     </>
   );
 };
-
-
 export const SmallPoster = () => {
   return (
     <Container fluid="sm" className='px-4 px-md-5 px-sm-0 py-0 py-5  z-index-1'>
@@ -1152,7 +1122,6 @@ export const SmallPoster = () => {
       </Col>
     </Container>)
 }
-
 export const Footer = ()=> {
   return(
     <div className='fottersectionTl'>
@@ -1183,15 +1152,6 @@ export const Footer = ()=> {
   )
 
 }
-
-
-
-
-
-
-
-
-
 const Cbepg=()=>{
 return(
     <>

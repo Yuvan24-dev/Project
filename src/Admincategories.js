@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Form, Table, Modal } from "react-bootstrap";
 import { FaEye, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { FaFileCsv, FaFilePdf, FaFileExcel } from "react-icons/fa";
-
+import axios from 'axios';
 
 const CategoryManager = () => {
   const [categories, setCategories] = useState([]);
@@ -17,22 +17,35 @@ const CategoryManager = () => {
     status: ""
   });
 
-  // Form states
   const [newCategory, setNewCategory] = useState({
     mainCategory: "",
     subCategory: "",
     status: "Available"
   });
 
-  // Initial sample data
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:7000/api/products");
+      
+      if (response.status === 200 && Array.isArray(response.data)) {
+        const formattedCategories = response.data.map((product) => ({
+          id: product._id,
+          main: product.Category,
+          sub: product.eventName,
+          status: product.status
+        }));
+        
+        setCategories(formattedCategories);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
   useEffect(() => {
-    setCategories([
-      { id: 1, main: "Electronics", sub: "Mobile Phones", status: "Available" },
-      { id: 2, main: "Clothing", sub: "Men's Wear", status: "Sold out" }
-    ]);
+    fetchCategories();
   }, []);
 
-  // Filter categories
   const filteredCategories = categories.filter(cat => {
     return (
       cat.main.toLowerCase().includes(filters.mainCategory.toLowerCase()) &&
@@ -41,55 +54,47 @@ const CategoryManager = () => {
     );
   });
 
-  // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submit for filtering
   const handleFilterSubmit = (e) => {
     e.preventDefault();
-    // Filtering is already handled by the filteredCategories array
   };
 
-  // Add new category
+  // Dummy local actions
   const handleAddCategory = () => {
-    const newCat = {
-      id: categories.length + 1,
+    const dummyCategory = {
+      id: Date.now(),
       main: newCategory.mainCategory,
       sub: newCategory.subCategory,
       status: newCategory.status
     };
-    setCategories([...categories, newCat]);
+    setCategories(prev => [...prev, dummyCategory]);
     setShowAddModal(false);
     setNewCategory({ mainCategory: "", subCategory: "", status: "Available" });
   };
 
-  // Edit category
   const handleEditCategory = () => {
-    const updatedCategories = categories.map(cat =>
-      cat.id === selectedCategory.id ? { ...cat, ...selectedCategory } : cat
+    setCategories(prev => 
+      prev.map(cat => 
+        cat.id === selectedCategory.id ? selectedCategory : cat
+      )
     );
-    setCategories(updatedCategories);
     setShowEditModal(false);
   };
 
-  // Delete category
   const handleDeleteCategory = () => {
-    const updatedCategories = categories.filter(cat => cat.id !== selectedCategory.id);
-    setCategories(updatedCategories);
+    setCategories(prev => 
+      prev.filter(cat => cat.id !== selectedCategory.id)
+    );
     setShowDeleteModal(false);
   };
 
-  const exportToExcel = () => {
-    alert("Export to Excel functionality is simulated.");
-  };
-
-  // Handle export to PDF (simulated)
-  const exportToPDF = () => {
-    alert("Export to PDF functionality is simulated.");
-  };
+  const exportToExcel = () => alert("Export to Excel");
+  const exportToPDF = () => alert("Export to PDF");
+  const exportToCSV = () => alert("Export to CSV");
 
 
   return (
@@ -166,6 +171,7 @@ const CategoryManager = () => {
                   <Button 
                     variant="outline-success" 
                     className="rounded-pill px-4 d-flex align-items-center gap-2"
+                    onClick={exportToCSV}
                   >
                     <FaFileCsv /> CSV
                   </Button>

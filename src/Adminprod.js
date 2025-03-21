@@ -114,7 +114,6 @@ const fetchProducts = async () => {
       const formattedProducts = response.data.map((product) => {
         if (!product.date) return {...product, date: ""};
 
-        // Convert to local date string
         const localDate = new Date(product.date);
         const offset = localDate.getTimezoneOffset() * 60000;
         const localISODate = new Date(localDate - offset).toISOString().split("T")[0];
@@ -133,7 +132,6 @@ const fetchProducts = async () => {
   }
 };
 
-// Add this helper function
 const parsePrices = (prices) => {
   if (!prices) return DEFAULT_PRICES;
   if (typeof prices === 'string') {
@@ -174,7 +172,6 @@ const handleEdit = (product) => {
     VIP: 2999,
   };
   
-  // Price normalization logic
   const normalizePrices = (prices) => {
     if (!prices) return defaultPrices;
     if (typeof prices === 'string') {
@@ -196,8 +193,8 @@ const handleEdit = (product) => {
     time: product.time || "05:30 AM",
     location: product.location || "",
     status: product.status || "",
-    existingImage: product.image || "", // Store existing filename
-    newImage: null, // For potential new uploads
+    existingImage: product.image || "", 
+    newImage: null, 
     prices: normalizePrices(product.prices)
   });
 
@@ -219,7 +216,7 @@ const handleInputChange = (e) => {
 
   setEditFormData((prevData) => ({
     ...prevData,
-    [name]: value, // Make sure we're setting a string
+    [name]: value, 
   }));
 };
 
@@ -228,7 +225,7 @@ const handleFileChange = (e) => {
   if (file) {
     setEditFormData(prev => ({
       ...prev,
-      newImage: file // Store new file separately
+      newImage: file 
     }));
     setImagePreview(URL.createObjectURL(file));
   }
@@ -237,57 +234,50 @@ const handleFileChange = (e) => {
 const handleProductSubmit = async (e) => {
   e.preventDefault();
 
-
-
-
   if (typeof editFormData.prices !== 'object') {
     setError("Invalid price structure");
     return;
   }
 
-  if (!editFormData.Category || !editFormData.eventName || !editFormData.prices || !editFormData.date || !editFormData.time ||!editFormData.location || !editFormData.status) {
+  if (!editFormData.Category || !editFormData.eventName || !editFormData.prices || 
+      !editFormData.date || !editFormData.time || !editFormData.location || !editFormData.status) {
     setError("All fields are required.");
     return;
   }
 
   try {
-
     let formData = new FormData();
     formData.append("Category", editFormData.Category);
     formData.append("eventName", editFormData.eventName);
-    formData.append("date", editFormData.date); 
+    formData.append("date", editFormData.date);
     formData.append("time", editFormData.time);
-    formData.append("location", editFormData.location); 
+    formData.append("location", editFormData.location);
     formData.append("status", editFormData.status);
     formData.append("prices", JSON.stringify(editFormData.prices));
-    if (editFormData.image) formData.append("image", editFormData.image);
 
-    let url = "http://localhost:7000/api/products"; 
-    let method = "POST"; 
+    let url = "http://localhost:7000/api/products";
+    let method = "POST";
 
     if (editMode) {
+      url = `http://localhost:7000/api/products/${editFormData._id}`;
+      method = "PUT";
       formData.append("existingImage", editFormData.existingImage);
-      if (editFormData.newImage) {
-        formData.append("image", editFormData.newImage);
-      }
-    } else {
-      if (editFormData.newImage) {
-        formData.append("image", editFormData.newImage);
-      }
+    }
+
+    if (editFormData.newImage) {
+      formData.append("image", editFormData.newImage);
     }
 
     const response = await fetch(url, {
       method,
-      body: formData, 
+      body: formData,
     });
 
     if (!response.ok) throw new Error(`Failed to ${editMode ? "update" : "add"} product`);
 
     console.log(`Product ${editMode ? "updated" : "added"} successfully`);
-    
     setShowAddProductForm(false);
-    // resetForm();
-    fetchProducts(); 
+    fetchProducts();
 
   } catch (error) {
     console.error("Error saving product:", error);
@@ -444,12 +434,12 @@ const handleProductSubmit = async (e) => {
     setEditFormData({
       Category: "",
       eventName: "",
-      date: "",  // Set date to empty
-      time: "05:30 AM",  // Default time
+      date: "",  
+      time: "05:30 AM", 
       location: "",
       tickettype: "",
       status: "",
-      image: null,  // Ensure image is null
+      image: null,  
       prices: {
         General: 799,
         Bronze: 999,
@@ -460,8 +450,8 @@ const handleProductSubmit = async (e) => {
       },
     });
   
-    setEditMode(false); // Ensure it's not in edit mode
-    setShowAddProductForm(true); // Open the form
+    setEditMode(false); 
+    setShowAddProductForm(true); 
   };
   
   return (
@@ -486,7 +476,6 @@ const handleProductSubmit = async (e) => {
               </div>
             </div>
 
-            {/* Search and Filter Section */}
             <div className="bg-gray-100 rounded-3 p-3 mb-4">
               <Row className="g-3">
                 <Col md={6}>
@@ -541,15 +530,11 @@ const handleProductSubmit = async (e) => {
 {showAddProductForm && (
   <div
     className="bg-gray-100 rounded-3 p-4 mb-4"
-    onClick={() => setError("")}  // 🔹 Hide error when clicking anywhere inside the form
-    onChange={() => setError("")} // 🔹 Hide error when changing any input field
+    onClick={() => setError("")}  
+    onChange={() => setError("")} 
   >
     <h5 className="mb-4">{editMode ? "Edit Product" : "Add Product"}</h5>
-
-    {/* Error message with auto-hide logic */}
-
-
-    <Form onSubmit={handleProductSubmit}> {/* 🔹 Use the optimized function */}
+    <Form onSubmit={handleProductSubmit}> 
       <Row className="g-3 mb-4">
         <Col md={6}>
           <Form.Group>
@@ -594,7 +579,6 @@ const handleProductSubmit = async (e) => {
             />
           </Form.Group>
 
-          {/* Show image preview if available */}
           {imagePreview && (
             <div className="mt-2">
               <img 
@@ -683,7 +667,7 @@ const handleProductSubmit = async (e) => {
           <Col md={6}>
             <Form.Control
               type="number"
-              value={price.toString()}  // 👈 Always convert to string
+              value={price.toString()} 
               onChange={(e) => handlePriceChange(ticketType, e.target.value)}
               className="rounded-pill"
             />
@@ -713,7 +697,6 @@ const handleProductSubmit = async (e) => {
     )}
   </div>
 )}
-
             {/* Product List */}
             <div className="bg-white rounded-3 shadow-sm p-4">
               <div className="d-flex justify-content-between align-items-center mb-4">

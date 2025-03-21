@@ -7,9 +7,6 @@ import { Event } from './Buypage';
 
 export const Seating = ()=>{
   const [activeSection, setActiveSection] = useState(null);
-
-
-
   useEffect(() => {
     setActiveSection(null);
   }, []);
@@ -17,25 +14,15 @@ export const Seating = ()=>{
   const handleButtonClick = (section) => {
     setActiveSection(section);
   };
-
-
   const { event } = useContext(Event); 
-  console.log("event",event)
-
   const navigate = useNavigate(); 
-
   const handlenavigate = (amount, seatType) => {
     const updatedEvent = {
       ...event,
       seattype: seatType,
       ogamt: amount,
     };
-  
-    console.log("Event Data Before Navigation:", updatedEvent);
-    console.log("Prices Object:", updatedEvent.prices);
-  
     const queryParams = new URLSearchParams();
-  
     Object.entries(updatedEvent).forEach(([key, value]) => {
       if (key === "prices" && typeof value === "object" && value !== null) {
         Object.entries(value).forEach(([priceCategory, priceValue]) => {
@@ -51,12 +38,8 @@ export const Seating = ()=>{
     });
   
     let url = `/coimbatore/buynow/selectseat/ticket?${queryParams.toString()}`;
-    console.log("Final URL:", url);
     navigate(url);
   };
-  
-  
-
   return(
       <>
       <Adbanner />
@@ -92,9 +75,6 @@ export const Seating = ()=>{
           <path d="M580.34,1081.06h4.86v2.34h-7.81v-14.74h2.96v12.4Z" />
         </g>
       </g>
-
-
-
   <g onClick={() => {
   handlenavigate(event.Gold,"Gold");
   }} id="Gold" data-id="Gold - Seating" className={`svg-section ${activeSection === 'gold' ? 'section-seatmap' : (activeSection === null ? 'section-seatmap' : 'disabled')}`}>
