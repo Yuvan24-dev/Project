@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {FaEye, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { FaExclamationTriangle, FaExclamationCircle,FaFileExport} from "react-icons/fa";
 import { FaFileCsv, FaFilePdf, FaFileExcel } from "react-icons/fa";
-import { Container, Row, Col, Button, Form, Table,  Modal, Dropdown,InputGroup  } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Table,  Modal, Dropdown,InputGroup,Pagination  } from "react-bootstrap";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -11,13 +11,15 @@ import axios from 'axios';
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
+import { Accordion } from "react-bootstrap";
+
 
 
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
-  const [currentPage] = useState(1);
-  const [productsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -30,16 +32,14 @@ const ProductManagement = () => {
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
 
-
-  
-
-  const [editFormData, setEditFormData] = useState({
+    const [editFormData, setEditFormData] = useState({
     Category: "",
     eventName: "",
     date: "",
     time: "05:30 AM",
     location: "",
     status: "",
+    Activity: "",
     prices: {
       General: 799,
       Bronze: 999,
@@ -63,9 +63,7 @@ const ProductManagement = () => {
   
 
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+ 
 
   const filteredProducts = products.filter((product) => {
     const category = product.Category?.toLowerCase() || "";
@@ -105,6 +103,11 @@ const ProductManagement = () => {
       time: value,
     }));
   };
+
+const indexOfLastProduct = currentPage * productsPerPage;
+const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 //------------------------------------------------------------for Fetching data-----------------------------------------------------------------------------------
 const fetchProducts = async () => {
   try {
@@ -193,6 +196,7 @@ const handleEdit = (product) => {
     time: product.time || "05:30 AM",
     location: product.location || "",
     status: product.status || "",
+    Activity:product.Activity || "",
     existingImage: product.image || "", 
     newImage: null, 
     prices: normalizePrices(product.prices)
@@ -253,6 +257,7 @@ const handleProductSubmit = async (e) => {
     formData.append("time", editFormData.time);
     formData.append("location", editFormData.location);
     formData.append("status", editFormData.status);
+    formData.append("Activity", editFormData.Activity);
     formData.append("prices", JSON.stringify(editFormData.prices));
 
     let url = "http://localhost:7000/api/products";
@@ -291,31 +296,32 @@ const handleProductSubmit = async (e) => {
     setShowDeleteModal(true);
   };
   
-  const handleDelete = async () => {
-    if (!selectedProduct) return; 
-  
-    const productId = selectedProduct._id;
-  
-    try {
-      setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
-  
-      const response = await fetch(`http://localhost:7000/delete/${productId}`, {
-        method: "DELETE",
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to delete product");
-      }
-  
-      console.log("Product deleted successfully");
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      fetchProducts();
-    } finally {
-      setShowDeleteModal(false);
-      setSelectedProduct(null); 
+// In handleDelete function, update the fetch URL
+const handleDelete = async () => {
+  if (!selectedProduct) return; 
+  const productId = selectedProduct._id;
+
+  try {
+    const response = await fetch(`http://localhost:7000/api/products/${productId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete product");
     }
-  };
+
+    // Only update state after successful deletion
+    setProducts(prevProducts => prevProducts.filter(product => product._id !== productId));
+    console.log("Product deleted successfully");
+    
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    // If using a toast or error notification system, add it here
+  } finally {
+    setShowDeleteModal(false);
+    setSelectedProduct(null); 
+  }
+};
 //-----------------------------------------------------------for export--------------------------------------------------------------------------
   const handleView = (product) => {
     setSelectedProduct(product);
@@ -352,7 +358,7 @@ const handleProductSubmit = async (e) => {
 
   // CSV Export Implementation
   const exportAsCSV = (data) => {
-    const headers = ["Main Category", "Sub Category", "prices", "date","time","location", "Status"];
+    const headers = ["Main Category", "Sub Category", "prices", "date","time","location", "Status","Activity"];
     
     const csvData = [
       headers,
@@ -363,7 +369,8 @@ const handleProductSubmit = async (e) => {
         `"${item.date}"`, 
         `"${item.time}"`, 
         `"${item.location}"`,
-        `"${item.status}"`
+        `"${item.status}"`,
+        `"${item.Activity}"`,
       ])
     ];
   
@@ -391,7 +398,8 @@ const handleProductSubmit = async (e) => {
       "date": item.date,
       "time": item.time,
       "location":item.location,
-      "Status": item.status
+      "Status": item.status,
+      "Activity": item.Activity 
     })));
 
     const workbook = XLSX.utils.book_new();
@@ -407,23 +415,35 @@ const handleProductSubmit = async (e) => {
     doc.text("Product List", 14, 15);
     
     autoTable(doc, {
-      head: [["Main Category", "Sub Category", "prices", "date","time","location,", "Status"]],
+      head: [["Category", "Event", "Prices", "Date", "Time", "Location", "Status", "Activity"]],
       body: data.map(product => [
         product.Category,
         product.eventName,
-        `$${product.prices.toFixed(2)}`,
+        // Format prices object into readable string
+        Object.entries(product.prices)
+          .map(([type, price]) => `${type}: $${price.toFixed(2)}`)
+          .join('\n'),
         product.date,
         product.time,
         product.location,
-        product.status
+        product.status,
+        product.Activity
       ]),
       startY: 25,
       theme: 'grid',
-      styles: { fontSize: 10 },
+      styles: { 
+        fontSize: 8,
+        cellPadding: 1.5,
+        valign: 'middle'
+      },
       headStyles: { 
         fillColor: [41, 128, 185],
         textColor: 255,
-        fontStyle: 'bold'
+        fontStyle: 'bold',
+        fontSize: 9
+      },
+      columnStyles: {
+        2: { cellWidth: 40 } // Wider column for prices
       }
     });
   
@@ -439,6 +459,7 @@ const handleProductSubmit = async (e) => {
       location: "",
       tickettype: "",
       status: "",
+      Activity:"",
       image: null,  
       prices: {
         General: 799,
@@ -502,26 +523,39 @@ const handleProductSubmit = async (e) => {
                     </Dropdown.Menu>
                   </Dropdown>
                 </Col>
-                <Col  className="d-flex gap-2">
-  <Button 
-    variant="outline-success" 
-    className="rounded-pill px-4 d-flex align-items-center gap-2"
-    onClick={handleExport('csv')}
-    >
-    <FaFileCsv /> CSV
-  </Button>
-  <Button 
-    variant="outline-danger" 
-    className="rounded-pill px-4 d-flex align-items-center gap-2"
-    onClick={handleExport('pdf')}>
-    <FaFilePdf /> PDF
-  </Button>
-  <Button 
-    variant="outline-primary" 
-    className="rounded-pill px-4 d-flex align-items-center gap-2"
-    onClick={handleExport('excel')}>
-    <FaFileExcel /> Excel
-  </Button>
+
+                <Col>
+  <Dropdown className="d-inline">
+  <Dropdown.Toggle variant="outline-secondary" 
+  className="rounded-pill w-100">
+    Export Options
+  </Dropdown.Toggle >
+  <Dropdown.Menu className="p-3 text-center">
+    <Col className="d-flex flex-column gap-2">
+      <Button 
+        variant="outline-success" 
+        className="rounded-pill px-4 d-flex align-items-center gap-2"
+        onClick={handleExport('csv')}
+      >
+        <FaFileCsv /> CSV
+      </Button>
+      <Button 
+        variant="outline-danger" 
+        className="rounded-pill px-4 d-flex align-items-center gap-2"
+        onClick={handleExport('pdf')}
+      >
+        <FaFilePdf /> PDF
+      </Button>
+      <Button 
+        variant="outline-primary" 
+        className="rounded-pill px-4 d-flex align-items-center gap-2"
+        onClick={handleExport('excel')}
+      >
+        <FaFileExcel /> Excel
+      </Button>
+    </Col>
+  </Dropdown.Menu>
+</Dropdown>
 </Col>
   </Row>
  </div>
@@ -648,32 +682,62 @@ const handleProductSubmit = async (e) => {
             </Form.Select>
           </Form.Group>
         </Col>
+
+        <Col md={6}>
+          <Form.Group>
+            <Form.Label>Activity</Form.Label>
+<Form.Select 
+  name="Activity"
+  value={editFormData.Activity} 
+  onChange={handleInputChange}
+  className="rounded-pill"
+>
+  <option value="">Select Activity</option>
+  <option value="Enable">Enable</option>
+  <option value="Disable">Disable</option> 
+</Form.Select>
+          </Form.Group>
+        </Col>
       </Row>
+
+      
 
       <Row className="mt-3">
-        <Col md={6}>
-          <Form.Label>Ticket Type</Form.Label>
-        </Col>
-        <Col md={6}>
-          <Form.Label>Price</Form.Label>
-        </Col>
-      </Row>
+  <Col md={12}>
+    <Accordion>
+      <Accordion.Item eventKey="0">
+        <Accordion.Header className="rounded-pill">Ticket Pricing</Accordion.Header>
+        <Accordion.Body className="p-0">
+          <Row className="mb-2 py-0">
+            <Col md={6}>
+              <Form.Label>Ticket Type</Form.Label>
+            </Col>
+            <Col md={6}>
+              <Form.Label>Price</Form.Label>
+            </Col>
+          </Row>
 
-      {Object.entries(editFormData.prices).map(([ticketType, price]) => (
-        <Row key={ticketType} className="mb-2">
-          <Col md={6}>
-            <Form.Control type="text" value={ticketType} disabled className="rounded-pill" />
-          </Col>
-          <Col md={6}>
-            <Form.Control
-              type="number"
-              value={price.toString()} 
-              onChange={(e) => handlePriceChange(ticketType, e.target.value)}
-              className="rounded-pill"
-            />
-          </Col>
-        </Row>
-      ))}
+          {Object.entries(editFormData.prices).map(([ticketType, price]) => (
+            <Row key={ticketType} className="mb-2">
+              <Col md={6}>
+                <Form.Control type="text" value={ticketType} disabled className="rounded-pill" />
+              </Col>
+              <Col md={6}>
+                <Form.Control
+                  type="number"
+                  value={price.toString()} 
+                  onChange={(e) => handlePriceChange(ticketType, e.target.value)}
+                  className="rounded-pill"
+                />
+              </Col>
+            </Row>
+          ))}
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
+  </Col>
+</Row>
+
 
       <div className="d-flex justify-content-end gap-2 mt-4">
         <Button 
@@ -702,8 +766,8 @@ const handleProductSubmit = async (e) => {
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h5 className="text-dark mb-0">Product List</h5>
                 <span className="text-secondary">
-                  Showing {filteredProducts.length} of {products.length} entries
-                </span>
+               Showing {Math.min(indexOfLastProduct, filteredProducts.length)} of {filteredProducts.length} entries
+              </span>
               </div>
 
               <Table hover className="align-middle">
@@ -724,16 +788,19 @@ const handleProductSubmit = async (e) => {
                     <th>Time</th>
                     <th>Location</th>
                     <th>Status</th>
+                    <th>Activity</th>
                     <th className="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-    {filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct).map((product, index) => {
+  {filteredProducts
+    .slice(indexOfFirstProduct, indexOfLastProduct)
+    .map((product, index) => {
+      const totalItems = filteredProducts.length;
+      const itemNumber = totalItems - indexOfFirstProduct - index;
 
       return (
-        <tr
-          key={product._id}
-        >
+        <tr key={product._id}>
           <td>
             <Form.Check
               type="checkbox"
@@ -741,7 +808,7 @@ const handleProductSubmit = async (e) => {
               onChange={() => handleCheckboxChange(product._id)}
             />
           </td>
-          <td>{index + 1}</td>
+          <td>{itemNumber}</td>
           <td>{product.Category}</td>
           <td>{product.eventName}</td>
           <td>
@@ -761,6 +828,7 @@ const handleProductSubmit = async (e) => {
           <td>{product.time}</td>
           <td>{product.location}</td>
           <td>{product.status}</td>
+          <td>{product.Activity}</td>
           <td className="text-center">
             <div className="d-flex justify-content-center gap-2">
               <Button
@@ -802,6 +870,28 @@ const handleProductSubmit = async (e) => {
         </Col>
       </Row>
 
+<div className="d-flex justify-content-center mt-4">
+  <Pagination>
+    <Pagination.Prev 
+      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+      disabled={currentPage === 1}
+    />
+    {Array.from({length: totalPages}, (_, i) => (
+      <Pagination.Item
+        key={i + 1}
+        active={i + 1 === currentPage}
+        onClick={() => setCurrentPage(i + 1)}
+      >
+        {i + 1}
+      </Pagination.Item>
+    ))}
+    <Pagination.Next 
+      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+      disabled={currentPage === totalPages}
+    />
+  </Pagination>
+</div>
+
 {/* View Product Modal */}
 <Modal show={showViewModal} onHide={() => setShowViewModal(false)} centered>
   <Modal.Header className="bg-primary text-white">
@@ -819,9 +909,15 @@ const handleProductSubmit = async (e) => {
           <Col md={8}>{selectedProduct.eventName}</Col>
         </Row>
         <Row className="mb-3">
-          <Col md={4} className="fw-medium">Price:</Col>
-          <Col md={8}>${selectedProduct.prices}</Col>
-        </Row>
+       <Col md={4} className="fw-medium">Price:</Col>
+      <Col md={8}>
+      {Object.entries(selectedProduct.prices).map(([ticketType, price]) => (
+      <div key={ticketType}>
+        <strong>{ticketType}:</strong> ₹{price}
+      </div>
+      ))}
+     </Col>
+    </Row>
         <Row className="mb-3">
           <Col md={4} className="fw-medium">date:</Col>
           <Col md={8}>{selectedProduct.date}</Col>
@@ -838,6 +934,17 @@ const handleProductSubmit = async (e) => {
               : 'bg-danger bg-opacity-10 text-danger'}`}
             >
               {selectedProduct.status}
+            </span>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col md={4} className="fw-medium">Activity:</Col>
+          <Col md={8}>
+            <span className={`badge ${selectedProduct.Activity === 'Enable' 
+              ? 'bg-success bg-opacity-10 text-success' 
+              : 'bg-danger bg-opacity-10 text-danger'}`}
+            >
+              {selectedProduct.Activity}
             </span>
           </Col>
         </Row>

@@ -180,6 +180,7 @@ const CustomCarousel = () => {
       time: event.time,
       location: event.location,
       status: event.status,
+      active:event.Activity,
       image: event.image,
     });
   
@@ -197,9 +198,11 @@ const CustomCarousel = () => {
     <>
     <div className="py-0">
       <Carousel className="m-0 pb-0 py-0" indicators={true} interval={3000}>
-        {events.map((event, index) => {
-          const prevEvent = events[(index - 1 + events.length) % events.length]; 
-          const nextEvent = events[(index + 1) % events.length]; 
+      {events
+    .filter(event => event.Activity === "Enable") // Filter enabled events first
+    .map((event, index, filteredEvents) => { // Use filtered array
+      const prevEvent = filteredEvents[(index - 1 + filteredEvents.length) % filteredEvents.length];
+      const nextEvent = filteredEvents[(index + 1) % filteredEvents.length];
 
           return (
             <Carousel.Item key={event._id} className="py-0 pt-lg-4 pb-lg-5 pb-md-4">

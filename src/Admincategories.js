@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Form, Table, Modal } from "react-bootstrap";
-import { FaEye, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { Container, Row, Col, Button, Form, Table, Modal, Pagination, Dropdown } from "react-bootstrap";
+import { FaEye, FaEdit, FaTrash, FaPlus, FaFileExport } from "react-icons/fa";
 import { FaFileCsv, FaFilePdf, FaFileExcel } from "react-icons/fa";
 import axios from 'axios';
+import * as XLSX from 'xlsx';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+
 
 const CategoryManager = () => {
   const [categories, setCategories] = useState([]);
@@ -11,91 +16,191 @@ const CategoryManager = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [filters, setFilters] = useState({
-    mainCategory: "",
-    subCategory: "",
-    status: ""
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [newCategory, setNewCategory] = useState({
-    mainCategory: "",
-    subCategory: "",
-    status: "Available"
-  });
 
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get("http://localhost:7000/api/products");
-      
-      if (response.status === 200 && Array.isArray(response.data)) {
-        const formattedCategories = response.data.map((product) => ({
-          id: product._id,
-          main: product.Category,
-          sub: product.eventName,
-          status: product.status
-        }));
-        
-        setCategories(formattedCategories);
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
+const [productsPerPage] = useState(5); // Changed to 5 items per page
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+const indexOfLastProduct = currentPage * productsPerPage;
+const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
-  const filteredCategories = categories.filter(cat => {
-    return (
-      cat.main.toLowerCase().includes(filters.mainCategory.toLowerCase()) &&
-      cat.sub.toLowerCase().includes(filters.subCategory.toLowerCase()) &&
-      (filters.status === "" || cat.status === filters.status)
-    );
-  });
+const [newCategory, setNewCategory] = useState({
+  category: "",
+  subCategory: ""
+});
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
+// Fetch categories from backend
+const fetchCategories = async () => {
+  try {
+    setLoading(true);
+    const response = await axios.get("http://localhost:7000/api/categories");
+    setCategories(response.data);
+    setError("");
+  } catch (err) {
+    setError("Failed to fetch categories");
+    console.error("Fetch error:", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const handleFilterSubmit = (e) => {
-    e.preventDefault();
-  };
+useEffect(() => {
+  fetchCategories();
+}, []);
 
-  // Dummy local actions
-  const handleAddCategory = () => {
-    const dummyCategory = {
-      id: Date.now(),
-      main: newCategory.mainCategory,
-      sub: newCategory.subCategory,
-      status: newCategory.status
-    };
-    setCategories(prev => [...prev, dummyCategory]);
+// Create Category
+const handleAddCategory = async () => {
+  try {
+    const response = await axios.post("http://localhost:7000/api/categories", newCategory);
+    setCategories([response.data, ...categories]);
     setShowAddModal(false);
-    setNewCategory({ mainCategory: "", subCategory: "", status: "Available" });
-  };
+    setNewCategory({ category: "", subCategory: "" });
+  } catch (err) {
+    setError("Failed to add category");
+    console.error("Create error:", err);
+  }
+};
 
-  const handleEditCategory = () => {
-    setCategories(prev => 
-      prev.map(cat => 
-        cat.id === selectedCategory.id ? selectedCategory : cat
-      )
+// Update Category
+const handleEditCategory = async () => {
+  try {
+    const response = await axios.put(
+      `http://localhost:7000/api/categories/${selectedCategory._id}`,
+      selectedCategory
     );
+    const updatedCategories = categories.map(cat =>
+      cat._id === selectedCategory._id ? response.data : cat
+    );
+    setCategories(updatedCategories);
     setShowEditModal(false);
-  };
+  } catch (err) {
+    setError("Failed to update category");
+    console.error("Update error:", err);
+  }
+};
 
-  const handleDeleteCategory = () => {
-    setCategories(prev => 
-      prev.filter(cat => cat.id !== selectedCategory.id)
-    );
+// Delete Category
+const handleDeleteCategory = async () => {
+  try {
+    await axios.delete(`http://localhost:7000/api/categories/${selectedCategory._id}`);
+    const updatedCategories = categories.filter(cat => cat._id !== selectedCategory._id);
+    setCategories(updatedCategories);
     setShowDeleteModal(false);
+  } catch (err) {
+    setError("Failed to delete category");
+    console.error("Delete error:", err);
+  }
+};
+
+const handleCategorySelection = (categoryId) => {
+  setSelectedCategories(prevSelected =>
+    prevSelected.includes(categoryId)
+      ? prevSelected.filter(id => id !== categoryId)
+      : [...prevSelected, categoryId]
+  );
+};
+
+const exportData = (type) => {
+  let exportItems = selectedCategories.length > 0 
+    ? categories.filter(cat => selectedCategories.includes(cat.id))
+    : filteredCategories;
+
+  switch(type) {
+    case 'csv':
+      exportToCSV(exportItems);
+      break;
+    case 'excel':
+      exportToExcel(exportItems);
+      break;
+    case 'pdf':
+      exportToPDF(exportItems);
+      break;
+    default:
+      break;
+  }
+};
+  // Get unique sorted categories
+  const uniqueCategories = [...new Set(categories.map(cat => cat.main))]
+    .sort((a, b) => b.localeCompare(a)); // Descending order
+
+  // Filter logic
+  const filteredCategories = categories.filter(cat => {
+    const matchesSearch = (
+      cat.main.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cat.sub.toLowerCase().includes(searchQuery.toLowerCase()) 
+    );
+
+    const matchesFilter = selectedFilter === "All" || cat.main === selectedFilter;
+    
+    return matchesSearch && matchesFilter;
+  });
+
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+
+  const exportToCSV = (data) => {
+    const csvHeaders = ["Category", "Sub Category"];
+    const csvContent = [
+      csvHeaders.join(','),
+      ...data.map(cat => 
+        `"${cat.main.replace(/"/g, '""')}","${cat.sub.replace(/"/g, '""')}"`
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'categories.csv');
+    link.click();
   };
 
-  const exportToExcel = () => alert("Export to Excel");
-  const exportToPDF = () => alert("Export to PDF");
-  const exportToCSV = () => alert("Export to CSV");
+  const exportToExcel = (data) => {
+    const worksheet = XLSX.utils.json_to_sheet(data.map(cat => ({
+      "Category": cat.main,
+      "Sub Category": cat.sub,
+    })));
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Categories");
+    XLSX.writeFile(workbook, "categories.xlsx");
+  };
 
+  const exportToPDF = (categories) => {
+    const doc = new jsPDF();
+    const tableColumn = ["#", "Categories ", "Sub Categories"];
+    const tableRows = [];
+  
+    categories.forEach((category, index) => {
+      tableRows.push([index + 1, category.main, category.sub]);
+    });
+  
+    doc.text("Category List", 14, 15);
+    
+    // Ensure autoTable function is called correctly
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20
+    });
+  
+    doc.save("categories.pdf");
+  };
+  
+  
+  // Pagination items
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <Container fluid className="bg-light min-vh-100 p-4">
@@ -115,165 +220,168 @@ const CategoryManager = () => {
               </div>
             </div>
 
-            <Form onSubmit={handleFilterSubmit} className="bg-gray-100 rounded-3 p-3">
+            <div className="bg-gray-100 rounded-3 p-3 mb-4">
               <Row className="g-3">
                 <Col md={4}>
-                  <Form.Group controlId="mainCategoryFilter">
-                    <Form.Label className="fw-medium text-secondary">Category</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      name="mainCategory"
-                      value={filters.mainCategory}
-                      onChange={handleFilterChange}
-                      className="border-2 border-primary-subtle rounded-pill"
-                    />
-                  </Form.Group>
+                  <Form.Control
+                    type="text"
+                    placeholder="Search categories..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="rounded-pill"
+                  />
                 </Col>
+                
                 <Col md={4}>
-                  <Form.Group controlId="subCategoryFilter">
-                    <Form.Label className="fw-medium text-secondary">Event name</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      name="subCategory"
-                      value={filters.subCategory}
-                      onChange={handleFilterChange}
-                      className="border-2 border-primary-subtle rounded-pill"
-                    />
-                  </Form.Group>
+                  <Form.Select
+                    value={selectedFilter}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                    className="rounded-pill"
+                  >
+                    <option value="All">All Categories</option>
+                    {uniqueCategories.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </Form.Select>
                 </Col>
+
                 <Col md={4}>
-                  <Form.Group controlId="statusFilter">
-                    <Form.Label className="fw-medium text-secondary">Status</Form.Label>
-                    <Form.Select 
-                      name="status"
-                      value={filters.status}
-                      onChange={handleFilterChange}
-                      className="border-2 border-primary-subtle rounded-pill"
-                    >
-                      <option value="">All</option>
-                      <option value="Available">Available</option>
-                      <option value="Sold out">Sold out</option>
-                    </Form.Select>
-                  </Form.Group>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="outline-secondary" 
+                    className="rounded-pill w-100">
+                    <option className="d-inline" >Export</option>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="w-100">
+                      <Dropdown.Item onClick={() => exportData('csv')}>
+                        <FaFileCsv className="me-2" /> CSV
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => exportData('pdf')}>
+                        <FaFilePdf className="me-2" /> PDF
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => exportData('excel')}>
+                        <FaFileExcel className="me-2" /> Excel
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </Col>
               </Row>
-              <div className="d-flex justify-content-end mt-3">
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  className="rounded-pill px-4 fw-medium"
-                >
-                  Filter Results
-                </Button>
-              </div>
-              <Row className="pt-1 ">
-              <Col md={3} className="d-flex gap-2">
-                  <Button 
-                    variant="outline-success" 
-                    className="rounded-pill px-4 d-flex align-items-center gap-2"
-                    onClick={exportToCSV}
-                  >
-                    <FaFileCsv /> CSV
-                  </Button>
-                  <Button 
-                    variant="outline-danger" 
-                    className="rounded-pill px-4 d-flex align-items-center gap-2"
-                    onClick={exportToPDF}
-                  >
-                    <FaFilePdf /> PDF
-                  </Button>
-                  <Button 
-                    variant="outline-primary" 
-                    className="rounded-pill px-4 d-flex align-items-center gap-2"
-                    onClick={exportToExcel}
-                  >
-                    <FaFileExcel /> Excel
-                  </Button>
-                </Col>
-                </Row>
-            </Form>
-          </div>
-        </Col>
-
-        <Col xs={12}>
-          <div className="bg-white rounded-3 shadow-sm p-4">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h5 className="text-dark mb-0">Category List</h5>
-              <span className="text-secondary">
-                Showing {filteredCategories.length} of {categories.length} entries
-              </span>
             </div>
-            
-            <Table hover className="align-middle">
-              <thead className="bg-primary text-white">
-                <tr>
-                  <th>#</th>
-                  <th>Menu</th>
-                  <th>Sub Menu</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCategories.map((category, index) => (
-                  <tr key={category.id}>
-                    <td>{index + 1}</td>
-                    <td>{category.main}</td>
-                    <td>{category.sub}</td>
-                    <td>
-                      <span className={`badge ${category.status === 'Available' 
-                        ? 'bg-success bg-opacity-10 text-success' 
-                        : 'bg-danger bg-opacity-10 text-danger'}`}
-                      >
-                        {category.status}
-                      </span>
-                    </td>
-                    <td className="text-center">
-                      <div className="d-flex justify-content-center gap-2">
-                        <Button 
-                          variant="light" 
-                          size="sm" 
-                          className="text-info border-0"
-                          onClick={() => {
-                            setSelectedCategory(category);
-                            setShowViewModal(true);
-                          }}
-                        >
-                          <FaEye size={18} />
-                        </Button>
-                        <Button 
-                          variant="light" 
-                          size="sm" 
-                          className="text-warning border-0"
-                          onClick={() => {
-                            setSelectedCategory(category);
-                            setShowEditModal(true);
-                          }}
-                        >
-                          <FaEdit size={18} />
-                        </Button>
-                        <Button 
-                          variant="light" 
-                          size="sm" 
-                          className="text-danger border-0"
-                          onClick={() => {
-                            setSelectedCategory(category);
-                            setShowDeleteModal(true);
-                          }}
-                        >
-                          <FaTrash size={18} />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+
+            <div className="bg-white rounded-3 shadow-sm p-4">
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h5 className="text-dark mb-0">Category List</h5>
+                <span className="text-secondary">
+                  Showing {currentItems.length} of {filteredCategories.length} entries
+                </span>
+              </div>
+              
+              <Table hover className="align-middle">
+  <thead className="bg-primary text-white">
+    <tr>
+      <th>
+        <Form.Check
+          type="checkbox"
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelectedCategories(currentItems.map(cat => cat.id));
+            } else {
+              setSelectedCategories([]);
+            }
+          }}
+          checked={selectedCategories.length === currentItems.length && currentItems.length > 0}
+        />
+      </th>
+      <th>#</th>
+      <th>Categories</th>
+      <th>Sub Categories</th>
+      <th className="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {currentItems.map((category, index) => (
+      <tr key={category.id}>
+        <td>
+          <Form.Check
+            type="checkbox"
+            checked={selectedCategories.includes(category.id)}
+            onChange={() => handleCategorySelection(category.id)}
+          />
+        </td>
+        <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+        <td>{category.main}</td>
+        <td>{category.sub}</td>
+        <td className="text-center">
+          <div className="d-flex justify-content-center gap-2">
+            <Button 
+              variant="light" 
+              size="sm" 
+              className="text-info border-0"
+              onClick={() => {
+                setSelectedCategory(category);
+                setShowViewModal(true);
+              }}
+            >
+              <FaEye size={18} />
+            </Button>
+            <Button 
+              variant="light" 
+              size="sm" 
+              className="text-warning border-0"
+              onClick={() => {
+                setSelectedCategory(category);
+                setShowEditModal(true);
+              }}
+            >
+              <FaEdit size={18} />
+            </Button>
+            <Button 
+              variant="light" 
+              size="sm" 
+              className="text-danger border-0"
+              onClick={() => {
+                setSelectedCategory(category);
+                setShowDeleteModal(true);
+              }}
+            >
+              <FaTrash size={18} />
+            </Button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
+<div className="d-flex justify-content-center mt-4">
+  <Pagination>
+    <Pagination.Prev 
+      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+      disabled={currentPage === 1}
+    />
+    
+    {Array.from({length: Math.ceil(filteredCategories.length / productsPerPage)}, (_, i) => (
+      <Pagination.Item
+        key={i + 1}
+        active={i + 1 === currentPage}
+        onClick={() => setCurrentPage(i + 1)}
+      >
+        {i + 1}
+      </Pagination.Item>
+    ))}
+    
+    <Pagination.Next 
+      onClick={() => setCurrentPage(p => Math.min(
+        Math.ceil(filteredCategories.length / productsPerPage), 
+        p + 1
+      ))}
+      disabled={currentPage === Math.ceil(filteredCategories.length / productsPerPage)}
+    />
+  </Pagination>
+</div>
+            </div>
           </div>
         </Col>
       </Row>
 
-      {/* Add Category Modal */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
         <Modal.Header className="bg-primary text-white">
           <Modal.Title>Add New Category</Modal.Title>
@@ -295,16 +403,6 @@ const CategoryManager = () => {
                 value={newCategory.subCategory}
                 onChange={(e) => setNewCategory({...newCategory, subCategory: e.target.value})}
               />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Status</Form.Label>
-              <Form.Select 
-                value={newCategory.status}
-                onChange={(e) => setNewCategory({...newCategory, status: e.target.value})}
-              >
-              <option value="Available">Available</option>
-              <option value="Sold out">Sold out</option>
-              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -328,7 +426,6 @@ const CategoryManager = () => {
             <>
               <p><strong>Category:</strong> {selectedCategory.main}</p>
               <p><strong>Event name:</strong> {selectedCategory.sub}</p>
-              <p><strong>Status:</strong> {selectedCategory.status}</p>
             </>
           )}
         </Modal.Body>
@@ -363,16 +460,6 @@ const CategoryManager = () => {
                   onChange={(e) => setSelectedCategory({...selectedCategory, sub: e.target.value})}
                 />
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Status</Form.Label>
-                <Form.Select 
-                  value={selectedCategory.status}
-                  onChange={(e) => setSelectedCategory({...selectedCategory, status: e.target.value})}
-                >
-                      <option value="Available">Available</option>
-                      <option value="Sold out">Sold out</option>
-                </Form.Select>
-              </Form.Group>
             </Form>
           )}
         </Modal.Body>
@@ -402,8 +489,8 @@ const CategoryManager = () => {
             Delete
           </Button>
         </Modal.Footer>
-      </Modal>
-    </Container>
+      </Modal>    
+      </Container>
   );
 };
 
